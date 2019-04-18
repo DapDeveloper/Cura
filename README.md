@@ -51,3 +51,4 @@ Please check out [Wiki page](https://github.com/Ultimaker/Cura/wiki/Translating-
 License
 ----------------
 Cura is released under the terms of the LGPLv3 or higher. A copy of this license should be included with the software.
+# Cura
