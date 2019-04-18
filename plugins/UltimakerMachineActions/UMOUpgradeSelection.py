@@ -20,14 +20,19 @@ class UMOUpgradeSelection(MachineAction):
 
     def _reset(self):
         self.heatedBedChanged.emit()
-
+        self.heatedChamberChanged.emit()
     heatedBedChanged = pyqtSignal()
-
+    heatedBedChamber = pyqtSignal()
     @pyqtProperty(bool, notify = heatedBedChanged)
     def hasHeatedBed(self):
         global_container_stack = Application.getInstance().getGlobalContainerStack()
         if global_container_stack:
             return global_container_stack.getProperty("machine_heated_bed", "value")
+   @pyqtProperty(bool, notify = heatedChamberChanged)
+    def hasHeatedChamber(self):
+        global_container_stack = Application.getInstance().getGlobalContainerStack()
+        if global_container_stack:
+            return global_container_stack.getProperty("machine_heated_chamber", "value")
 
     @pyqtSlot(bool)
     def setHeatedBed(self, heated_bed = True):
@@ -41,3 +46,15 @@ class UMOUpgradeSelection(MachineAction):
 
             definition_changes_container.setProperty("machine_heated_bed", "value", heated_bed)
             self.heatedBedChanged.emit()
+    @pyqtSlot(bool)
+    def setHeatedChamber(self, heated_bed = True):
+        global_container_stack = Application.getInstance().getGlobalContainerStack()
+        if global_container_stack:
+            # Make sure there is a definition_changes container to store the machine settings
+            definition_changes_container = global_container_stack.definitionChanges
+            if definition_changes_container == ContainerRegistry.getInstance().getEmptyInstanceContainer():
+                definition_changes_container = CuraStackBuilder.createDefinitionChangesContainer(
+                    global_container_stack, global_container_stack.getId() + "_settings")
+            definition_changes_container.setProperty("machine_heated_chamber", "value", heated_bed)
+            self.heatedChamberChanged.emit()
+    
