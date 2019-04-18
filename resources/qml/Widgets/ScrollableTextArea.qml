@@ -19,7 +19,6 @@ ScrollView
 
     background: Rectangle  // Border
     {
-        color: UM.Theme.getColor("main_background")
         border.color: UM.Theme.getColor("lining")
         border.width: UM.Theme.getSize("default_lining").width
     }
@@ -28,7 +27,6 @@ ScrollView
     {
         id: _textArea
         font: UM.Theme.getFont("default")
-        color: UM.Theme.getColor("text")
         textFormat: TextEdit.PlainText
         renderType: Text.NativeRendering
         selectByMouse: true

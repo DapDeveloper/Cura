@@ -203,6 +203,16 @@
                     "settable_per_extruder": false,
                     "settable_per_meshgroup": false
                 },
+                "machine_heated_chamber":
+                {
+                    "label": "Has Heated Chamber",
+                    "description": "Whether the machine has a heated chamber present.",
+                    "default_value": false,
+                    "type": "bool",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_per_meshgroup": false
+                },
                 "machine_center_is_zero":
                 {
                     "label": "Is Center Origin",
@@ -2052,6 +2062,20 @@
                     "maximum_value_warning": "285",
                     "enabled": "machine_nozzle_temp_enabled",
                     "settable_per_extruder": true,
+                    "settable_per_mesh": false,
+                    "minimum_value": "-273.15"
+                },
+                "default_material_chamber_temperature":
+                {
+                    "label": "Chamber Temperature",
+                    "description": "Chamber temperature",
+                    "unit": "°C",
+                    "type": "float",
+                    "default_value": 0,
+                    "minimum_value_warning": "0",
+                    "maximum_value_warning": "60",
+                    "enabled": "machine_heated_chamber",
+                    "settable_per_extruder": false,
                     "settable_per_mesh": false,
                     "minimum_value": "-273.15"
                 },

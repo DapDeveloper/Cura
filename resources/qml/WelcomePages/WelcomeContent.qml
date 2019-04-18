@@ -46,7 +46,6 @@ Item
             horizontalAlignment: Text.AlignHCenter
             text: catalog.i18nc("@text", "Please follow these steps to set up\nUltimaker Cura. This will only take a few moments.")
             font: UM.Theme.getFont("medium")
-            color: UM.Theme.getColor("text")
             renderType: Text.NativeRendering
         }
 

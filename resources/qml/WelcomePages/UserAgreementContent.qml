@@ -44,7 +44,6 @@ Item
         textFormat: Text.RichText
         wrapMode: Text.WordWrap
         font: UM.Theme.getFont("default")
-        color: UM.Theme.getColor("text")
         renderType: Text.NativeRendering
     }
 

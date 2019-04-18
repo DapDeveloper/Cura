@@ -49,7 +49,6 @@ RadioButton
         leftPadding: radioButton.indicator.width + radioButton.spacing
         text: radioButton.text
         font: radioButton.font
-        color: UM.Theme.getColor("text")
         renderType: Text.NativeRendering
     }
 }
