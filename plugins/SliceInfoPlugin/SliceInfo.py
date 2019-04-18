@@ -167,7 +167,6 @@ class SliceInfo(QObject, Extension):
                 extruder_settings["gradual_infill_steps"] = extruder.getProperty("gradual_infill_steps", "value")
                 extruder_settings["default_material_print_temperature"] = extruder.getProperty("default_material_print_temperature", "value")
                 extruder_settings["material_print_temperature"] = extruder.getProperty("material_print_temperature", "value")
-                extruder_settings["material_chamber_temperature"]=extruder.getProperty("default_material_chamber_temperature","value")
                 extruder_dict["extruder_settings"] = extruder_settings
                 data["extruders"].append(extruder_dict)
 

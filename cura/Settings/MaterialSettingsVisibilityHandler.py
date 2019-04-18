@@ -10,7 +10,6 @@ class MaterialSettingsVisibilityHandler(UM.Settings.Models.SettingVisibilityHand
 
         material_settings = {
             "default_material_print_temperature",
-            "default_material_chamber_temperature",
             "default_material_bed_temperature",
             "material_standby_temperature",
             #"material_flow_temp_graph",
