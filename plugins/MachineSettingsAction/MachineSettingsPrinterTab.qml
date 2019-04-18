@@ -57,7 +57,6 @@ Item
             {
                 text: catalog.i18nc("@title:label", "Printer Settings")
                 font: UM.Theme.getFont("medium_bold")
-                color: UM.Theme.getColor("text")
                 renderType: Text.NativeRendering
             }
 
@@ -139,6 +138,17 @@ Item
                 labelWidth: base.labelWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
+            Cura.SimpleCheckBox  // "Chamber"
+            {
+                id: heatedChamberCheckBox
+                containerStackId: machineStackId
+                settingKey: "machine_heated_chamber"
+                settingStoreIndex: propertyStoreIndex
+                labelText: catalog.i18nc("@label", "Heated chamber")
+                labelFont: base.labelFont
+                labelWidth: base.labelWidth
+                forceUpdateOnChangeFunction: forceUpdateFunction
+            }
 
             Cura.ComboBoxWithOptions  // "G-code flavor"
             {
@@ -173,7 +183,6 @@ Item
             {
                 text: catalog.i18nc("@title:label", "Printhead Settings")
                 font: UM.Theme.getFont("medium_bold")
-                color: UM.Theme.getColor("text")
                 renderType: Text.NativeRendering
             }
 

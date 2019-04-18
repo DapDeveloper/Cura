@@ -263,12 +263,19 @@ class GlobalStack(CuraContainerStack):
 
     def getHasMachineQuality(self) -> bool:
         return parseBool(self.getMetaDataEntry("has_machine_quality", False))
+    def has_heated_chamber(self):
+        return self.getProperty("machine_heated_chamber","value")
+    def has_heated_bed(self):
+        return self.getProperty("machine_heated_bed","value")    
+    def getMachineExtruderCount(self):
+        return self.getProperty("machine_extruder_count", "value")
+    ##  Get default firmware file name if one is specified in the firmware
 
     ##  Get default firmware file name if one is specified in the firmware
     @pyqtSlot(result = str)
     def getDefaultFirmwareName(self) -> str:
         machine_has_heated_bed = self.getProperty("machine_heated_bed", "value")
-
+        machine_has_heated_chamber=self.getProperty("machine_heated_chamber", "value")
         baudrate = 250000
         if Platform.isLinux():
             # Linux prefers a baudrate of 115200 here because older versions of

@@ -322,7 +322,10 @@ class StartSliceJob(Job):
             Job.yieldThread()
 
         result["print_bed_temperature"] = result["material_bed_temperature"] # Renamed settings.
+        result["print_bed_temperature_layer_0"] = result["material_bed_temperature_layer_0"] # Renamed settings.
+        
         result["print_temperature"] = result["material_print_temperature"]
+        result["print_chamber_temperature"]=result["default_material_chamber_temperature"]
         result["travel_speed"] = result["speed_travel"]
         result["time"] = time.strftime("%H:%M:%S") #Some extra settings.
         result["date"] = time.strftime("%d-%m-%Y")
@@ -374,6 +377,7 @@ class StartSliceJob(Job):
         extruder_nr = stack.getProperty("extruder_nr", "value")
         settings["machine_extruder_start_code"] = self._expandGcodeTokens(settings["machine_extruder_start_code"], extruder_nr)
         settings["machine_extruder_end_code"] = self._expandGcodeTokens(settings["machine_extruder_end_code"], extruder_nr)
+        settings["print_chamber_temperature"] = settings["print_chamber_temperature"]
 
         for key, value in settings.items():
             # Do not send settings that are not settable_per_extruder.
@@ -407,6 +411,69 @@ class StartSliceJob(Job):
 
         settings["machine_start_gcode"] = self._expandGcodeTokens(settings["machine_start_gcode"], initial_extruder_nr)
         settings["machine_end_gcode"] = self._expandGcodeTokens(settings["machine_end_gcode"], initial_extruder_nr)
+        settings["print_chamber_temperature"] = self._expandGcodeTokens(settings["print_chamber_temperature"], initial_extruder_nr)
+
+        machine_extruder_count=str(CuraApplication.getInstance().getMachineManager().activeMachine.getMachineExtruderCount())
+        #Logger.log("e","MACHINE extruders:%s",machine_extruder_count)
+        if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_chamber():
+           chamberGcode="M141 S"+settings["print_chamber_temperature"]+"\n"
+        else:
+            chamberGcode=""
+        globals_stack=CuraApplication.getInstance().getGlobalContainerStack()
+        extruders = list(globals_stack.extruders.values())
+        extruders = sorted(extruders, key = lambda extruder: extruder.getMetaDataEntry("position"))
+        extruders_first_layer_temp=[]
+        for extruder in extruders:
+            tempLayer0=extruder.getProperty("material_print_temperature_layer_0","value")
+            extruders_first_layer_temp.append(tempLayer0)
+            #Logger.log("e","EXST")
+        temperatureGcode=""
+        #Logger.log("e","BED:%s",  settings["print_bed_temperature"])
+        for x in range(0,int(machine_extruder_count)):
+            #Logger.log("e","EXTRUDER=%s",x)
+            temperatureGcode+="M104 T"
+            temperatureGcode+=str(x)
+            temperatureGcode+=" S"
+            temperatureGcode+=str(extruders_first_layer_temp[x])
+            temperatureGcode+="\n"
+        if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_bed():
+            temperatureGcode+="M140 S"+str(settings["print_bed_temperature_layer_0"])+"\n"
+        temperatureGcode+=chamberGcode
+        for x in range(0,int(machine_extruder_count)):
+            #Logger.log("e","EXTRUDER=%s",x)
+            temperatureGcode+="M109 T"
+            temperatureGcode+=str(x)
+            temperatureGcode+=" S"
+            temperatureGcode+=str(extruders_first_layer_temp[x])
+            temperatureGcode+="\n"
+        if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_bed():    
+            temperatureGcode+="M190 S"+str(settings["print_bed_temperature_layer_0"])
+        if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_chamber():
+           chamberGcode="\nM191 S"+settings["print_chamber_temperature"]
+           temperatureGcode+=chamberGcode
+
+        #Logger.log("e","INITIAL EXTRUDER:%s",initial_extruder_nr)
+        machineSettings="T"+str(initial_extruder_nr)+"\n"
+        tmpStartGcode="\n;START_USER_GCODE\n"
+        tmpStartGcode+="\n;TEMPERATURE SETTINGS"
+        tmpStartGcode+="\n"+temperatureGcode
+        tmpStartGcode+="\n"+";USER CUSTOM GCODE"
+        tmpStartGcode+="\n"+settings["machine_start_gcode"]
+        tmpStartGcode+="\n"+";MACHINE TOOL SELECT"
+        tmpStartGcode+="\n"+machineSettings
+        tmpStartGcode+="\nEND_USER_GCODE\n"
+        settings["machine_start_gcode"]=tmpStartGcode
+        Logger.log("e","MACHINE EXT%s",settings["machine_start_gcode"])
+        '''tmpStartCode+=settings["machine_start_gcode"]+"\n;TEMPERATURE SETTINGS\n"
+        settings["machine_start_gcode"]=tmpStartCode
+        settings["machine_start_gcode"]+=machineSettings
+        settings["machine_start_gcode"]+=temperatureGcode
+        settings["machine_start_gcode"]+="\n;END TEMPERATURE SETTINGS"
+        settings["machine_start_gcode"]+="\n;START_USER_GCODE"
+        settings["machine_start_gcode"]+="\n;START_USER_GCODE"
+        settings["machine_start_gcode"]+="\nEND_USER_GCODE\n"
+        Logger.log("e","MACHINE EXT%s",settings["machine_start_gcode"])
+        '''
 
         # Add all sub-messages for each individual setting.
         for key, value in settings.items():
