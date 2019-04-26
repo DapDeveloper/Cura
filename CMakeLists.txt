@@ -23,11 +23,8 @@ set(CURA_BUILDTYPE "" CACHE STRING "Build type of Cura, eg. 'PPA'")
 set(CURA_SDK_VERSION "" CACHE STRING "SDK version of Cura")
 set(CURA_CLOUD_API_ROOT "" CACHE STRING "Alternative Cura cloud API root")
 set(CURA_CLOUD_API_VERSION "" CACHE STRING "Alternative Cura cloud API version")
-
 configure_file(${CMAKE_SOURCE_DIR}/cura.desktop.in ${CMAKE_BINARY_DIR}/cura.desktop @ONLY)
 configure_file(cura/CuraVersion.py.in CuraVersion.py @ONLY)
-
-
 # FIXME: Remove the code for CMake <3.12 once we have switched over completely.
 # FindPython3 is a new module since CMake 3.12. It deprecates FindPythonInterp and FindPythonLibs. The FindPython3
 # module is copied from the CMake repository here so in CMake <3.12 we can still use it.
