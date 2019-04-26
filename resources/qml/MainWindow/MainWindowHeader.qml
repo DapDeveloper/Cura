@@ -19,7 +19,7 @@ Item
     implicitHeight: UM.Theme.getSize("main_window_header").height
     implicitWidth: UM.Theme.getSize("main_window_header").width
 
-    Image
+   /* Image
     {
         id: logo
         anchors.left: parent.left
@@ -32,44 +32,39 @@ Item
         fillMode: Image.PreserveAspectFit
         sourceSize.width: width
         sourceSize.height: height
-    }
+    }*/
 
     Row
     {
         id: stagesListContainer
         spacing: Math.round(UM.Theme.getSize("default_margin").width / 2)
-
+        x:10
         anchors
         {
-            horizontalCenter: parent.horizontalCenter
+            horizontalCenter: parent.horizontalLeft
             verticalCenter: parent.verticalCenter
             leftMargin: UM.Theme.getSize("default_margin").width
-        }
 
+        }
         // The main window header is dynamically filled with all available stages
         Repeater
         {
             id: stagesHeader
-
             model: UM.StageModel { }
-
             delegate: Button
             {
                 text: model.name.toUpperCase()
                 checkable: true
                 checked: UM.Controller.activeStage !== null && model.id == UM.Controller.activeStage.stageId
-
                 anchors.verticalCenter: parent.verticalCenter
                 exclusiveGroup: mainWindowHeaderMenuGroup
                 style: UM.Theme.styles.main_window_header_tab
                 height: UM.Theme.getSize("main_window_header_button").height
                 iconSource: model.stage.iconSource
-
                 property color overlayColor: "transparent"
                 property string overlayIconSource: ""
                 // This id is required to find the stage buttons through Squish
                 property string stageId: model.id
-
                 // This is a trick to assure the activeStage is correctly changed. It doesn't work propertly if done in the onClicked (see CURA-6028)
                 MouseArea
                 {
@@ -78,15 +73,14 @@ Item
                 }
             }
         }
-
         ExclusiveGroup { id: mainWindowHeaderMenuGroup }
     }
 
     // Shortcut button to quick access the Toolbox
-    Controls2.Button
+   /* Controls2.Button
     {
         id: marketplaceButton
-        text: catalog.i18nc("@action:button", "Marketplace")
+        text: catalog.i18nc("@action:button", "Marketplace2")
         height: Math.round(0.5 * UM.Theme.getSize("main_window_header").height)
         onClicked: Cura.Actions.browsePackages.trigger()
 
@@ -147,5 +141,5 @@ Item
             right: parent.right
             rightMargin: UM.Theme.getSize("default_margin").width
         }
-    }
+    }*/
 }

@@ -137,7 +137,7 @@ Item
         width: materialList.width
         height: childrenRect.height
 
-        MaterialsBrandSection
+       /* MaterialsBrandSection
         {
             id: favoriteSection
             sectionName: "Favorites"
@@ -152,7 +152,7 @@ Item
             elementsModel: genericMaterialsModel
             hasMaterialTypes: false
         }
-
+*/
         Repeater
         {
             model: materialsModel

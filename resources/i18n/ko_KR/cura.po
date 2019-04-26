@@ -1151,7 +1151,7 @@ msgstr "네트워크 프린터"
 
 #: /home/ruben/Projects/Cura/cura/Machines/Models/MachineManagementModel.py:80
 msgctxt "@info:title"
-msgid "Local printers"
+msgid "Saved printers"
 msgstr "로컬 프린터"
 
 #: /home/ruben/Projects/Cura/cura/Machines/Models/QualityManagementModel.py:109
@@ -3984,7 +3984,7 @@ msgstr "네트워크 프린터"
 
 #: /home/ruben/Projects/Cura/resources/qml/Menus/PrinterMenu.qml:42
 msgctxt "@label:category menu label"
-msgid "Local printers"
+msgid "Saved printers"
 msgstr "로컬 프린터"
 
 #: /home/ruben/Projects/Cura/resources/qml/Menus/SettingsMenu.qml:15
@@ -4659,7 +4659,7 @@ msgstr "프린터 추가"
 
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:15
 msgctxt "@title:window"
-msgid "About Cura"
+msgid "About MTCSlicer"
 msgstr "Cura 소개"
 
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:56
@@ -4675,8 +4675,8 @@ msgstr "3D 프린팅을 위한 엔드 투 엔트 솔루션."
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:84
 msgctxt "@info:credit"
 msgid ""
-"Cura is developed by Ultimaker B.V. in cooperation with the community.\n"
-"Cura proudly uses the following open source projects:"
+"MTCSlicer is developed by Meccatronicore.\n"
+"MTCSlicer proudly uses the following open source projects:"
 msgstr ""
 "Cura는 커뮤니티와 공동으로 Ultimaker B.V.에 의해 개발되었습니다.\n"
 "Cura는 다음의 오픈 소스 프로젝트를 사용합니다:"

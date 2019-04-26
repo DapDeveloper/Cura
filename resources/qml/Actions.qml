@@ -57,11 +57,6 @@ Item
 
     property alias preferences: preferencesAction;
 
-    property alias showProfileFolder: showProfileFolderAction;
-    property alias documentation: documentationAction;
-    property alias showTroubleshooting: showTroubleShootingAction
-    property alias reportBug: reportBugAction;
-    property alias whatsNew: whatsNewAction
     property alias about: aboutAction;
 
     property alias toggleFullScreen: toggleFullScreenAction;
@@ -71,14 +66,6 @@ Item
     property alias browsePackages: browsePackagesAction
 
     UM.I18nCatalog{id: catalog; name: "cura"}
-
-
-    Action
-    {
-        id: showTroubleShootingAction
-        onTriggered: Qt.openUrlExternally("https://ultimaker.com/en/troubleshooting")
-        text: catalog.i18nc("@action:inmenu", "Show Online Troubleshooting Guide");
-    }
 
     Action
     {
@@ -214,27 +201,6 @@ Item
         shortcut: "Ctrl+J"
     }
 
-    Action
-    {
-        id: documentationAction;
-        text: catalog.i18nc("@action:inmenu menubar:help", "Show Online &Documentation");
-        iconName: "help-contents";
-        shortcut: StandardKey.Help;
-        onTriggered: CuraActions.openDocumentation();
-    }
-
-    Action {
-        id: reportBugAction;
-        text: catalog.i18nc("@action:inmenu menubar:help", "Report a &Bug");
-        iconName: "tools-report-bug";
-        onTriggered: CuraActions.openBugReportPage();
-    }
-
-    Action
-    {
-        id: whatsNewAction;
-        text: catalog.i18nc("@action:inmenu menubar:help", "What's New");
-    }
 
     Action
     {
@@ -412,11 +378,11 @@ Item
         shortcut: StandardKey.New
     }
 
-    Action
+    /*Action
     {
         id: showProfileFolderAction;
         text: catalog.i18nc("@action:inmenu menubar:help","Show Configuration Folder");
-    }
+    }*/
 
 
     Action

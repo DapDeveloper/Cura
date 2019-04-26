@@ -37,7 +37,7 @@ Menu
         enabled: updateModels
     }
 
-    MenuItem
+   /* MenuItem
     {
         text: catalog.i18nc("@label:category menu label", "Favorites")
         enabled: false
@@ -82,7 +82,7 @@ Menu
     }
 
     MenuSeparator {}
-
+*/
     Instantiator
     {
         model: brandModel

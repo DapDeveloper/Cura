@@ -96,7 +96,7 @@ Item
                 afterOnEditingFinishedFunction: updateMaterialDiameter
             }
 
-            Cura.NumericTextFieldWithUnit  // "Nozzle offset X"
+            /*Cura.NumericTextFieldWithUnit  // "Nozzle offset X"
             {
                 id: extruderNozzleOffsetXField
                 containerStackId: base.extruderStackId
@@ -122,9 +122,9 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-            }
+            }*/
 
-            Cura.NumericTextFieldWithUnit  // "Cooling Fan Number"
+          /*   Cura.NumericTextFieldWithUnit  // "Cooling Fan Number"
             {
                 id: extruderNozzleCoolingFanNumberField
                 containerStackId: base.extruderStackId
@@ -136,10 +136,10 @@ Item
                 controlWidth: base.controlWidth
                 unitText: ""
                 forceUpdateOnChangeFunction: forceUpdateFunction
-            }
+            }*/
         }
     }
-
+/*
     Item  // Extruder Start and End G-code
     {
         id: lowerBlock
@@ -176,5 +176,5 @@ Item
             settingKey: "machine_extruder_end_code"
             settingStoreIndex: propertyStoreIndex
         }
-    }
+    }*/
 }

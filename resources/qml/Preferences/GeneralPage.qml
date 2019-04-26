@@ -211,7 +211,7 @@ UM.PreferencesPage
                     onTextChanged: UM.Preferences.setValue("cura/currency", text)
                 }
 
-                Label
+               /* Label
                 {
                     id: themeLabel
                     text: catalog.i18nc("@label","Theme:")
@@ -262,7 +262,7 @@ UM.PreferencesPage
                         currentIndex -= 1;
                     }
 
-                }
+                }*/
             }
 
             Label
@@ -647,7 +647,7 @@ UM.PreferencesPage
                 width: UM.Theme.getSize("default_margin").height
             }
 
-            Label
+          /*  Label
             {
                 font.bold: true
                 visible: checkUpdatesCheckbox.visible || sendDataCheckbox.visible
@@ -668,13 +668,11 @@ UM.PreferencesPage
                     onCheckedChanged: UM.Preferences.setValue("info/automatic_update_check", checked)
                 }
             }
-
             UM.TooltipArea
             {
                 width: childrenRect.width
                 height: visible ? childrenRect.height : 0
                 text: catalog.i18nc("@info:tooltip","Should anonymous data about your print be sent to Ultimaker? Note, no models, IP addresses or other personally identifiable information is sent or stored.")
-
                 CheckBox
                 {
                     id: sendDataCheckbox
@@ -682,7 +680,6 @@ UM.PreferencesPage
                     checked: boolCheck(UM.Preferences.getValue("info/send_slice_info"))
                     onCheckedChanged: UM.Preferences.setValue("info/send_slice_info", checked)
                 }
-
                 Button
                 {
                     id: showMoreInfo
@@ -695,6 +692,7 @@ UM.PreferencesPage
                 }
             }
 
+*/
             Item
             {
                 //: Spacer
@@ -702,7 +700,7 @@ UM.PreferencesPage
                 width: UM.Theme.getSize("default_margin").height
             }
 
-            Label
+          /*  Label
             {
                 font.bold: true
                 text: catalog.i18nc("@label","Experimental")
@@ -721,7 +719,7 @@ UM.PreferencesPage
                     checked: boolCheck(UM.Preferences.getValue("cura/use_multi_build_plate"))
                     onCheckedChanged: UM.Preferences.setValue("cura/use_multi_build_plate", checked)
                 }
-            }
+            }*/
 
             Connections
             {

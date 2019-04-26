@@ -21,7 +21,7 @@ UM.MainWindow
     id: base
 
     // Cura application window title
-    title: catalog.i18nc("@title:window", "Ultimaker Cura")
+    title: catalog.i18nc("@title:window", "MTCSlicer")
     backgroundColor: UM.Theme.getColor("viewport_background")
 
     UM.I18nCatalog
@@ -403,16 +403,11 @@ UM.MainWindow
             //; Remove & re-add the general page as we want to use our own instead of uranium standard.
             removePage(0);
             insertPage(0, catalog.i18nc("@title:tab","General"), Qt.resolvedUrl("Preferences/GeneralPage.qml"));
-
             removePage(1);
             insertPage(1, catalog.i18nc("@title:tab","Settings"), Qt.resolvedUrl("Preferences/SettingVisibilityPage.qml"));
-
             insertPage(2, catalog.i18nc("@title:tab", "Printers"), Qt.resolvedUrl("Preferences/MachinesPage.qml"));
-
             insertPage(3, catalog.i18nc("@title:tab", "Materials"), Qt.resolvedUrl("Preferences/Materials/MaterialsPage.qml"));
-
             insertPage(4, catalog.i18nc("@title:tab", "Profiles"), Qt.resolvedUrl("Preferences/ProfilesPage.qml"));
-
             //Force refresh
             setPage(0);
         }

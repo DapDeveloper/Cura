@@ -61,7 +61,7 @@ class DrivePluginExtension(QObject, Extension):
                                   datetime.now().strftime(self.DATE_FORMAT))
 
         # Register the menu item
-        self.addMenuItem(catalog.i18nc("@item:inmenu", "Manage backups"), self.showDriveWindow)
+        #self.addMenuItem(catalog.i18nc("@item:inmenu", "Manage backups2"), self.showDriveWindow)
 
         # Make auto-backup on boot if required.
         CuraApplication.getInstance().engineCreatedSignal.connect(self._autoBackup)

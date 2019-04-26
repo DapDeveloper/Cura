@@ -1,0 +1,53 @@
+{
+    "version": 2,
+    "name": "Studio 300",
+    "inherits": "fdmprinter",
+    "metadata": {
+        "visible": true,
+        "author": "Meccatronicore",
+        "manufacturer": "Meccatronicore",
+        "category": "Meccatronicore",
+        "file_formats": "text/x-gcode",
+        "has_materials": true,
+        "machine_extruder_trains":
+        {
+            "0": "custom_extruder_1",
+            "1": "custom_extruder_2",
+            "2": "custom_extruder_3",
+            "3": "custom_extruder_4",
+            "4": "custom_extruder_5",
+            "5": "custom_extruder_6",
+            "6": "custom_extruder_7",
+            "7": "custom_extruder_8"
+        },
+        "first_start_actions": ["MachineSettingsAction"]
+    },
+	 "overrides": {
+        "machine_heated_bed": { "default_value": true },
+		"machine_heated_chamber":{"default_value":false},
+        "machine_width": { "default_value": 300 },
+        "machine_depth": { "default_value": 200 },
+        "machine_height": { "default_value": 200 },
+        "machine_center_is_zero": { "default_value": false },
+        "machine_gcode_flavor": { "default_value": "RepRap (Marlin/Sprinter)" },
+		"machine_head_with_fans_polygon":
+        {
+            "default_value": [
+                [ 0, 0 ],
+                [ 0, 0 ],
+                [ 0, 0 ],
+                [ 0, 0 ]
+            ]
+        },
+        "machine_start_gcode": {
+            "default_value": "G410"
+         },
+        "machine_end_gcode": {
+            "default_value": "G28 XY\nM104 T0 S0\nM104 T1 S0\nM140 S0\nM141 S0\nM106 P0 S0\nM106 P1 S0\n"
+        },
+		"machine_extruder_count": {
+            "default_value": 1
+        }
+    }
+	
+}

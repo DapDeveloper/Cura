@@ -1152,7 +1152,7 @@ msgstr "Drukarki dostępne w sieci"
 
 #: /home/ruben/Projects/Cura/cura/Machines/Models/MachineManagementModel.py:80
 msgctxt "@info:title"
-msgid "Local printers"
+msgid "Saved printers"
 msgstr "Drukarki lokalne"
 
 #: /home/ruben/Projects/Cura/cura/Machines/Models/QualityManagementModel.py:109
@@ -3988,7 +3988,7 @@ msgstr "Drukarki dostępne w sieci"
 
 #: /home/ruben/Projects/Cura/resources/qml/Menus/PrinterMenu.qml:42
 msgctxt "@label:category menu label"
-msgid "Local printers"
+msgid "Saved printers"
 msgstr "Drukarki lokalne"
 
 #: /home/ruben/Projects/Cura/resources/qml/Menus/SettingsMenu.qml:15
@@ -4669,7 +4669,7 @@ msgstr "Dodaj drukarkę"
 
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:15
 msgctxt "@title:window"
-msgid "About Cura"
+msgid "About MTCSlicer"
 msgstr "O Cura"
 
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:56
@@ -4685,8 +4685,8 @@ msgstr "Kompletne rozwiązanie do druku przestrzennego."
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:84
 msgctxt "@info:credit"
 msgid ""
-"Cura is developed by Ultimaker B.V. in cooperation with the community.\n"
-"Cura proudly uses the following open source projects:"
+"MTCSlicer is developed by Meccatronicore.\n"
+"MTCSlicer proudly uses the following open source projects:"
 msgstr ""
 "Cura jest rozwijana przez firmę Ultimaker B.V. we współpracy ze społecznością.\n"
 "Cura z dumą korzysta z następujących projektów open source:"

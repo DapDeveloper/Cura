@@ -67,7 +67,7 @@ Cura.MachineAction
             {
                 id: manualUpgradeButton
                 text: catalog.i18nc("@action:button", "Upload custom Firmware");
-                enabled: canUpdateFirmware
+                enabled: true
                 onClicked:
                 {
                     customFirmwareDialog.open()

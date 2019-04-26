@@ -59,7 +59,7 @@ UM.PreferencesPage
                     return Qt.PartiallyChecked
                 }
             }
-            partiallyCheckedEnabled: true
+            partiallyCheckedEnabled: false
 
             MouseArea
             {

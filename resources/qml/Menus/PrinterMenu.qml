@@ -20,7 +20,7 @@ Menu
 //        }
 //    }
 
-    MenuItem
+    /*MenuItem
     {
         text: catalog.i18nc("@label:category menu label", "Network enabled printers")
         enabled: false
@@ -30,7 +30,7 @@ Menu
     NetworkPrinterMenu
     {
         id: networkPrinterMenu
-    }
+    }*/
 
     MenuSeparator
     {
@@ -39,7 +39,7 @@ Menu
 
     MenuItem
     {
-        text: catalog.i18nc("@label:category menu label", "Local printers")
+        text: catalog.i18nc("@label:category menu label", "Saved printers")
         enabled: false
         visible: localPrinterMenu.count > 0
     }

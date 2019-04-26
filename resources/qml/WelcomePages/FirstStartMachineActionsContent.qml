@@ -22,7 +22,6 @@ Item
         // Reset the action to start from the beginning when it is shown.
         machineActionsModel.reset()
     }
-
     // Go to the next page when all machine actions have been finished
     Connections
     {
@@ -73,7 +72,7 @@ Item
         id: nextButton
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        text: catalog.i18nc("@button", "Next")
+        text: catalog.i18nc("@button", "Finish")
         onClicked: machineActionsModel.goToNextAction()
     }
 }

@@ -22,14 +22,14 @@ catalog = i18nCatalog("cura")
 ##  Upgrade the firmware of a machine by USB with this action.
 class FirmwareUpdaterMachineAction(MachineAction):
     def __init__(self) -> None:
-        super().__init__("UpgradeFirmware", catalog.i18nc("@action", "Update Firmware"))
+        '''super().__init__("UpgradeFirmware", catalog.i18nc("@action", "Update Firmware"))
         self._qml_url = "FirmwareUpdaterMachineAction.qml"
         ContainerRegistry.getInstance().containerAdded.connect(self._onContainerAdded)
 
         self._active_output_device = None  # type: Optional[PrinterOutputDevice]
         self._active_firmware_updater = None  # type: Optional[FirmwareUpdater]
 
-        CuraApplication.getInstance().engineCreatedSignal.connect(self._onEngineCreated)
+        CuraApplication.getInstance().engineCreatedSignal.connect(self._onEngineCreated)'''
 
     def _onEngineCreated(self) -> None:
         CuraApplication.getInstance().getMachineManager().outputDevicesChanged.connect(self._onOutputDevicesChanged)

@@ -49,7 +49,7 @@ Item
 
         SettingsMenu { title: catalog.i18nc("@title:menu menubar:toplevel", "&Settings") }
 
-        Menu
+        /*Menu
         {
             id: extensionMenu
             title: catalog.i18nc("@title:menu menubar:toplevel", "E&xtensions")
@@ -59,7 +59,7 @@ Item
                 id: extensions
                 model: UM.ExtensionModel { }
 
-                Menu
+               Menu
                 {
                     id: sub_menu
                     title: model.name;
@@ -81,7 +81,7 @@ Item
                 onObjectAdded: extensionMenu.insertItem(index, object)
                 onObjectRemoved: extensionMenu.removeItem(object)
             }
-        }
+        }*/
 
         Menu
         {
@@ -96,12 +96,12 @@ Item
             id: helpMenu
             title: catalog.i18nc("@title:menu menubar:toplevel", "&Help")
 
-            MenuItem { action: Cura.Actions.showProfileFolder }
-            MenuItem { action: Cura.Actions.showTroubleshooting}
-            MenuItem { action: Cura.Actions.documentation }
-            MenuItem { action: Cura.Actions.reportBug }
-            MenuSeparator { }
-            MenuItem { action: Cura.Actions.whatsNew }
+            //MenuItem { action: Cura.Actions.showProfileFolder }
+            //MenuItem { action: Cura.Actions.showTroubleshooting}
+            //MenuItem { action: Cura.Actions.documentation }
+            //MenuItem { action: Cura.Actions.reportBug }
+            //MenuSeparator { }
+            //MenuItem { action: Cura.Actions.whatsNew }
             MenuItem { action: Cura.Actions.about }
         }
     }

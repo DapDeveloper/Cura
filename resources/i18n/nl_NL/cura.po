@@ -1147,7 +1147,7 @@ msgstr "Netwerkprinters"
 
 #: /home/ruben/Projects/Cura/cura/Machines/Models/MachineManagementModel.py:80
 msgctxt "@info:title"
-msgid "Local printers"
+msgid "Saved printers"
 msgstr "Lokale printers"
 
 #: /home/ruben/Projects/Cura/cura/Machines/Models/QualityManagementModel.py:109
@@ -3949,7 +3949,7 @@ msgstr "Netwerkprinters"
 
 #: /home/ruben/Projects/Cura/resources/qml/Menus/PrinterMenu.qml:42
 msgctxt "@label:category menu label"
-msgid "Local printers"
+msgid "Saved printers"
 msgstr "Lokale printers"
 
 #: /home/ruben/Projects/Cura/resources/qml/Menus/SettingsMenu.qml:15
@@ -4622,7 +4622,7 @@ msgstr "Printer Toevoegen"
 
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:15
 msgctxt "@title:window"
-msgid "About Cura"
+msgid "About MTCSlicer"
 msgstr "Over Cura"
 
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:56
@@ -4638,8 +4638,8 @@ msgstr "End-to-end-oplossing voor fused filament 3D-printen."
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:84
 msgctxt "@info:credit"
 msgid ""
-"Cura is developed by Ultimaker B.V. in cooperation with the community.\n"
-"Cura proudly uses the following open source projects:"
+"MTCSlicer is developed by Meccatronicore.\n"
+"MTCSlicer proudly uses the following open source projects:"
 msgstr "Cura is ontwikkeld door Ultimaker B.V. in samenwerking met de community.\nCura maakt met trots gebruik van de volgende opensourceprojecten:"
 
 #: /home/ruben/Projects/Cura/resources/qml/Dialogs/AboutDialog.qml:134
