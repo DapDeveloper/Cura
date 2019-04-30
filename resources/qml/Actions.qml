@@ -61,7 +61,7 @@ Item
 
     property alias toggleFullScreen: toggleFullScreenAction;
 
-    property alias configureSettingVisibility: configureSettingVisibilityAction
+    /*property alias configureSettingVisibility: configureSettingVisibilityAction*/
 
     property alias browsePackages: browsePackagesAction
 
@@ -141,7 +141,7 @@ Item
     Action
     {
         id: preferencesAction;
-        text: catalog.i18nc("@action:inmenu","Configure Cura...");
+        text: catalog.i18nc("@action:inmenu","Configure MTCSlicer...");
         iconName: "configure";
     }
 
@@ -384,13 +384,13 @@ Item
         text: catalog.i18nc("@action:inmenu menubar:help","Show Configuration Folder");
     }*/
 
-
+/*
     Action
     {
         id: configureSettingVisibilityAction
         text: catalog.i18nc("@action:menu", "Configure setting visibility...");
         iconName: "configure"
-    }
+    }*/
 
     Action
     {

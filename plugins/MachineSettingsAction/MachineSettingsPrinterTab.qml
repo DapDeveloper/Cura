@@ -102,7 +102,7 @@ Item
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
 
-            Cura.ComboBoxWithOptions  // "Build plate shape"
+            /*Cura.ComboBoxWithOptions  // "Build plate shape"
             {
                 id: buildPlateShapeComboBox
                 containerStackId: machineStackId
@@ -113,9 +113,9 @@ Item
                 labelWidth: base.labelWidth
                 controlWidth: base.controlWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
-            }
+            }*/
 
-            Cura.SimpleCheckBox  // "Origin at center"
+          /*  Cura.SimpleCheckBox  // "Origin at center"
             {
                 id: originAtCenterCheckBox
                 containerStackId: machineStackId
@@ -148,9 +148,9 @@ Item
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
-            }
+            }*/
 
-            Cura.ComboBoxWithOptions  // "G-code flavor"
+           /* Cura.ComboBoxWithOptions  // "G-code flavor"
             {
                 id: gcodeFlavorComboBox
                 containerStackId: machineStackId
@@ -165,13 +165,13 @@ Item
                 // This has something to do with UM2 and UM2+ regarding "has_material" and the gcode flavor settings.
                 // I don't remember exactly what.
                 afterOnEditingFinishedFunction: manager.updateHasMaterialsMetadata
-            }
+            }*/
         }
 
         // =======================================
         // Right-side column for "Printhead Settings"
         // =======================================
-        Column
+      /*  Column
         {
             anchors.top: parent.top
             anchors.right: parent.right
@@ -307,9 +307,9 @@ Item
                     }
                 }
             }
-        }
+        }*/
     }
-
+/*
     Item  // Start and End G-code
     {
         id: lowerBlock
@@ -346,5 +346,5 @@ Item
             settingKey: "machine_end_gcode"
             settingStoreIndex: propertyStoreIndex
         }
-    }
+    }*/
 }

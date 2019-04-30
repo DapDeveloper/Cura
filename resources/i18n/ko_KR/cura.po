@@ -4353,7 +4353,7 @@ msgstr "오른쪽에서 보기"
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:155
 msgctxt "@action:inmenu"
 msgid "Configure Cura..."
-msgstr "Cura 구성 ..."
+msgstr "MTCSlicer 구성 ..."
 
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:162
 msgctxt "@action:inmenu menubar:printer"

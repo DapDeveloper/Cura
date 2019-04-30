@@ -4359,7 +4359,7 @@ msgstr "Widok z prawej strony"
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:155
 msgctxt "@action:inmenu"
 msgid "Configure Cura..."
-msgstr "Konfiguruj Cura..."
+msgstr "Konfiguruj MTCSlicer..."
 
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:162
 msgctxt "@action:inmenu menubar:printer"

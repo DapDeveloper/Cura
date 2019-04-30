@@ -4353,7 +4353,7 @@ msgstr "右サイドビュー"
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:155
 msgctxt "@action:inmenu"
 msgid "Configure Cura..."
-msgstr "Curaを構成する…"
+msgstr "MTCSlicerを構成する…"
 
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:162
 msgctxt "@action:inmenu menubar:printer"

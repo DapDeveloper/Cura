@@ -4353,7 +4353,7 @@ msgstr "右视图"
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:155
 msgctxt "@action:inmenu"
 msgid "Configure Cura..."
-msgstr "配置 Cura…"
+msgstr "配置 MTCSlicer…"
 
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:162
 msgctxt "@action:inmenu menubar:printer"

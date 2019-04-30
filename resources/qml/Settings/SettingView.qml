@@ -551,13 +551,13 @@ Item
                         }
                     }
                 }
-                MenuItem
+                /*MenuItem
                 {
                     //: Settings context menu action
                     text: catalog.i18nc("@action:menu", "Configure setting visibility...");
 
                     onTriggered: Cura.Actions.configureSettingVisibility.trigger(contextMenu);
-                }
+                }*/
             }
 
             UM.SettingPropertyProvider

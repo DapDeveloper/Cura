@@ -4363,7 +4363,7 @@ msgstr "Вид справа"
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:155
 msgctxt "@action:inmenu"
 msgid "Configure Cura..."
-msgstr "Настроить Cura..."
+msgstr "Настроить MTCSlicer..."
 
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:162
 msgctxt "@action:inmenu menubar:printer"

@@ -26,6 +26,7 @@ Column
         leftPadding: UM.Theme.getSize("default_margin").width
         rightPadding: UM.Theme.getSize("default_margin").width
 
+
         Label
         {
             text: catalog.i18nc("@label", "Time specification").toUpperCase()

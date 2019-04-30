@@ -4322,7 +4322,7 @@ msgstr "Vista del lado derecho"
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:155
 msgctxt "@action:inmenu"
 msgid "Configure Cura..."
-msgstr "Configurar Cura..."
+msgstr "Configurar MTCSlicer..."
 
 #: /home/ruben/Projects/Cura/resources/qml/Actions.qml:162
 msgctxt "@action:inmenu menubar:printer"

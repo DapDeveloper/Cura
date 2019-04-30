@@ -72,5 +72,5 @@ Menu
 
     MenuSeparator { }
 
-    MenuItem { action: Cura.Actions.configureSettingVisibility }
+   // MenuItem { action: Cura.Actions.configureSettingVisibility }
 }
