@@ -446,13 +446,11 @@ class StartSliceJob(Job):
             temperatureGcode+=" S"
             temperatureGcode+=str(extruders_first_layer_temp[x])
             temperatureGcode+="\n"
-        if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_bed():
-            if(int(settings["print_bed_temperature_layer_0"])>0):    
-                temperatureGcode+="M190 S"+str(settings["print_bed_temperature_layer_0"])
+        if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_bed():    
+            temperatureGcode+="M190 S"+str(settings["print_bed_temperature_layer_0"])
         if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_chamber():
-           if(int(settings["print_chamber_temperature"])>0):
-               chamberGcode="\nM191 S"+settings["print_chamber_temperature"]
-               temperatureGcode+=chamberGcode
+           chamberGcode="\nM191 S"+settings["print_chamber_temperature"]
+           temperatureGcode+=chamberGcode
 
         #Logger.log("e","INITIAL EXTRUDER:%s",initial_extruder_nr)
         machineSettings="T"+str(initial_extruder_nr)+"\n"

@@ -166,7 +166,7 @@ class CuraApplication(QtApplication):
                          api_version = ApplicationMetadata.CuraSDKVersion,
                          buildtype = ApplicationMetadata.CuraBuildType,
                          is_debug_mode = ApplicationMetadata.CuraDebugMode,
-                         tray_icon_name = "cura-icon-32.png",
+                         tray_icon_name = "mtc-icon-32.png",
                          **kwargs)
 
         self.default_theme = "cura-light"
@@ -457,7 +457,7 @@ class CuraApplication(QtApplication):
         super().startSplashWindowPhase()
 
         if not self.getIsHeadLess():
-            self.setWindowIcon(QIcon(Resources.getPath(Resources.Images, "cura-icon.png")))
+            self.setWindowIcon(QIcon(Resources.getPath(Resources.Images, "mtc-icon.png")))
 
         self.setRequiredPlugins([
             # Misc.:

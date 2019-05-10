@@ -32,71 +32,65 @@ UM.ManagementPage
         }
         return -1;
     }
-  
 
-
+    buttons: [
+        Button
+        {
+            text: catalog.i18nc("@action:button", "Activate");
+            iconName: "list-activate";
+            enabled: base.currentItem != null && base.currentItem.id != Cura.MachineManager.activeMaterialId
+            onClicked: Cura.MachineManager.setActiveMachine(base.currentItem.id)
+        },
+        Button
+        {
+            text: catalog.i18nc("@action:button", "Add");
+            iconName: "list-add";
+            onClicked: Cura.Actions.addMachine.trigger()
+        },
+        Button
+        {
+            text: catalog.i18nc("@action:button", "Remove");
+            iconName: "list-remove";
+            enabled: base.currentItem != null && model.count > 1
+            onClicked: confirmDialog.open();
+        },
+        Button
+        {
+            text: catalog.i18nc("@action:button", "Rename");
+            iconName: "edit-rename";
+            enabled: base.currentItem != null && base.currentItem.metadata.group_name == null
+            onClicked: renameDialog.open();
+        }
+    ]
 
     Item
     {
         visible: base.currentItem != null
         anchors.fill: parent
-        anchors.topMargin:0
-       
-           Label
-                        {
-                            id: machineName
-                            text: base.currentItem && base.currentItem.name ? base.currentItem.name : ""
-                            font: UM.Theme.getFont("large_bold")
-                            width: parent.width
-                            elide: Text.ElideRight
-                        }
-  
 
-
+        Label
+        {
+            id: machineName
+            text: base.currentItem && base.currentItem.name ? base.currentItem.name : ""
+            font: UM.Theme.getFont("large_bold")
+            width: parent.width
+            elide: Text.ElideRight
+        }
 
         Flow
         {
             id: machineActions
-            visible:true
+            visible: currentItem && currentItem.id == Cura.MachineManager.activeMachineId
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: machineName.bottom
             anchors.topMargin: UM.Theme.getSize("default_margin").height
-            spacing:10
-      Button
-                {
-                    text: catalog.i18nc("@action:button", "Activate");
-                    iconName: "list-activate";
-                    enabled: base.currentItem != null && base.currentItem.id != Cura.MachineManager.activeMaterialId
-                    onClicked: Cura.MachineManager.setActiveMachine(base.currentItem.id)
-                }
 
-     Button
-                {
-                    text: catalog.i18nc("@action:button", "Add");
-                    iconName: "list-add";
-                    onClicked: Cura.Actions.addMachine.trigger()
-                }
-                Button
-                {
-                    text: catalog.i18nc("@action:button", "Remove");
-                    iconName: "list-remove";
-                    enabled: base.currentItem != null && model.count > 1
-                    onClicked: confirmDialog.open();
-                }
-                Button
-                {
-                    text: catalog.i18nc("@action:button", "Rename");
-                    iconName: "edit-rename";
-                    enabled: base.currentItem != null && base.currentItem.metadata.group_name == null
-                    onClicked: renameDialog.open();
-                }
- 
             Repeater
             {
                 id: machineActionRepeater
                 model: base.currentItem ? Cura.MachineActionManager.getSupportedActions(Cura.MachineManager.getDefinitionByMachineId(base.currentItem.id)) : null
-                visible: currentItem && currentItem.id == Cura.MachineManager.activeMachineId
+
                 Item
                 {
                     width: Math.round(childrenRect.width + 2 * screenScaleFactor)
@@ -114,31 +108,7 @@ UM.ManagementPage
                     }
                 }
             }
-
-      
-           
-
         }
-       /* Item
-        {
-            id: imageItem
-            visible:true
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: machineActions.bottom
-            anchors.topMargin: UM.Theme.getSize("default_margin").height
-          
-            Image
-            {
-                id: profileImage
-                fillMode: Image.PreserveAspectFit
-                source:UM.Theme.getImage("leonardorevo")
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: Math.round(parent.width / 4)
-            }
-            
-        }
- */
 
         UM.Dialog
         {
