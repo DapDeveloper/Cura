@@ -9,6 +9,8 @@
         "category": "Meccatronicore",
         "file_formats": "text/x-gcode",
         "has_materials": true,
+		"preferred_material": "pla",
+        "preferred_quality_type": "normal",
         "machine_extruder_trains":
         {
             "0": "custom_extruder_1",
