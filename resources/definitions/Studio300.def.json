@@ -8,19 +8,14 @@
         "manufacturer": "Meccatronicore",
         "category": "Meccatronicore",
         "file_formats": "text/x-gcode",
-        "has_materials": true,
-		"preferred_material": "pla",
+        "preferred_material": "pla",
         "preferred_quality_type": "normal",
+        "has_materials": true,
+	    "exclude_materials": [ "generic_hips", "generic_petg", "structur3d_dap100silicone" ],
         "machine_extruder_trains":
         {
-            "0": "custom_extruder_1",
-            "1": "custom_extruder_2",
-            "2": "custom_extruder_3",
-            "3": "custom_extruder_4",
-            "4": "custom_extruder_5",
-            "5": "custom_extruder_6",
-            "6": "custom_extruder_7",
-            "7": "custom_extruder_8"
+            "0": "RED_EXTRUDER",
+            "1": "BLUE_EXTRUDER"
         },
         "first_start_actions": ["MachineSettingsAction"],
         "platform": "piano_studio300.stl",
