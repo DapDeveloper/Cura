@@ -448,10 +448,11 @@ class StartSliceJob(Job):
             temperatureGcode+="\n"
         if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_bed():    
             temperatureGcode+="M190 S"+str(settings["print_bed_temperature_layer_0"])
-        if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_chamber():
+        '''if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_chamber():
            chamberGcode="\nM191 S"+settings["print_chamber_temperature"]
            temperatureGcode+=chamberGcode
-
+        '''
+        
         #Logger.log("e","INITIAL EXTRUDER:%s",initial_extruder_nr)
         machineSettings="T"+str(initial_extruder_nr)+"\n"
         tmpStartGcode="\n;START_USER_GCODE\n"
