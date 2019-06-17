@@ -42,7 +42,6 @@ UM.TooltipArea
     property var forceUpdateOnChangeFunction: dummy_func
     property var afterOnEditingFinishedFunction: dummy_func
     property var setValueFunction: null
-
     // a dummy function for default property values
     function dummy_func() {}
 
@@ -101,7 +100,6 @@ UM.TooltipArea
         height: comboBoxWithOptions.controlHeight
         model: defaultOptionsModel
         textRole: "text"
-
         currentIndex:
         {
             var currentValue = propertyProvider.properties.value
@@ -116,7 +114,6 @@ UM.TooltipArea
             }
             return index
         }
-
         onActivated:
         {
             var newValue = model.get(index).value

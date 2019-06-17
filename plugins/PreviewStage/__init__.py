@@ -6,7 +6,6 @@ from . import PreviewStage
 from UM.i18n import i18nCatalog
 i18n_catalog = i18nCatalog("cura")
 
-
 def getMetaData():
     return {
         "stage": {
@@ -14,8 +13,6 @@ def getMetaData():
             "weight": 1
         }
     }
-
-
 def register(app):
     return {
         "stage": PreviewStage.PreviewStage(app)

@@ -113,7 +113,6 @@ Item
             }
             printerModel: activePrinter
         }
-
         UM.SettingPropertyProvider
         {
             id: bedTemperature
@@ -121,10 +120,8 @@ Item
             key: "material_bed_temperature"
             watchedProperties: ["value", "minimum_value", "maximum_value", "resolve"]
             storeIndex: 0
-
             property var resolve: Cura.MachineManager.activeStack != Cura.MachineManager.activeMachine ? properties.resolve : "None"
         }
-
         UM.SettingPropertyProvider
         {
             id: machineExtruderCount
@@ -132,7 +129,6 @@ Item
             key: "machine_extruder_count"
             watchedProperties: ["value"]
         }
-
         ManualPrinterControl
         {
             printerModel: activePrinter

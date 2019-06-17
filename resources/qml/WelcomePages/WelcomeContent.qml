@@ -31,14 +31,12 @@ Item
             font: UM.Theme.getFont("huge")
             renderType: Text.NativeRendering
         }
-
         Image
         {
             id: curaImage
             anchors.horizontalCenter: parent.horizontalCenter
             source: UM.Theme.getImage("first_run_welcome_cura")
         }
-
         Label
         {
             id: textLabel
@@ -48,7 +46,6 @@ Item
             font: UM.Theme.getFont("medium")
             renderType: Text.NativeRendering
         }
-
         Cura.PrimaryButton
         {
             id: getStartedButton

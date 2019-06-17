@@ -14,9 +14,7 @@ import Cura 1.1 as Cura
 Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     property var machineActionsModel: CuraApplication.getFirstStartMachineActionsModel()
-
     Component.onCompleted:
     {
         // Reset the action to start from the beginning when it is shown.

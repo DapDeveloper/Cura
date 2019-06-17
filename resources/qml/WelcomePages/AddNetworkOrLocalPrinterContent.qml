@@ -14,7 +14,6 @@ import Cura 1.1 as Cura
 Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     Label
     {
         id: titleLabel
@@ -26,8 +25,6 @@ Item
         font: UM.Theme.getFont("huge")
         renderType: Text.NativeRendering
     }
-
-
     DropDownWidget
     {
         id: addLocalPrinterDropDown
@@ -35,25 +32,17 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.topMargin: UM.Theme.getSize("wide_margin").height
-
         title: catalog.i18nc("@label", "Add a new printer")
-
         contentComponent: localPrinterListComponent
-
         Component
         {
             id: localPrinterListComponent
-
             AddLocalPrinterScrollView
             {
                 id: localPrinterView
-            }
-            
+            }   
         }
-    
-
     }
-
     Cura.PrimaryButton
     {
         id: nextButton
@@ -61,7 +50,6 @@ Item
         anchors.bottom: parent.bottom
         enabled:
         {
-            
                 // Printer name cannot be empty
                 const localPrinterItem = addLocalPrinterDropDown.contentItem.currentItem
                 const isPrinterNameValid = addLocalPrinterDropDown.contentItem.isPrinterNameValid

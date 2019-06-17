@@ -403,16 +403,13 @@ class StartSliceJob(Job):
         print_temperature_settings = ["material_print_temperature", "material_print_temperature_layer_0", "default_material_print_temperature", "material_initial_print_temperature", "material_final_print_temperature", "material_standby_temperature"]
         pattern = r"\{(%s)(,\s?\w+)?\}" % "|".join(print_temperature_settings) # match {setting} as well as {setting, extruder_nr}
         settings["material_print_temp_prepend"] = re.search(pattern, start_gcode) == None
-
         # Replace the setting tokens in start and end g-code.
         # Use values from the first used extruder by default so we get the expected temperatures
         initial_extruder_stack = CuraApplication.getInstance().getExtruderManager().getUsedExtruderStacks()[0]
         initial_extruder_nr = initial_extruder_stack.getProperty("extruder_nr", "value")
-
         settings["machine_start_gcode"] = self._expandGcodeTokens(settings["machine_start_gcode"], initial_extruder_nr)
         settings["machine_end_gcode"] = self._expandGcodeTokens(settings["machine_end_gcode"], initial_extruder_nr)
         settings["print_chamber_temperature"] = self._expandGcodeTokens(settings["print_chamber_temperature"], initial_extruder_nr)
-
         machine_extruder_count=str(CuraApplication.getInstance().getMachineManager().activeMachine.getMachineExtruderCount())
         #Logger.log("e","MACHINE extruders:%s",machine_extruder_count)
         if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_chamber():
@@ -452,12 +449,12 @@ class StartSliceJob(Job):
            chamberGcode="\nM191 S"+settings["print_chamber_temperature"]
            temperatureGcode+=chamberGcode
         '''
-        
         #Logger.log("e","INITIAL EXTRUDER:%s",initial_extruder_nr)
         machineSettings="T"+str(initial_extruder_nr)+"\n"
         tmpStartGcode="\n;START_USER_GCODE\n"
         tmpStartGcode+="\n;TEMPERATURE SETTINGS"
         tmpStartGcode+="\n"+temperatureGcode
+        tmpStartGcode+="\n"+";start gcode"
         tmpStartGcode+="\n"+";USER CUSTOM GCODE"
         tmpStartGcode+="\n"+settings["machine_start_gcode"]
         tmpStartGcode+="\n"+";MACHINE TOOL SELECT"
@@ -475,14 +472,12 @@ class StartSliceJob(Job):
         settings["machine_start_gcode"]+="\nEND_USER_GCODE\n"
         Logger.log("e","MACHINE EXT%s",settings["machine_start_gcode"])
         '''
-
         # Add all sub-messages for each individual setting.
         for key, value in settings.items():
             setting_message = self._slice_message.getMessage("global_settings").addRepeatedMessage("settings")
             setting_message.name = key
             setting_message.value = str(value).encode("utf-8")
             Job.yieldThread()
-
     ##  Sends for some settings which extruder they should fallback to if not
     #   set.
     #
@@ -505,11 +500,9 @@ class StartSliceJob(Job):
     #   \param message object_lists message to put the per object settings in
     def _handlePerObjectSettings(self, node: CuraSceneNode, message: Arcus.PythonMessage):
         stack = node.callDecoration("getStack")
-
         # Check if the node has a stack attached to it and the stack has any settings in the top container.
         if not stack:
             return
-
         # Check all settings for relations, so we can also calculate the correct values for dependent settings.
         top_of_stack = stack.getTop()  # Cache for efficiency.
         changed_setting_keys = top_of_stack.getAllKeys()

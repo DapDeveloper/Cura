@@ -26,7 +26,7 @@ Item
     // The currently active (expanded) section/category, where section/category is the grouping of local machine items.
     property string currentSection: preferredCategory
     // By default (when this list shows up) we always expand the "Ultimaker" section.
-    property string preferredCategory: "Ultimaker"
+    property string preferredCategory: "Meccatronicore"
 
     property int maxItemCountAtOnce: 10  // show at max 10 items at once, otherwise you need to scroll.
 
@@ -65,7 +65,6 @@ Item
         anchors.right: parent.right
         anchors.top: parent.top
         height: childrenRect.height
-
         // ScrollView + ListView for selecting a local printer to add
         ScrollView
         {
@@ -73,18 +72,13 @@ Item
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-
             height: maxItemCountAtOnce * UM.Theme.getSize("action_button").height
-
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: ScrollBar.AsNeeded
-
             clip: true
-
             ListView
             {
                 id: machineList
-
                 model: UM.DefinitionContainersModel
                 {
                     id: machineDefinitionsModel
@@ -92,37 +86,31 @@ Item
                     sectionProperty: "category"
                     preferredSectionValue: preferredCategory
                 }
-
                 section.property: "section"
                 section.delegate: sectionHeader
                 delegate: machineButton
             }
-
             Component
             {
                 id: sectionHeader
-
                 Button
                 {
                     id: button
                     width: ListView.view.width
                     height: UM.Theme.getSize("action_button").height
                     text: section
-
                     property bool isActive: base.currentSection == section
-
                     background: Rectangle
                     {
                         anchors.fill: parent
                         color: isActive ? UM.Theme.getColor("setting_control_highlight") : "transparent"
                     }
-
                     contentItem: Item
                     {
                         width: childrenRect.width
                         height: UM.Theme.getSize("action_button").height
 
-                        UM.RecolorImage
+                       /* UM.RecolorImage
                         {
                             id: arrow
                             anchors.left: parent.left
@@ -132,20 +120,20 @@ Item
                             sourceSize.height: height
                             color: UM.Theme.getColor("text")
                             source: base.currentSection == section ? UM.Theme.getIcon("arrow_bottom") : UM.Theme.getIcon("arrow_right")
-                        }
-
+                        }*/
                         Label
                         {
                             id: label
                             anchors.left: arrow.right
                             anchors.leftMargin: UM.Theme.getSize("default_margin").width
+                            anchors.bottomMargin:10
                             verticalAlignment: Text.AlignVCenter
                             text: button.text
                             font: UM.Theme.getFont("default_bold")
                             renderType: Text.NativeRendering
+
                         }
                     }
-
                     onClicked:
                     {
                         base.currentSection = section
@@ -153,7 +141,6 @@ Item
                     }
                 }
             }
-
             Component
             {
                 id: machineButton
@@ -165,6 +152,8 @@ Item
                     anchors.leftMargin: UM.Theme.getSize("standard_list_lineheight").width
                     anchors.right: parent.right
                     anchors.rightMargin: UM.Theme.getSize("default_margin").width
+                    anchors.top:machineList.bottom
+                    anchors.topMargin:20
                     height: visible ? UM.Theme.getSize("standard_list_lineheight").height : 0
 
                     checked: ListView.view.currentIndex == index
@@ -175,7 +164,6 @@ Item
             }
         }
     }
-
     // Horizontal line
     Rectangle
     {
@@ -186,7 +174,6 @@ Item
         height: UM.Theme.getSize("default_lining").height
         color: UM.Theme.getColor("lining")
     }
-
     // User-editable printer name row
     Row
     {
@@ -195,9 +182,7 @@ Item
         anchors.right: parent.right
         anchors.topMargin: UM.Theme.getSize("default_lining").height
         anchors.leftMargin: UM.Theme.getSize("default_margin").width
-
         spacing: UM.Theme.getSize("default_margin").width
-
         Label
         {
             text: catalog.i18nc("@label", "Printer Name")
@@ -206,7 +191,6 @@ Item
             verticalAlignment: Text.AlignVCenter
             renderType: Text.NativeRendering
         }
-
         Cura.TextField
         {
             id: printerNameTextField

@@ -5,27 +5,21 @@ import QtQuick 2.7
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.2
-
 import UM 1.2 as UM
 import Cura 1.0 as Cura
-
 import "../Menus"
-
 Item
 {
     id: settingsView
-
     property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
     property Action configureSettings
     property bool findingSettings
-
     Rectangle
     {
         id: filterContainer
-        visible: true
-
+        visible: false
         radius: UM.Theme.getSize("setting_control_radius").width
-        border.width: Math.round(UM.Theme.getSize("default_lining").width)
+        /*border.width: Math.round(UM.Theme.getSize("default_lining").width)
         border.color:
         {
             if (hoverMouseArea.containsMouse || clearFilterButton.containsMouse)
@@ -39,7 +33,6 @@ Item
         }
 
         color: UM.Theme.getColor("setting_control")
-
         anchors
         {
             top: parent.top
@@ -120,7 +113,6 @@ Item
                 }
             }
         }
-
         MouseArea
         {
             id: hoverMouseArea
@@ -151,13 +143,13 @@ Item
                 filter.text = ""
                 filter.forceActiveFocus()
             }
-        }
+        }*/
     }
 
     ToolButton
     {
         id: settingVisibilityMenu
-
+        visible:false
         anchors
         {
             top: filterContainer.top
@@ -166,7 +158,7 @@ Item
             rightMargin: UM.Theme.getSize("wide_margin").width
         }
 
-        style: ButtonStyle
+        /*style: ButtonStyle
         {
             background: Item
             {
@@ -192,7 +184,7 @@ Item
                 definitionsModel.setAllVisible(true)
                 filter.updateDefinitionModel()
             }
-        }
+        }*/
     }
 
     // Mouse area that gathers the scroll events to not propagate it to the main view.
@@ -230,7 +222,14 @@ Item
                 id: definitionsModel
                 containerId: Cura.MachineManager.activeDefinitionId
                 visibilityHandler: UM.SettingPreferenceVisibilityHandler { }
-                exclude: ["machine_settings", "command_line_settings", "infill_mesh", "infill_mesh_order", "cutting_mesh", "support_mesh", "anti_overhang_mesh"] // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
+                exclude: ["machine_settings", "command_line_settings",
+                 "infill_mesh", "infill_mesh_order", "cutting_mesh", 
+                 "support_mesh", "anti_overhang_mesh",
+                 "resolution","shell","infill","speed","travel",
+                 "cooling","support","platform_adhesion","dual",
+                 "meshfix","blackmagic","experimental"
+                 
+                 ,] // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
                 expanded: CuraApplication.expandedCategories
                 onExpandedChanged:
                 {
@@ -551,15 +550,13 @@ Item
                         }
                     }
                 }
-                /*MenuItem
+                MenuItem
                 {
                     //: Settings context menu action
                     text: catalog.i18nc("@action:menu", "Configure setting visibility...");
-
                     onTriggered: Cura.Actions.configureSettingVisibility.trigger(contextMenu);
-                }*/
+                }
             }
-
             UM.SettingPropertyProvider
             {
                 id: machineExtruderCount

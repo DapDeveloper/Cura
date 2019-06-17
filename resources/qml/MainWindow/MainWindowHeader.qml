@@ -5,48 +5,41 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0 as Controls2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
-
 import UM 1.4 as UM
 import Cura 1.0 as Cura
 import QtGraphicalEffects 1.0
-
 import "../Account"
-
 Item
 {
     id: base
-
     implicitHeight: UM.Theme.getSize("main_window_header").height
     implicitWidth: UM.Theme.getSize("main_window_header").width
-
    /* Image
     {
         id: logo
         anchors.left: parent.left
         anchors.leftMargin: UM.Theme.getSize("default_margin").width
         anchors.verticalCenter: parent.verticalCenter
-
         source: UM.Theme.getImage("logo")
         width: UM.Theme.getSize("logo").width
         height: UM.Theme.getSize("logo").height
         fillMode: Image.PreserveAspectFit
         sourceSize.width: width
         sourceSize.height: height
-    }*/
-
+}*/
     Row
     {
         id: stagesListContainer
-        spacing: Math.round(UM.Theme.getSize("default_margin").width / 2)
+        //spacing: Math.round(UM.Theme.getSize("default_margin").width / 2)
         x:10
         anchors
         {
-            horizontalCenter: parent.horizontalLeft
-            verticalCenter: parent.verticalCenter
-            leftMargin: UM.Theme.getSize("default_margin").width
-
+           
+            horizontalCenter:parent.horizontalCenter
+            //bottom:parent.bottom
+            top:parent.top
         }
-        // The main window header is dynamically filled with all available stages
+        
         Repeater
         {
             id: stagesHeader
@@ -75,7 +68,41 @@ Item
         }
         ExclusiveGroup { id: mainWindowHeaderMenuGroup }
     }
-
+       /* Label
+        {
+            id:label
+            text:"TEST:"+UM.Controller.views
+            anchors
+            {
+                left:viewPanel.right
+                top:parent.top
+            }
+        }
+        Cura.ViewsSelector
+        {
+            id:viewsSelector
+            height:30
+            visible:  UM.Controller.activeView.stageMenuComponent != null || UM.Controller.activeView[0]=="XRayView"
+            width:300
+            anchors
+            {
+                left:parent.left
+                top:parent.top
+            }
+        }
+        Loader
+        {
+            id: viewPanel
+            height: 30
+            width:300
+            visible: UM.Controller.activeView.stageMenuComponent != null
+            source: UM.Controller.activeView != null && UM.Controller.activeView.stageMenuComponent != null ? UM.Controller.activeView.stageMenuComponent : ""
+            anchors
+            {
+                top:parent.top
+                left:viewsSelector.right
+            }
+        }*/
     // Shortcut button to quick access the Toolbox
    /* Controls2.Button
     {
@@ -83,9 +110,7 @@ Item
         text: catalog.i18nc("@action:button", "Marketplace2")
         height: Math.round(0.5 * UM.Theme.getSize("main_window_header").height)
         onClicked: Cura.Actions.browsePackages.trigger()
-
         hoverEnabled: true
-
         background: Rectangle
         {
             radius: UM.Theme.getSize("action_button_radius").width
@@ -93,7 +118,6 @@ Item
             border.width: UM.Theme.getSize("default_lining").width
             border.color: UM.Theme.getColor("primary_text")
         }
-
         contentItem: Label
         {
             id: label
@@ -104,14 +128,12 @@ Item
             verticalAlignment: Text.AlignVCenter
             renderType: Text.NativeRendering
         }
-
         anchors
         {
             right: accountWidget.left
             rightMargin: UM.Theme.getSize("default_margin").width
             verticalCenter: parent.verticalCenter
         }
-
         Cura.NotificationIcon
         {
             id: marketplaceNotificationIcon
@@ -131,7 +153,6 @@ Item
             }
         }
     }
-
     AccountWidget
     {
         id: accountWidget

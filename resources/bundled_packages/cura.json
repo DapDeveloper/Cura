@@ -254,6 +254,7 @@
             }
         }
     },
+    
     "MachineSettingsAction": {
         "package_info": {
             "package_id": "MachineSettingsAction",

@@ -146,13 +146,17 @@
     },
 
     "colors": {
-
+        "psColor":[188,188,188,100],
+        "wizard":[255,0,0,255],
         "main_background": [217, 217,217, 255],
         "wide_lining": [245, 245, 245, 255],
         "thick_lining": [127, 127, 127, 255],
         "lining": [192, 193, 194, 255],
         "viewport_overlay": [246, 246, 246, 255],
-
+        "wizard_color1":[194,194,194,255],
+        "red_extruder":[255,0,0,255],
+        "blue_extruder":[0,0,255,255],
+        "black_color":[0,0,0,255],
         "primary": [50, 130, 255, 255],
         "primary_shadow": [64, 47, 205, 255],
         "primary_hover": [48, 182, 231, 255],
@@ -160,9 +164,7 @@
         "border": [127, 127, 127, 255],
         "secondary": [240, 240, 240, 255],
         "secondary_shadow": [216, 216, 216, 255],
-
         "icon": [8, 7, 63, 255],
-
         "primary_button": [38, 113, 231, 255],
         "primary_button_shadow": [27, 95, 202, 255],
         "primary_button_hover": [81, 145, 247, 255],
@@ -173,15 +175,15 @@
         "secondary_button_hover": [228, 228, 228, 255],
         "secondary_button_text": [30, 102, 215, 255],
 
-        "main_window_header_background": [12,12, 12, 255],
-        "main_window_header_background_gradient": [12, 12, 12, 255],
+        "main_window_header_background": [12,12, 12, 0],
+        "main_window_header_background_gradient": [12, 12, 12, 0],
 
         "main_window_header_button_text_active": [8, 7, 63, 255],
-        "main_window_header_button_text_inactive": [255, 255, 255, 255],
-        "main_window_header_button_text_hovered": [255, 255, 255, 255],
-        "main_window_header_button_background_active": [255, 255, 255, 255],
-        "main_window_header_button_background_inactive": [255, 255, 255, 0],
-        "main_window_header_button_background_hovered": [156, 156, 156, 255],
+        "main_window_header_button_text_inactive": [0, 0, 0, 255],
+        "main_window_header_button_text_hovered": [0, 0, 0, 255],
+        "main_window_header_button_background_active": [150, 150, 150, 255],
+        "main_window_header_button_background_inactive": [255, 255, 255, 255],
+        "main_window_header_button_background_hovered": [200, 200, 200, 255],
 
         "account_widget_outline_active": [70, 66, 126, 255],
 
@@ -353,7 +355,7 @@
         "z_axis": [0, 255, 0, 255],
         "all_axis": [255, 255, 255, 255],
 
-        "viewport_background": [240, 240,240, 255],
+        "viewport_background": [227, 227,227, 255],
         "volume_outline": [200, 0, 0, 255],
         "buildplate": [244, 244, 244, 255],
         "buildplate_grid": [129, 131, 134, 255],
@@ -439,18 +441,13 @@
         "monitor_carousel_dot": [216, 216, 216, 255],
         "monitor_carousel_dot_current": [119, 119, 119, 255]
     },
-
     "sizes": {
         "window_minimum_size": [80, 48],
-
         "main_window_header": [0.0, 4.0],
         "main_window_header_button": [8, 2.35],
         "main_window_header_button_icon": [1.2, 1.2],
-
         "stage_menu": [0.0, 4.0],
-
         "account_button": [12, 2.5],
-
         "print_setup_widget": [38.0, 30.0],
         "print_setup_mode_toggle": [0.0, 2.0],
         "print_setup_extruder_box": [0.0, 6.0],
@@ -460,23 +457,17 @@
         "print_setup_big_item": [28, 2.5],
         "print_setup_icon": [1.2, 1.2],
         "drag_icon": [1.416, 0.25],
-
         "expandable_component_content_header": [0.0, 3.0],
-
         "configuration_selector": [35.0, 4.0],
         "configuration_selector_mode_tabs": [1.0, 3.0],
-
         "action_panel_widget": [26.0, 0.0],
         "action_panel_information_widget": [20.0, 0.0],
-
         "machine_selector_widget": [20.0, 4.0],
         "machine_selector_widget_content": [25.0, 32.0],
         "machine_selector_icon": [2.66, 2.66],
 
         "views_selector": [23.0, 4.0],
-
         "printer_type_label": [3.5, 1.5],
-
         "default_radius": [0.25, 0.25],
 
         "wide_lining": [0.5, 0.5],
@@ -569,7 +560,7 @@
         "monitor_preheat_temperature_control": [4.5, 2.0],
 
         "modal_window_minimum": [60.0, 45],
-        "license_window_minimum": [45, 45],
+        "license_window_minimum": [80, 45],
         "wizard_progress": [10.0, 0.0],
 
         "message": [30.0, 5.0],

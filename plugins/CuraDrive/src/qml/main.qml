@@ -22,20 +22,17 @@ Window
     height: minimumHeight
     color: UM.Theme.getColor("main_background")
     title: catalog.i18nc("@title:window", "Cura Backups")
-
     // Globally available.
     UM.I18nCatalog
     {
         id: catalog
         name: "cura"
     }
-
     WelcomePage
     {
         id: welcomePage
         visible: !Cura.API.account.isLoggedIn
     }
-
     BackupsPage
     {
         id: backupsPage

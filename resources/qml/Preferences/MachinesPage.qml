@@ -32,7 +32,6 @@ UM.ManagementPage
         }
         return -1;
     }
-
     buttons: [
         Button
         {

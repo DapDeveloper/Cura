@@ -15,16 +15,13 @@ import Cura 1.1 as Cura
 Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     id: addPrinterByIpScreen
-
     // Whether an IP address is currently being resolved.
     property bool hasSentRequest: false
     // Whether the IP address user entered can be resolved as a recognizable printer.
     property bool haveConnection: false
     // True when a request comes back, but the device hasn't responded.
     property bool deviceUnresponsive: false
-
     Label
     {
         id: titleLabel
@@ -36,7 +33,6 @@ Item
         font: UM.Theme.getFont("huge")
         renderType: Text.NativeRendering
     }
-
     Item
     {
         anchors.top: titleLabel.bottom
@@ -45,13 +41,11 @@ Item
         anchors.bottomMargin: UM.Theme.getSize("default_margin").height
         anchors.left: parent.left
         anchors.right: parent.right
-
         Item
         {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.margins: UM.Theme.getSize("default_margin").width
-
             Label
             {
                 id: explainLabel
@@ -59,12 +53,10 @@ Item
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
-
                 font: UM.Theme.getFont("default")
                 renderType: Text.NativeRendering
                 text: catalog.i18nc("@label", "Enter the IP address or hostname of your printer on the network.")
             }
-
             Item
             {
                 id: userInputFields
@@ -108,7 +100,6 @@ Item
                         }
                     }
                     busy: !enabled && !addPrinterByIpScreen.hasSentRequest && !addPrinterByIpScreen.haveConnection
-
                     Connections
                     {
                         target: UM.OutputDeviceManager
@@ -122,7 +113,6 @@ Item
                 width: parent.width
                 anchors.top: userInputFields.bottom
                 anchors.margins: UM.Theme.getSize("default_margin").width
-
                 Label
                 {
                     id: waitResponseLabel

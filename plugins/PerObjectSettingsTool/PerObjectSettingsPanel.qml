@@ -398,7 +398,6 @@ Item {
                 // Set skip setting, it will prevent from resetting selected mesh_type
                 contents.model.visibilityHandler.addSkipResetSetting(meshTypeSelection.model.get(meshTypeSelection.currentIndex).type)
                 listview.model.forceUpdate()
-
                 updateFilter()
             }
         }

@@ -40,38 +40,33 @@ Cura.ExpandablePopup
         ListView
         {
             id: extrudersList
-
             orientation: ListView.Horizontal
             anchors.fill: parent
             model: extrudersModel
             visible: Cura.MachineManager.hasMaterials
-
             delegate: Item
             {
                 height: parent.height
                 width: Math.round(ListView.view.width / extrudersModel.count)
-
                 // Extruder icon. Shows extruder index and has the same color as the active material.
                 Cura.ExtruderIcon
                 {
                     id: extruderIcon
-                    materialColor: model.color
+                    //materialColor: UM.Theme.getColor("red_extruder")//model.color
                     extruderEnabled: model.enabled
                     height: parent.height
                     width: height
                 }
-
                 // Label for the brand of the material
                 Label
                 {
                     id: typeAndBrandNameLabel
-
                     text: model.material_brand + " " + model.material
                     elide: Text.ElideRight
                     font: UM.Theme.getFont("default")
-                    color: UM.Theme.getColor("text")
+                    //color: UM.Theme.getColor("red_extruder")
+                    color:UM.Theme.getColor("black_color")//model.color
                     renderType: Text.NativeRendering
-
                     anchors
                     {
                         top: extruderIcon.top
@@ -85,15 +80,13 @@ Cura.ExpandablePopup
                 Label
                 {
                     id: variantLabel
-
                     visible: Cura.MachineManager.hasVariants
-
                     text: model.variant
                     elide: Text.ElideRight
                     font: UM.Theme.getFont("default_bold")
                     color: UM.Theme.getColor("text")
+               
                     renderType: Text.NativeRendering
-
                     anchors
                     {
                         left: extruderIcon.right
@@ -103,7 +96,6 @@ Cura.ExpandablePopup
                 }
             }
         }
-
         //Placeholder text if there is a configuration to select but no materials (so we can't show the materials per extruder).
         Label
         {

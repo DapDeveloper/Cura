@@ -100,16 +100,14 @@ class ExtruderManager(QObject):
             return self.getActiveExtruderStacks()[index].getName()
         except IndexError:
             return ""
-
+  
     ## Emitted whenever the selectedObjectExtruders property changes.
     selectedObjectExtrudersChanged = pyqtSignal()
-
     ##  Provides a list of extruder IDs used by the current selected objects.
     @pyqtProperty("QVariantList", notify = selectedObjectExtrudersChanged)
     def selectedObjectExtruders(self) -> List[Union[str, "ExtruderStack"]]:
         if not self._selected_object_extruders:
             object_extruders = set()
-
             # First, build a list of the actual selected objects (including children of groups, excluding group nodes)
             selected_nodes = []  # type: List["SceneNode"]
             for node in Selection.getAllSelectedObjects():
@@ -117,11 +115,9 @@ class ExtruderManager(QObject):
                     for grouped_node in BreadthFirstIterator(node): #type: ignore #Ignore type error because iter() should get called automatically by Python syntax.
                         if grouped_node.callDecoration("isGroup"):
                             continue
-
                         selected_nodes.append(grouped_node)
                 else:
                     selected_nodes.append(node)
-
             # Then, figure out which nodes are used by those selected nodes.
             current_extruder_trains = self.getActiveExtruderStacks()
             for node in selected_nodes:
@@ -130,9 +126,7 @@ class ExtruderManager(QObject):
                     object_extruders.add(extruder)
                 elif current_extruder_trains:
                     object_extruders.add(current_extruder_trains[0].getId())
-
             self._selected_object_extruders = list(object_extruders)  # type: List[Union[str, "ExtruderStack"]]
-
         return self._selected_object_extruders
 
     ##  Reset the internal list used for the selectedObjectExtruders property

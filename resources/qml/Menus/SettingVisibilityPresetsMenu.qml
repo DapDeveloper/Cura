@@ -16,7 +16,7 @@ Menu
 
     signal showAllSettings()
 
-    Instantiator
+   /* Instantiator
     {
         model: settingVisibilityPresetsModel.items
 
@@ -35,8 +35,8 @@ Menu
         onObjectAdded: menu.insertItem(index, object)
         onObjectRemoved: menu.removeItem(object)
     }
-
-    MenuSeparator {}
+*/
+    /*MenuSeparator {}
     MenuItem
     {
         text: catalog.i18nc("@action:inmenu", "Show All Settings")
@@ -48,12 +48,12 @@ Menu
         }
     }
     MenuSeparator {}
+
     MenuItem
     {
         text: catalog.i18nc("@action:inmenu", "Manage Setting Visibility...")
         iconName: "configure"
         onTriggered: Cura.Actions.configureSettingVisibility.trigger()
-    }
-
+    }*/
     ExclusiveGroup { id: group }
 }

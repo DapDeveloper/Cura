@@ -16,46 +16,38 @@ import Cura 1.0 as Cura
 Column
 {
     id: widget
-
     spacing: UM.Theme.getSize("thin_margin").height
     property bool preSlicedData: PrintInformation.preSliced
     property alias hasPreviewButton: previewStageShortcut.visible
-
     UM.I18nCatalog
     {
         id: catalog
         name: "cura"
     }
-
     Item
     {
         id: information
         width: parent.width
         height: childrenRect.height
-        
         PrintInformationWidget
         {
             id: printInformationPanel
             visible: !preSlicedData
             anchors.right: parent.right
         }
-
         Column
         {
             id: timeAndCostsInformation
             spacing: UM.Theme.getSize("thin_margin").height
-
             anchors
             {
                 left: parent.left
                 right: parent.right
             }
-
             Cura.IconWithText
             {
                 id: estimatedTime
                 width: parent.width
-
                 text: preSlicedData ? catalog.i18nc("@label", "No time estimation available") : PrintInformation.currentPrintTime.getDisplayString(UM.DurationFormat.Long)
                 source: UM.Theme.getIcon("clock")
                 font: UM.Theme.getFont("medium_bold")
@@ -65,7 +57,6 @@ Column
             {
                 id: estimatedCosts
                 width: parent.width
-
                 property var printMaterialLengths: PrintInformation.materialLengths
                 property var printMaterialWeights: PrintInformation.materialWeights
                 property var printMaterialCosts: PrintInformation.materialCosts
@@ -103,42 +94,34 @@ Column
             }
         }
     }
-
-    Item
+    /*Item
     {
         id: buttonRow
         anchors.right: parent.right
         anchors.left: parent.left
         height: UM.Theme.getSize("action_button").height
-
         Cura.SecondaryButton
         {
             id: previewStageShortcut
-
             anchors
             {
                 left: parent.left
                 right: outputDevicesButton.left
                 rightMargin: UM.Theme.getSize("default_margin").width
             }
-
             height: UM.Theme.getSize("action_button").height
-            text: catalog.i18nc("@button", "Preview")
+            text: catalog.i18nc("@button", "Preview2")
             tooltip: text
             fixedWidthMode: true
-
             toolTipContentAlignment: Cura.ToolTip.ContentAlignment.AlignLeft
-
             onClicked: UM.Controller.setActiveStage("PreviewStage")
         }
-
         Cura.OutputDevicesActionButton
         {
             id: outputDevicesButton
-
             anchors.right: parent.right
             width: previewStageShortcut.visible ? UM.Theme.getSize("action_button").width : parent.width
             height: UM.Theme.getSize("action_button").height
         }
-    }
+    }*/
 }

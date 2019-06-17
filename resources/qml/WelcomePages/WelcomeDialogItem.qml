@@ -5,30 +5,21 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0  // For the DropShadow
-
 import UM 1.3 as UM
 import Cura 1.1 as Cura
-
-
 //
 // This is an Item that tries to mimic a dialog for showing the welcome process.
 //
 Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     id: dialog
-
     anchors.centerIn: parent
-
-    width: 580 * screenScaleFactor
+    width: 800 * screenScaleFactor
     height: 600 * screenScaleFactor
-
     property int shadowOffset: 1 * screenScaleFactor
-
     property alias progressBarVisible: wizardPanel.progressBarVisible
     property var model: CuraApplication.getWelcomePagesModel()
-
     onVisibleChanged:
     {
         if (visible)
@@ -36,14 +27,12 @@ Item
             model.resetState()
         }
     }
-
     WizardPanel
     {
         id: wizardPanel
         anchors.fill: parent
         model: dialog.model
     }
-
     // Drop shadow around the panel
     DropShadow
     {
@@ -56,7 +45,6 @@ Item
         color: UM.Theme.getColor("first_run_shadow")
         transparentBorder: true
     }
-
     // Close this dialog when there's no more page to show
     Connections
     {

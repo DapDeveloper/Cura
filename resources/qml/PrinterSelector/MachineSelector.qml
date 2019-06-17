@@ -148,14 +148,14 @@ Cura.ExpandablePopup
         Row
         {
             id: buttonRow
-
+            height:0
             // The separator is inside the buttonRow. This is to avoid some weird behaviours with the scroll bar.
             anchors.top: separator.top
             anchors.horizontalCenter: parent.horizontalCenter
             padding: UM.Theme.getSize("default_margin").width
             spacing: UM.Theme.getSize("default_margin").width
 
-            Cura.SecondaryButton
+            /*Cura.SecondaryButton
             {
                 leftPadding: UM.Theme.getSize("default_margin").width
                 rightPadding: UM.Theme.getSize("default_margin").width
@@ -183,7 +183,7 @@ Cura.ExpandablePopup
                     toggleContent()
                     Cura.Actions.configureMachines.trigger()
                 }
-            }
+            }*/
         }
     }
 }

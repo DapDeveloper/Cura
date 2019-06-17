@@ -1,25 +1,18 @@
 // Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
-
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-
 import UM 1.3 as UM
 import Cura 1.1 as Cura
-
-
 //
 // This component contains the content for the "Welcome" page of the welcome on-boarding process.
 //
 Cura.MachineAction
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     anchors.fill: parent
-
     property var extrudersModel: Cura.ExtrudersModel {}
-
     // If we create a TabButton for "Printer" and use Repeater for extruders, for some reason, once the component
     // finishes it will automatically change "currentIndex = 1", and it is VERY difficult to change "currentIndex = 0"
     // after that. Using a model and a Repeater to create both "Printer" and extruder TabButtons seem to solve this
@@ -29,17 +22,15 @@ Cura.MachineAction
         target: extrudersModel
         onItemsChanged: tabNameModel.update()
     }
-
     ListModel
     {
         id: tabNameModel
-
         Component.onCompleted: update()
-
         function update()
         {
             clear()
             append({ name: catalog.i18nc("@title:tab", "Printer") })
+            append({ name: catalog.i18nc("@title:tab", "Gcode") })
             for (var i = 0; i < extrudersModel.count; i++)
             {
                 const m = extrudersModel.getItem(i)
@@ -47,7 +38,6 @@ Cura.MachineAction
             }
         }
     }
-
     Cura.RoundedRectangle
     {
         anchors
@@ -67,14 +57,15 @@ Cura.MachineAction
         {
             id: tabStack
             anchors.fill: parent
-
             currentIndex: tabBar.currentIndex
-
             MachineSettingsPrinterTab
             {
                 id: printerTab
             }
-
+             MachineSettingsGcodeTab
+            {
+                id: gcodeTab
+            }
             Repeater
             {
                 model: extrudersModel

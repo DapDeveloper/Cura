@@ -18,10 +18,8 @@ from UM.FlameProfiler import pyqtSlot
 from UM import Util
 from UM.Logger import Logger
 from UM.Message import Message
-
 from UM.Settings.SettingFunction import SettingFunction
 from UM.Signal import postponeSignals, CompressTechnique
-
 from cura.Machines.QualityManager import getMachineDefinitionIDForQualitySearch
 from cura.PrinterOutput.PrinterOutputDevice import PrinterOutputDevice, ConnectionType
 from cura.PrinterOutput.Models.PrinterConfigurationModel import PrinterConfigurationModel
@@ -33,12 +31,9 @@ from cura.Settings.ExtruderStack import ExtruderStack
 from cura.Settings.cura_empty_instance_containers import (empty_definition_changes_container, empty_variant_container,
                                                           empty_material_container, empty_quality_container,
                                                           empty_quality_changes_container)
-
 from .CuraStackBuilder import CuraStackBuilder
-
 from UM.i18n import i18nCatalog
 catalog = i18nCatalog("cura")
-
 if TYPE_CHECKING:
     from cura.CuraApplication import CuraApplication
     from cura.Settings.CuraContainerStack import CuraContainerStack
@@ -50,20 +45,16 @@ if TYPE_CHECKING:
     from cura.Machines.QualityChangesGroup import QualityChangesGroup
     from cura.Machines.QualityGroup import QualityGroup
 
-
 class MachineManager(QObject):
     def __init__(self, application: "CuraApplication", parent: Optional["QObject"] = None) -> None:
         super().__init__(parent)
 
         self._active_container_stack = None     # type: Optional[ExtruderStack]
         self._global_container_stack = None     # type: Optional[GlobalStack]
-
         self._current_root_material_id = {}  # type: Dict[str, str]
         self._current_quality_group = None   # type: Optional[QualityGroup]
         self._current_quality_changes_group = None  # type: Optional[QualityChangesGroup]
-
         self._default_extruder_position = "0"  # to be updated when extruders are switched on and off
-
         self._instance_container_timer = QTimer()  # type: QTimer
         self._instance_container_timer.setInterval(250)
         self._instance_container_timer.setSingleShot(True)
@@ -73,12 +64,10 @@ class MachineManager(QObject):
         self._container_registry = self._application.getContainerRegistry()
         self._application.globalContainerStackChanged.connect(self._onGlobalContainerChanged)
         self._container_registry.containerLoadComplete.connect(self._onContainersChanged)
-
         #  When the global container is changed, active material probably needs to be updated.
         self.globalContainerChanged.connect(self.activeMaterialChanged)
         self.globalContainerChanged.connect(self.activeVariantChanged)
         self.globalContainerChanged.connect(self.activeQualityChanged)
-
         self.globalContainerChanged.connect(self.activeQualityChangesGroupChanged)
         self.globalContainerChanged.connect(self.activeQualityGroupChanged)
 
@@ -1266,7 +1255,7 @@ class MachineManager(QObject):
                     if extruder.isEnabled and not extruder.material.getMetaDataEntry("compatible"):
                         return False
                     if not extruder.material.getMetaDataEntry("compatible"):
-                        return False
+                        return Falsec
         return True
 
     ## Update current quality type and machine after setting material

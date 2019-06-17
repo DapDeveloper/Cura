@@ -20,18 +20,14 @@ Item
     UM.I18nCatalog { id: catalog; name: "cura" }
 
     id: base
-
     implicitWidth: 200 * screenScaleFactor
     height: header.contentShown ? (header.height + contentRectangle.height) : header.height
-
     property var contentComponent: null
     property alias contentItem: contentLoader.item
-
     property alias title: header.title
     property bool contentShown: false  // indicates if this dropdown widget is expanded to show its content
 
     signal clicked()
-
     Connections
     {
         target: header
@@ -41,7 +37,6 @@ Item
             clicked()
         }
     }
-
     DropDownHeader
     {
         id: header
@@ -52,7 +47,6 @@ Item
         rightIconSource: contentShown ? UM.Theme.getIcon("arrow_bottom") : UM.Theme.getIcon("arrow_right")
         contentShown: base.contentShown
     }
-
     Cura.RoundedRectangle
     {
         id: contentRectangle
@@ -61,14 +55,12 @@ Item
         anchors.right: header.right
         // Add 2x lining, because it needs a bit of space on the top and the bottom.
         height: contentLoader.item.height + 2 * UM.Theme.getSize("thick_lining").height
-
         border.width: UM.Theme.getSize("default_lining").width
         border.color: UM.Theme.getColor("lining")
         color: UM.Theme.getColor("main_background")
         radius: UM.Theme.getSize("default_radius").width
         visible: base.contentShown
         cornerSide: Cura.RoundedRectangle.Direction.Down
-
         Loader
         {
             id: contentLoader

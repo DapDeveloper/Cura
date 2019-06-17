@@ -74,18 +74,29 @@ class GCodeWriter(MeshWriter):
             return False
         gcode_dict = getattr(scene, "gcode_dict")
         gcode_list = gcode_dict.get(active_build_plate, None)
-        Logger.log("e","LOGGER1:%s",gcode_list[0])
-        Logger.log("e","LOGGER2:%s",gcode_list[1])
-        Logger.log("e","LOGGER3:%s",gcode_list[2])
+       
+        Logger.log("e","GCODE_LIST_INPUT:"+gcode_list[1])
+        #Logger.log("e","LOGGER1:%s",gcode_list[0])
+        Logger.log("e","LOGGER32:%s",gcode_list[1])
+        #Logger.log("e","LOGGER3:%s",gcode_list[2])
         #Logger.log("e","END LOGGER")
-        userGcodes=gcode_list[1].split("START_USER_GCODE\n")
+        tmpList=gcode_list
+        #Logger.log("e","SPLIT1"+tmpList[1].split("START_USER_GCODE\n")[0])
+        #Logger.log("e","SPLIT2"+tmpList[1].split("START_USER_GCODE\n")[1])
+        
+        userGcodes=tmpList[1].split("START_USER_GCODE\n")
+        #userGcodes=tmpList[1]
+        #Logger.log("e","USERG LENGTH:"+str(len(userGcodes))
+        for x in userGcodes:
+            Logger.log("e","GCODE USER:"+x+"\n")
         Logger.log("e","LENGTH1:%s",str(len(userGcodes)))
         Logger.log("e","POS0:%s",userGcodes[0])
-        tempUserGcode=userGcodes[0].split("\n")
+        #tempUserGcode=userGcodes[0].split("\n")
         #for a in tempUserGcode:
         #    Logger.log("d","TMP:%s",a)
-        userGcodes=userGcodes[1].replace("END_USER_GCODE\n","")
-        gcode_list[1]=userGcodes
+        #tempUserGcode=userGcodes[1].replace("END_USER_GCODE\n","")
+        bkGcode1=gcode_list[1]
+        gcode_list[1]=userGcodes[1]
         #gcode_list[1]=""
         #gcodes=gcode_list[1].split("\n")
         #for a in gcodes:
@@ -102,9 +113,13 @@ class GCodeWriter(MeshWriter):
             if not has_settings:
                 settings = self._serialiseSettings(Application.getInstance().getGlobalContainerStack())
                 stream.write(settings)
-            stream.write("END GCODE BY MTC")        
+            stream.write("END GCODE BY MTC")       
+            gcode_list[1]=bkGcode1
+            Logger.log("e","GCODE_LIST:"+gcode_list[1])
+            Logger.log("e","END FF2F")
             return True
         self.setInformation(catalog.i18nc("@warning:status", "Please prepare G-code before exporting."))
+     
         return False
 
     ##  Create a new container with container 2 as base and container 1 written over it.

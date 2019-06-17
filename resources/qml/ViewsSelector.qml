@@ -3,24 +3,19 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.3
-
 import UM 1.2 as UM
 import Cura 1.0 as Cura
 
 Cura.ExpandablePopup
 {
     id: viewSelector
-
     contentPadding: UM.Theme.getSize("default_lining").width
     contentAlignment: Cura.ExpandablePopup.ContentAlignment.AlignLeft
-
     property var viewModel: UM.ViewModel
     {
         onDataChanged: updateActiveView()
     }
-
     property var activeView: null
-
     function updateActiveView()
     {
         for (var index in viewModel.items)
@@ -33,7 +28,6 @@ Cura.ExpandablePopup
         }
         activeView = null
     }
-
     Component.onCompleted:
     {
         if (activeView == null)
@@ -41,7 +35,6 @@ Cura.ExpandablePopup
             UM.Controller.setActiveView(viewModel.getItem(0).id)
         }
     }
-
     headerItem: Item
     {
         Label
@@ -55,7 +48,6 @@ Cura.ExpandablePopup
             color: UM.Theme.getColor("text_medium")
             renderType: Text.NativeRendering
         }
-
         Label
         {
             text: viewSelector.activeView ? viewSelector.activeView.name : ""
@@ -73,24 +65,20 @@ Cura.ExpandablePopup
             renderType: Text.NativeRendering
         }
     }
-
-    contentItem: Column
+  contentItem: Column
     {
         id: viewSelectorPopup
         width: viewSelector.width - 2 * viewSelector.contentPadding
-
         // For some reason the height/width of the column gets set to 0 if this is not set...
         Component.onCompleted:
         {
             height = implicitHeight
             width = viewSelector.width - 2 * viewSelector.contentPadding
         }
-
         Repeater
         {
             id: viewsList
             model: viewSelector.viewModel
-
             delegate: Button
             {
                 id: viewsSelectorButton
@@ -101,7 +89,6 @@ Cura.ExpandablePopup
                 rightPadding: UM.Theme.getSize("default_margin").width
                 checkable: true
                 checked: viewSelector.activeView != null ? viewSelector.activeView.id == id : false
-
                 contentItem: Label
                 {
                     id: buttonText
@@ -112,7 +99,6 @@ Cura.ExpandablePopup
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
                 }
-
                 background: Rectangle
                 {
                     id: backgroundRect
@@ -121,7 +107,6 @@ Cura.ExpandablePopup
                     border.width: UM.Theme.getSize("default_lining").width
                     border.color: viewsSelectorButton.checked ? UM.Theme.getColor("primary") : "transparent"
                 }
-
                 onClicked:
                 {
                     toggleContent()

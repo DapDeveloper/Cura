@@ -28,17 +28,14 @@ UM.TooltipArea
     property alias containerStackId: propertyProvider.containerStackId
     property alias settingKey: propertyProvider.key
     property alias settingStoreIndex: propertyProvider.storeIndex
-
     property alias propertyProvider: propertyProvider
     property alias labelText: fieldLabel.text
     property alias labelFont: fieldLabel.font
     property alias labelWidth: fieldLabel.width
     property alias unitText: unitLabel.text
-
     property alias valueText: textFieldWithUnit.text
     property alias valueValidator: textFieldWithUnit.validator
     property alias editingFinishedFunction: textFieldWithUnit.editingFinishedFunction
-
     property string tooltipText: propertyProvider.properties.description
 
     // whether negative value is allowed. This affects the validation of the input field.
@@ -74,10 +71,8 @@ UM.TooltipArea
         id: textFieldWithUnit
         anchors.left: fieldLabel.right
         anchors.leftMargin: UM.Theme.getSize("default_margin").width
-
         width: numericTextFieldWithUnit.controlWidth
         height: numericTextFieldWithUnit.controlHeight
-
         // Background is a rounded-cornered box with filled color as state indication (normal, warning, error, etc.)
         background: Rectangle
         {

@@ -18,13 +18,11 @@ catalog = i18nCatalog("cura")
 class RemovableDriveOutputDevice(OutputDevice):
     def __init__(self, device_id, device_name):
         super().__init__(device_id)
-
         self.setName(device_name)
         self.setShortDescription(catalog.i18nc("@action:button Preceded by 'Ready to'.", "Save to Removable Drive"))
         self.setDescription(catalog.i18nc("@item:inlistbox", "Save to Removable Drive {0}").format(device_name))
         self.setIconName("save_sd")
         self.setPriority(1)
-
         self._writing = False
         self._stream = None
 
@@ -51,10 +49,8 @@ class RemovableDriveOutputDevice(OutputDevice):
 
         if filter_by_machine:
             container = Application.getInstance().getGlobalContainerStack().findContainer({"file_formats": "*"})
-
             # Create a list from supported file formats string
             machine_file_formats = [file_type.strip() for file_type in container.getMetaDataEntry("file_formats").split(";")]
-
             # Take the intersection between file_formats and machine_file_formats.
             format_by_mimetype = {format["mime_type"]: format for format in file_formats}
             file_formats = [format_by_mimetype[mimetype] for mimetype in machine_file_formats] #Keep them ordered according to the preference in machine_file_formats.
@@ -90,12 +86,9 @@ class RemovableDriveOutputDevice(OutputDevice):
             job.setFileName(file_name)
             job.progress.connect(self._onProgress)
             job.finished.connect(self._onFinished)
-
             message = Message(catalog.i18nc("@info:progress Don't translate the XML tags <filename>!", "Saving to Removable Drive <filename>{0}</filename>").format(self.getName()), 0, False, -1, catalog.i18nc("@info:title", "Saving"))
             message.show()
-
             self.writeStarted.emit(self)
-
             job.setMessage(message)
             self._writing = True
             job.start()
@@ -146,6 +139,7 @@ class RemovableDriveOutputDevice(OutputDevice):
             message.addAction("eject", catalog.i18nc("@action:button", "Eject"), "eject", catalog.i18nc("@action", "Eject removable device {0}").format(self.getName()))
             message.actionTriggered.connect(self._onActionTriggered)
             message.show()
+            
             self.writeSuccess.emit(self)
         else:
             message = Message(catalog.i18nc("@info:status", "Could not save to removable drive {0}: {1}").format(self.getName(), str(job.getError())), title = catalog.i18nc("@info:title", "Warning"))
@@ -157,7 +151,6 @@ class RemovableDriveOutputDevice(OutputDevice):
         if action == "eject":
             if Application.getInstance().getOutputDeviceManager().getOutputDevicePlugin("RemovableDriveOutputDevice").ejectDevice(self):
                 message.hide()
-
                 eject_message = Message(catalog.i18nc("@info:status", "Ejected {0}. You can now safely remove the drive.").format(self.getName()), title = catalog.i18nc("@info:title", "Safely Remove Hardware"))
             else:
                 eject_message = Message(catalog.i18nc("@info:status", "Failed to eject {0}. Another program may be using the drive.").format(self.getName()), title = catalog.i18nc("@info:title", "Warning"))

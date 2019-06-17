@@ -51,6 +51,270 @@
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
+                "machine_line_width":
+                {
+                    "label": "Line Width",
+                    "description": "Width of a single line. Generally, the width of each line should correspond to the width of the nozzle. However, slightly reducing this value could produce better prints.",
+                     "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_wall_line_width":
+                {
+                    "label": "Outer Wall Line Width",
+                    "description": "Width of the outermost wall line. By lowering this value, higher levels of detail can be printed.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_wall_line_width0":
+                {
+                    "label": "Machine Wall Line Width",
+                    "description": "The inner diameter of the nozzle. Change this setting when using a non-standard nozzle size.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_wall_line_widthx":
+                {
+                    "label": "Inner Wall(s) Line Width",
+                    "description": "Width of a single wall line for all wall lines except the outermost one.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_skin_line_width":
+                {
+                    "label": "Top/Bottom Line Width",
+                    "description": "Width of a single top/bottom line.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_infill_line_width":
+                {
+                    "label": "Infill Line Width",
+                            "description": "Width of a single infill line.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+
+                "machine_support_line_width":
+                {
+                    "label": "Support Line Width",
+                    "description": "Width of a single support structure line.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_interface_line_width":
+                {
+                    "label": "Support Interface Line Width",
+                    "description": "Width of a single line of support roof or floor.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_interface_line_width":
+                {
+                    "label": "Support Interface Line Width",
+                    "description": "Width of a single line of support roof or floor.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_roof_line_width":
+                {
+                    "label": "Support Interface Line Width",
+                    "description": "Width of a single line of support roof or floor.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_bottom_line_width":
+                {
+                    "label": "Support Floor Line Width",
+                    "description": "Width of a single support floor line.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_prime_tower_line_width":
+                {
+                    "label": "Prime Tower Line Width",
+                    "description": "Width of a single prime tower line.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.4,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                
+                "machine_initial_line_width":
+                {
+                    "label": "Initial Layer Line Width",
+                    "description": "Multiplier of the line width on the first layer. Increasing this could improve bed adhesion.",
+                    "type": "float",
+                    "unit": "%",
+                    "default_value": 100.0,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "150",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_infill_extruder_nr":
+                {
+                    "label": "Machine infill extruder nr",
+                    "description": "Multiplier of the line width on the first layer. Increasing this could improve bed adhesion.",
+                    "type": "optional_extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_support_extruder_nr":
+                {
+                    "label": "Support Extruder",
+                    "description": "The extruder train to use for printing the support. This is used in multi-extrusion.",
+                    "type": "optional_extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+
+             
+
+
+                "machine_support_infill_extruder_nr":
+                {
+                    "label": "Support Infill Extruder",
+                    "description": "The extruder train to use for printing the infill of the support. This is used in multi-extrusion.",
+                    "type": "optional_extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_support_infill_extruder_nr_layer0":
+                {
+                    "label": "First Layer Support Extruder",
+                    "description": "The extruder train to use for printing the first layer of support infill. This is used in multi-extrusion.",
+                    "type": "optional_extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_support_interface_extruder_nr":
+                {
+                    "label": "Support Interface Extruder",
+                    "description": "The extruder train to use for printing the roofs and floors of the support. This is used in multi-extrusion.",
+                    "type": "optional_extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_support_roof_extruder_nr":
+                {
+                    "label": "Support Interface Extruder",
+                    "description": "The extruder train to use for printing the roofs and floors of the support. This is used in multi-extrusion.",
+                    "type": "optional_extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_support_bottom_extruder_nr":
+                {
+                    "label": "Support Interface Extruder",
+                    "description": "The extruder train to use for printing the roofs and floors of the support. This is used in multi-extrusion.",
+                    "type": "optional_extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "machine_adhesion_extruder_nr":
+                {
+                    "label": "Build Plate Adhesion Extruder",
+                    "description": "The extruder train to use for printing the skirt/brim/raft. This is used in multi-extrusion.",
+                    "type": "extruder",
+                    "default_value": "0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true,
+                    "settable_per_meshgroup":false
+                },
+                "machine_prime_tower_flow":
+                {
+                    "label": "Prime Tower Flow",
+                    "description": "Flow compensation: the amount of material extruded is multiplied by this value.",
+                    "unit": "%",
+                    "type": "float",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "100",
+                    "default_value": 100,
+                    "value": "100",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
                 "machine_nozzle_offset_x":
                 {
                     "label": "Nozzle X Offset",
@@ -62,7 +326,9 @@
                     "settable_per_extruder": true,
                     "settable_per_meshgroup": false,
                     "settable_globally": false
-                },
+                }, 
+              
+
                 "machine_nozzle_offset_y":
                 {
                     "label": "Nozzle Y Offset",
@@ -119,6 +385,16 @@
                     "settable_per_extruder": true,
                     "settable_per_meshgroup": false,
                     "settable_globally": false
+                },
+                "machine_acceleration_enable":
+                {
+                    "label": "Acceleration control",
+                    "description": "The x-coordinate of the starting position when turning the extruder on.",
+                    "default_value": false,
+                    "type": "bool",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_per_meshgroup": false
                 },
                 "machine_extruder_start_pos_y":
                 {

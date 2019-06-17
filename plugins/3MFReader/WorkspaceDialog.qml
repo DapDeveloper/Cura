@@ -372,7 +372,6 @@ UM.Dialog
                 {
                     width: warningLabel.height
                     height: width
-
                     source: UM.Theme.getIcon("notice")
                     color: palette.text
 

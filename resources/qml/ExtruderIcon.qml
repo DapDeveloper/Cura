@@ -21,15 +21,14 @@ Item
     {
         id: mainIcon
         anchors.fill: parent
-
         source: UM.Theme.getIcon("extruder_button")
-        color: extruderEnabled ? materialColor: UM.Theme.getColor("disabled")
+        //color: extruderEnabled ? materialColor: UM.Theme.getColor("disabled")
+        color:index==0?UM.Theme.getColor("red_extruder"):UM.Theme.getColor("blue_extruder")//model.color
     }
 
     Rectangle
     {
         id: extruderNumberCircle
-
         width: height
         height: Math.round(parent.height / 2)
         radius: Math.round(width / 2)

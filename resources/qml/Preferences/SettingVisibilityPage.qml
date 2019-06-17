@@ -4,37 +4,221 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
-
 import UM 1.2 as UM
-
 import Cura 1.0 as Cura
 
 UM.PreferencesPage
 {
     title: catalog.i18nc("@title:tab", "Setting Visibility");
-
     property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
-
     property int scrollToIndex: 0
-
     signal scrollToSection( string key )
     onScrollToSection:
     {
         settingsListView.positionViewAtIndex(definitionsModel.getIndex(key), ListView.Beginning)
     }
-
     function reset()
     {
         settingVisibilityPresetsModel.setActivePreset("basic")
     }
     resetEnabled: true;
-
+    Label
+    {
+        id:lblSubtitle
+        text:catalog.i18nc("@info","You will need to restart Cura before changes in packages have effect.")
+        anchors
+        {
+            left:parent.left
+            top:parent.top
+        }
+    }
     Item
     {
         id: base;
         anchors.fill: parent;
+        Button
+        {
+            id:btnBasic
+            text: catalog.i18nc("@action:button", "Basic")
+            height:250*screenScaleFactor
+            width:150*screenScaleFactor
+            iconName: "list-activate"
+            anchors.topMargin:50
+            anchors.top:btnTecAdv1.bottom
+            anchors.left:parent.left
+            anchors.leftMargin:btnTecnical.visible ? "20":"140" 
+            style: ButtonStyle {
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 40
+                        color: settingVisibilityPresetsModel.items[1].presetId == settingVisibilityPresetsModel.activePreset ? "#A8A8A8" : "#DBDBDB"
+                        //border.color: control.activeFocus ? "yellow" : "#242424"
+                        //border.width: 1
+                        radius: 4
 
-        CheckBox
+                    }
+                      label: Text {
+                            renderType: Text.NativeRendering
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Candara"
+                            font.pointSize: 20
+                            color: "black"
+                            text: control.text
+                        }
+            }
+            onClicked: {
+                  settingVisibilityPresetsModel.setActivePreset( settingVisibilityPresetsModel.items[1].presetId)
+            }
+        }
+         Button
+        {
+            id:btnTecAdv1
+            height:50
+            width:60
+            anchors.left:parent.left
+            anchors.top:parent.top
+            text: catalog.i18nc("@action:button", "")
+            iconName: "list-activate"
+            enabled: true
+            opacity:0
+            onClicked: {
+                //btnTecAdv2.opacity=0.1
+                btnTecAdv2.enabled=true
+            }
+        }
+         Button
+        {
+            id:btnTecAdv2
+            height:50
+            width:60
+            anchors.left:btnTecAdv1.right
+            anchors.top:parent.top
+            anchors.leftMargin:10
+            text: catalog.i18nc("@action:button", "")
+            iconName: "list-activate"
+            enabled: false
+            opacity:0
+            onClicked: {
+                
+                //btnTecAdv3.opacity=0.3
+                btnTecAdv3.enabled=true
+            }
+        }
+         Button
+        {
+            id:btnTecAdv3
+            height:50
+            width:60
+            anchors.left:btnTecAdv2.right
+            anchors.top:parent.top
+            anchors.leftMargin:10
+            text: catalog.i18nc("@action:button", "")
+            iconName: "list-activate"
+            enabled: false
+            opacity:0
+            onClicked: {
+              btnTecAdv4.opacity=0.4
+              btnTecAdv4.enabled=true
+            }
+        }
+         Button
+        {
+            id:btnTecAdv4
+            height:50
+            width:60
+            anchors.left:btnTecAdv3.right
+            anchors.top:parent.top
+            anchors.leftMargin:10
+            text: catalog.i18nc("@action:button", "TEC")
+            iconName: "list-activate"
+            enabled: false
+            opacity:0
+            onClicked: {
+                if(btnTecnical.visible)
+                {
+                      btnTecnical.visible=false
+                }else
+                {
+                      btnTecnical.visible=true
+                }
+            }
+        }
+        Button
+        {
+            id:btnAdvanced
+            height:250
+            width:150
+            anchors.left:btnBasic.right
+            anchors.leftMargin:50
+            anchors.topMargin:50
+            anchors.top:btnTecAdv1.bottom
+             style: ButtonStyle {
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 40
+                        color: settingVisibilityPresetsModel.items[2].presetId == settingVisibilityPresetsModel.activePreset ? "#A8A8A8" : "#DBDBDB"
+                        //border.color: control.activeFocus ? "yellow" : "#242424"
+                        //border.width: 1
+                        radius: 4
+                    }
+                    label: Text {
+                        renderType: Text.NativeRendering
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.family: "Candara"
+                        font.pointSize: 20
+                        color: "black"
+                        text: control.text
+                    }
+            }
+            text: catalog.i18nc("@action:button", "Advanced")
+            iconName: "list-activate"
+            enabled: true
+            onClicked: {
+                  settingVisibilityPresetsModel.setActivePreset( settingVisibilityPresetsModel.items[2].presetId)
+            }
+        }
+         Button
+        {
+            id:btnTecnical
+            anchors.left:btnAdvanced.right
+            anchors.leftMargin:50
+            anchors.topMargin:50
+            anchors.top:btnTecAdv1.bottom
+            height:250
+            width:150
+            isDefault:false
+            visible:false
+            text: catalog.i18nc("@action:button", "Technical")
+            style: ButtonStyle {
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 40
+                        color: settingVisibilityPresetsModel.items[3].presetId == settingVisibilityPresetsModel.activePreset ? "#A8A8A8" : "#DBDBDB"
+                        //border.color: control.activeFocus ? "yellow" : "#242424"
+                        //border.width: 1
+                        radius: 4
+                     }
+                        label: Text {
+                            renderType: Text.NativeRendering
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Candara"
+                            font.pointSize: 20
+                            color: "black"
+                            text: control.text
+                        }
+            }
+            iconName: "list-activate"
+            enabled: true
+            onClicked: {
+                  settingVisibilityPresetsModel.setActivePreset( settingVisibilityPresetsModel.items[3].presetId)
+            }
+        }
+
+
+        /*CheckBox
         {
             id: toggleVisibleSettings
             anchors
@@ -76,8 +260,8 @@ UM.PreferencesPage
                     }
                 }
             }
-        }
-
+        }*/
+/*
         TextField
         {
             id: filter;
@@ -94,9 +278,9 @@ UM.PreferencesPage
             placeholderText: catalog.i18nc("@label:textbox", "Filter...")
 
             onTextChanged: definitionsModel.filter = {"i18n_label": "*" + text}
-        }
+        }*/
 
-        ComboBox
+      /*  ComboBox
         {
             id: visibilityPreset
             width: 150 * screenScaleFactor
@@ -129,8 +313,8 @@ UM.PreferencesPage
                 settingVisibilityPresetsModel.setActivePreset(preset_id)
             }
         }
-
-        ScrollView
+*/
+        /*ScrollView
         {
             id: scrollView
 
@@ -183,8 +367,8 @@ UM.PreferencesPage
                     }
                 }
             }
-        }
-
+        }*/
+/*
         UM.I18nCatalog { name: "cura"; }
         SystemPalette { id: palette; }
 
@@ -200,6 +384,6 @@ UM.PreferencesPage
             id: settingVisibilityItem;
 
             UM.SettingVisibilityItem { }
-        }
+        }*/
     }
 }

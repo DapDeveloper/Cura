@@ -17,12 +17,10 @@
             "0": "RED_EXTRUDER",
             "1": "BLUE_EXTRUDER"
         },
-		 "platform": "PIA_LEOREVO.stl",
-		  "platform_offset": [-299,0, 250],
+		"platform": "PIA_LEOREVO.stl",
+		"platform_offset": [-299,0, 250],
         "first_start_actions": ["MachineSettingsAction"]
     },
-	
-	
 	  "overrides": {
         "machine_heated_bed": { "default_value": true },
 		"machine_heated_chamber":{"default_value":true},

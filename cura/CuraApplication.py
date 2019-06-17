@@ -471,11 +471,9 @@ class CuraApplication(QtApplication):
             "MonitorStage", #Major part of Cura's functionality.
             "LocalFileOutputDevice", #Major part of Cura's functionality.
             "LocalContainerProvider", #Cura is useless without any profiles or setting definitions.
-
             # Views:
             "SimpleView", #Dependency of SolidView.
             "SolidView", #Displays models. Cura is useless without it.
-
             # Readers & Writers:
             "GCodeWriter", #Cura is useless if it can't write its output.
             "STLReader", #Most common model format, so disabling this makes Cura 90% useless.
@@ -878,7 +876,6 @@ class CuraApplication(QtApplication):
     @pyqtSlot(result = QObject)
     def getWelcomePagesModel(self, *args) -> "WelcomePagesModel":
         return self._welcome_pages_model
-
     @pyqtSlot(result = QObject)
     def getAddPrinterPagesModel(self, *args) -> "AddPrinterPagesModel":
         return self._add_printer_pages_model
@@ -1629,16 +1626,13 @@ class CuraApplication(QtApplication):
         if not global_container_stack:
             Logger.log("w", "Can't load meshes before a printer is added.")
             return
-
         nodes = job.getResult()
         file_name = job.getFileName()
         file_name_lower = file_name.lower()
         file_extension = file_name_lower.split(".")[-1]
         self._currently_loading_files.remove(file_name)
-
         self.fileLoaded.emit(file_name)
         target_build_plate = self.getMultiBuildPlateModel().activeBuildPlate
-
         root = self.getController().getScene().getRoot()
         fixed_nodes = []
         for node_ in DepthFirstIterator(root):
@@ -1650,9 +1644,7 @@ class CuraApplication(QtApplication):
         min_offset = 8
         default_extruder_position = self.getMachineManager().defaultExtruderPosition
         default_extruder_id = self._global_container_stack.extruders[default_extruder_position].getId()
-
         select_models_on_load = self.getPreferences().getValue("cura/select_models_on_load")
-
         for original_node in nodes:
 
             # Create a CuraSceneNode just if the original node is not that type

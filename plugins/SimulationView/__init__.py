@@ -17,7 +17,6 @@ def getMetaData():
         }
     }
 
-
 def createSimulationViewProxy(engine, script_engine):
     return SimulationViewProxy.SimulationViewProxy()
 

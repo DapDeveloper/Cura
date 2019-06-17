@@ -7543,3 +7543,49 @@ msgstr "X3GWriter"
 #~ msgctxt "@label:"
 #~ msgid "Print Again"
 #~ msgstr "Ripeti stampa"
+
+#~ msgctxt "@label:"
+#~ msgid "Structure"
+#~ msgstr "Struttura"
+
+#~ msgctxt "@label:"
+#~ msgid "Slicing done!"
+#~ msgstr "Slicing finito!"
+
+#~ msgctxt "@label:"
+#~ msgid "Edit Profile"
+#~ msgstr "Modifica Profilo"
+
+
+
+#~ msgctxt "@label"
+#~ msgid "Resolution"
+#~ msgstr "Resolution"
+
+#~ msgctxt "@label"
+#~ msgid "Speed"
+#~ msgstr "Speed"
+
+#~ msgctxt "@label"
+#~ msgid "Platform adhesion"
+#~ msgstr "Platform adhesion"
+
+#~ msgctxt "@label"
+#~ msgid "Dual extrusion"
+#~ msgstr "Dual extrusion"
+
+#~ msgctxt "@label"
+#~ msgid "Meshfix"
+#~ msgstr "Mesh fixes"
+
+#~ msgctxt "@label"
+#~ msgid "Blackmagic"
+#~ msgstr "Blackmagic"
+
+#~ msgctxt "@label"
+#~ msgid "Extra features"
+#~ msgstr "Extra features"
+
+#~ msgctxt "@label"
+#~ msgid "Active printer"
+#~ msgstr "Stampante selezionata:"

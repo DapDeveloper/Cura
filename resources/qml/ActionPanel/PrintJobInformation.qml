@@ -6,18 +6,15 @@ import QtQuick.Controls 2.1
 
 import UM 1.1 as UM
 import Cura 1.0 as Cura
-
 Column
 {
     id: base
     spacing: UM.Theme.getSize("default_margin").width
-
     UM.I18nCatalog
     {
         id: catalog
         name: "cura"
     }
-
     Column
     {
         id: timeSpecification
@@ -25,8 +22,6 @@ Column
         topPadding: UM.Theme.getSize("default_margin").height
         leftPadding: UM.Theme.getSize("default_margin").width
         rightPadding: UM.Theme.getSize("default_margin").width
-
-
         Label
         {
             text: catalog.i18nc("@label", "Time specification").toUpperCase()
@@ -34,11 +29,9 @@ Column
             font: UM.Theme.getFont("default_bold")
             renderType: Text.NativeRendering
         }
-
         Label
         {
             id: byLineType
-
             property var printDuration: PrintInformation.currentPrintTime
             property var columnWidthMultipliers: [ 0.45, 0.3, 0.25 ]
             property var columnHorizontalAligns: [ Text.AlignLeft, Text.AlignHCenter, Text.AlignRight ]

@@ -13,10 +13,11 @@ Cura.ExpandableComponent
 
     property bool preSlicedData: PrintInformation.preSliced
 
-    contentPadding: UM.Theme.getSize("default_lining").width
-    contentHeaderTitle: catalog.i18nc("@label", "Print settings")
-    enabled: !preSlicedData
-    disabledText: catalog.i18nc("@label shown when we load a Gcode file", "Print setup disabled. G-code file can not be modified.")
+    //contentPadding: UM.Theme.getSize("default_lining").width
+    //contentHeaderTitle: catalog.i18nc("@label", "Print settings")
+    //enabled: !preSlicedData
+    enabled:false
+    //disabledText: catalog.i18nc("@label shown when we load a Gcode file", "Print setup disabled. G-code file can not be modified.")
 
     UM.I18nCatalog
     {
@@ -24,12 +25,12 @@ Cura.ExpandableComponent
         name: "cura"
     }
 
-    headerItem: PrintSetupSelectorHeader {}
+    //headerItem: PrintSetupSelectorHeader {}
 
-    property var extrudersModel: CuraApplication.getExtrudersModel()
+    //property var extrudersModel: CuraApplication.getExtrudersModel()
 
-    contentItem: PrintSetupSelectorContents {}
+    //contentItem: PrintSetupSelectorContents {}
 
-    onExpandedChanged: UM.Preferences.setValue("view/settings_visible", expanded)
-    Component.onCompleted: expanded = UM.Preferences.getValue("view/settings_visible")
+    //onExpandedChanged: UM.Preferences.setValue("view/settings_visible", expanded)
+    //Component.onCompleted: expanded = UM.Preferences.getValue("view/settings_visible")
 }

@@ -137,15 +137,12 @@ class SliceInfo(QObject, Extension):
             data["machine_settings_changed_by_user"] = machine_settings_changed_by_user
             data["language"] = Application.getInstance().getPreferences().getValue("general/language")
             data["os"] = {"type": platform.system(), "version": platform.version()}
-
             data["active_machine"] = {"definition_id": global_stack.definition.getId(),
                                       "manufacturer": global_stack.definition.getMetaDataEntry("manufacturer", "")}
-
             # add extruder specific data to slice info
             data["extruders"] = []
             extruders = list(global_stack.extruders.values())
             extruders = sorted(extruders, key = lambda extruder: extruder.getMetaDataEntry("position"))
-
             for extruder in extruders:
                 extruder_dict = dict()
                 extruder_dict["active"] = machine_manager.activeStack == extruder
@@ -158,7 +155,6 @@ class SliceInfo(QObject, Extension):
                     extruder_dict["material_used"] = print_information.materialLengths[extruder_position]
                 extruder_dict["variant"] = extruder.variant.getName()
                 extruder_dict["nozzle_size"] = extruder.getProperty("machine_nozzle_size", "value")
-
                 extruder_settings = dict()
                 extruder_settings["wall_line_count"] = extruder.getProperty("wall_line_count", "value")
                 extruder_settings["retraction_enable"] = extruder.getProperty("retraction_enable", "value")
@@ -170,11 +166,8 @@ class SliceInfo(QObject, Extension):
                 extruder_settings["material_chamber_temperature"]=extruder.getProperty("default_material_chamber_temperature","value")
                 extruder_dict["extruder_settings"] = extruder_settings
                 data["extruders"].append(extruder_dict)
-
             data["quality_profile"] = global_stack.quality.getMetaData().get("quality_type")
-
             data["user_modified_setting_keys"] = self._getUserModifiedSettingKeys()
-
             data["models"] = []
             # Listing all files placed on the build plate
             for node in DepthFirstIterator(application.getController().getScene().getRoot()):
@@ -193,22 +186,18 @@ class SliceInfo(QObject, Extension):
                     model["transformation"] = {"data": str(node.getWorldTransformation().getData()).replace("\n", "")}
                     extruder_position = node.callDecoration("getActiveExtruderPosition")
                     model["extruder"] = 0 if extruder_position is None else int(extruder_position)
-
                     model_settings = dict()
                     model_stack = node.callDecoration("getStack")
                     if model_stack:
                         model_settings["support_enabled"] = model_stack.getProperty("support_enable", "value")
                         model_settings["support_extruder_nr"] = int(model_stack.getExtruderPositionValueWithDefault("support_extruder_nr"))
-
                         # Mesh modifiers;
                         model_settings["infill_mesh"] = model_stack.getProperty("infill_mesh", "value")
                         model_settings["cutting_mesh"] = model_stack.getProperty("cutting_mesh", "value")
                         model_settings["support_mesh"] = model_stack.getProperty("support_mesh", "value")
                         model_settings["anti_overhang_mesh"] = model_stack.getProperty("anti_overhang_mesh", "value")
-
                         model_settings["wall_line_count"] = model_stack.getProperty("wall_line_count", "value")
                         model_settings["retraction_enable"] = model_stack.getProperty("retraction_enable", "value")
-
                         # Infill settings
                         model_settings["infill_sparse_density"] = model_stack.getProperty("infill_sparse_density", "value")
                         model_settings["infill_pattern"] = model_stack.getProperty("infill_pattern", "value")
@@ -226,36 +215,26 @@ class SliceInfo(QObject, Extension):
 
             print_settings = dict()
             print_settings["layer_height"] = global_stack.getProperty("layer_height", "value")
-
             # Support settings
             print_settings["support_enabled"] = global_stack.getProperty("support_enable", "value")
             print_settings["support_extruder_nr"] = int(global_stack.getExtruderPositionValueWithDefault("support_extruder_nr"))
-
             # Platform adhesion settings
             print_settings["adhesion_type"] = global_stack.getProperty("adhesion_type", "value")
-
             # Shell settings
             print_settings["wall_line_count"] = global_stack.getProperty("wall_line_count", "value")
             print_settings["retraction_enable"] = global_stack.getProperty("retraction_enable", "value")
-
             # Prime tower settings
             print_settings["prime_tower_enable"] = global_stack.getProperty("prime_tower_enable", "value")
-
             # Infill settings
             print_settings["infill_sparse_density"] = global_stack.getProperty("infill_sparse_density", "value")
             print_settings["infill_pattern"] = global_stack.getProperty("infill_pattern", "value")
             print_settings["gradual_infill_steps"] = global_stack.getProperty("gradual_infill_steps", "value")
-
             print_settings["print_sequence"] = global_stack.getProperty("print_sequence", "value")
-
             data["print_settings"] = print_settings
-
             # Send the name of the output device type that is used.
             data["output_to"] = type(output_device).__name__
-
             # Convert data to bytes
             binary_data = json.dumps(data).encode("utf-8")
-
             # Sending slice info non-blocking
             reportJob = SliceInfoJob(self.info_url, binary_data)
             reportJob.start()

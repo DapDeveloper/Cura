@@ -11,9 +11,13 @@ import Cura 1.1 as Cura
 Item
 {
     id: previewMenu
-
+    height:parent.height
     property real itemHeight: height - 2 * UM.Theme.getSize("default_lining").width
-
+    anchors
+    {
+        left:parent.left
+        top:parent.top
+    }
     UM.I18nCatalog
     {
         id: catalog
@@ -23,23 +27,31 @@ Item
     Row
     {
         id: stageMenuRow
-        anchors.centerIn: parent
+        //anchors.centerIn: parent
+        anchors
+        {
+            top:parent.top
+            left:parent.left
+        }
         height: parent.height
         width: childrenRect.width
-
         // We want this row to have a preferred with equals to the 85% of the parent
         property int preferredWidth: Math.round(0.85 * previewMenu.width)
-
         Cura.ViewsSelector
         {
             id: viewsSelector
             height: parent.height
-            width: UM.Theme.getSize("views_selector").width
-            headerCornerSide: Cura.RoundedRectangle.Direction.Left
+            width:200// UM.Theme.getSize("views_selector").width
+            headerCornerSide: Cura.RoundedRectangle.Direction.right
+            anchors
+            {
+                left:parent.left
+                top:parent.top
+            }
         }
 
         // Separator line
-        Rectangle
+     /*   Rectangle
         {
             height: parent.height
             // If there is no viewPanel, we only need a single spacer, so hide this one.
@@ -48,25 +60,29 @@ Item
 
             color: UM.Theme.getColor("lining")
         }
-
+*/
         // This component will grow freely up to complete the preferredWidth of the row.
         Loader
         {
             id: viewPanel
             height: parent.height
-            width: source != "" ? (stageMenuRow.preferredWidth - viewsSelector.width - printSetupSelectorItem.width - 2 * UM.Theme.getSize("default_lining").width) : 0
+            width: 200//source != "" ? (stageMenuRow.preferredWidth - viewsSelector.width - printSetupSelectorItem.width - 2 * UM.Theme.getSize("default_lining").width) : 0
             source: UM.Controller.activeView != null && UM.Controller.activeView.stageMenuComponent != null ? UM.Controller.activeView.stageMenuComponent : ""
+            anchors
+            {
+                left:viewsSelector.right
+                top:viewsSelector.top
+            }
         }
 
         // Separator line
-        Rectangle
+        /*Rectangle
         {
             height: parent.height
             width: UM.Theme.getSize("default_lining").width
             color: UM.Theme.getColor("lining")
-        }
-
-        Item
+        }*/
+     /*   Item
         {
             id: printSetupSelectorItem
             // This is a work around to prevent the printSetupSelector from having to be re-loaded every time
@@ -74,6 +90,6 @@ Item
             children: [printSetupSelector]
             height: childrenRect.height
             width: childrenRect.width
-        }
+        }*/
     }
 }

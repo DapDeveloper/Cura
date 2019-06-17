@@ -9,16 +9,12 @@ import UM.i18n
 from UM.FlameProfiler import pyqtSlot
 from UM.Settings.ContainerRegistry import ContainerRegistry
 from UM.Settings.DefinitionContainer import DefinitionContainer
-
 from cura.MachineAction import MachineAction
 from cura.Settings.CuraStackBuilder import CuraStackBuilder
 from cura.Settings.cura_empty_instance_containers import isEmptyContainer
-
 if TYPE_CHECKING:
     from PyQt5.QtCore import QObject
-
 catalog = UM.i18n.i18nCatalog("cura")
-
 
 ##  This action allows for certain settings that are "machine only") to be modified.
 #   It automatically detects machine definitions that it knows how to change and attaches itself to those.
@@ -26,20 +22,15 @@ class MachineSettingsAction(MachineAction):
     def __init__(self, parent: Optional["QObject"] = None) -> None:
         super().__init__("MachineSettingsAction", catalog.i18nc("@action", "Machine Settings"))
         self._qml_url = "MachineSettingsAction.qml"
-
         from cura.CuraApplication import CuraApplication
         self._application = CuraApplication.getInstance()
-
         from cura.Settings.CuraContainerStack import _ContainerIndexes
         self._store_container_index = _ContainerIndexes.DefinitionChanges
-
         self._container_registry = ContainerRegistry.getInstance()
         self._container_registry.containerAdded.connect(self._onContainerAdded)
-
         # The machine settings dialog blocks auto-slicing when it's shown, and re-enables it when it's finished.
         self._backend = self._application.getBackend()
         self.onFinished.connect(self._onFinished)
-
     # Which container index in a stack to store machine setting changes.
     @pyqtProperty(int, constant = True)
     def storeContainerIndex(self) -> int:
@@ -90,17 +81,14 @@ class MachineSettingsAction(MachineAction):
         # Updates the has_materials metadata flag after switching gcode flavor
         if not global_stack:
             return
-
         definition = global_stack.getDefinition()
         if definition.getProperty("machine_gcode_flavor", "value") != "UltiGCode" or definition.getMetaDataEntry("has_materials", False):
             # In other words: only continue for the UM2 (extended), but not for the UM2+
             return
-
         machine_manager = self._application.getMachineManager()
         material_manager = self._application.getMaterialManager()
         extruder_positions = list(global_stack.extruders.keys())
         has_materials = global_stack.getProperty("machine_gcode_flavor", "value") != "UltiGCode"
-
         material_node = None
         if has_materials:
             global_stack.setMetaDataEntry("has_materials", True)
@@ -109,15 +97,12 @@ class MachineSettingsAction(MachineAction):
             # Because any non-empty string evaluates to a boolean True, we have to remove the entry to make it False.
             if "has_materials" in global_stack.getMetaData():
                 global_stack.removeMetaDataEntry("has_materials")
-
         # set materials
         for position in extruder_positions:
             if has_materials:
                 material_node = material_manager.getDefaultMaterial(global_stack, position, None)
             machine_manager.setMaterial(position, material_node)
-
         self._application.globalContainerStackChanged.emit()
-
     @pyqtSlot(int)
     def updateMaterialForDiameter(self, extruder_position: int) -> None:
         # Updates the material container to a material that matches the material diameter set for the printer

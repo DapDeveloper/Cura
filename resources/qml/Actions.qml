@@ -1,42 +1,33 @@
 // Copyright (c) 2018 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
-
 pragma Singleton
-
 import QtQuick 2.10
 import QtQuick.Controls 1.1
 import QtQuick.Controls 2.3 as Controls2
 import UM 1.1 as UM
 import Cura 1.0 as Cura
-
 Item
 {
     property alias newProject: newProjectAction;
     property alias open: openAction;
     property alias quit: quitAction;
-
     property alias undo: undoAction;
     property alias redo: redoAction;
-
     property alias view3DCamera: view3DCameraAction;
     property alias viewFrontCamera: viewFrontCameraAction;
     property alias viewTopCamera: viewTopCameraAction;
     property alias viewLeftSideCamera: viewLeftSideCameraAction;
     property alias viewRightSideCamera: viewRightSideCameraAction;
-
     property alias deleteSelection: deleteSelectionAction;
     property alias centerSelection: centerSelectionAction;
     property alias multiplySelection: multiplySelectionAction;
-
     property alias deleteObject: deleteObjectAction;
     property alias centerObject: centerObjectAction;
     property alias groupObjects: groupObjectsAction;
     property alias unGroupObjects:unGroupObjectsAction;
     property alias mergeObjects: mergeObjectsAction;
     //property alias unMergeObjects: unMergeObjectsAction;
-
     property alias multiplyObject: multiplyObjectAction;
-
     property alias selectAll: selectAllAction;
     property alias deleteAll: deleteAllAction;
     property alias reloadAll: reloadAllAction;
@@ -45,28 +36,25 @@ Item
     property alias arrangeSelection: arrangeSelectionAction;
     property alias resetAllTranslation: resetAllTranslationAction;
     property alias resetAll: resetAllAction;
-
     property alias addMachine: addMachineAction;
     property alias configureMachines: settingsAction;
     property alias addProfile: addProfileAction;
     property alias updateProfile: updateProfileAction;
     property alias resetProfile: resetProfileAction;
     property alias manageProfiles: manageProfilesAction;
-
     property alias manageMaterials: manageMaterialsAction;
-
     property alias preferences: preferencesAction;
-
+    property alias sliceWizard:sliceWizardAction;
+    property alias sliceWizardHide:sliceWizardActionHide;
+    property alias profileEdit:profileEditAction;
+    property alias profileEditHide:profileEditActionHide;
+    
+    
     property alias about: aboutAction;
-
     property alias toggleFullScreen: toggleFullScreenAction;
-
     /*property alias configureSettingVisibility: configureSettingVisibilityAction*/
-
     property alias browsePackages: browsePackagesAction
-
     UM.I18nCatalog{id: catalog; name: "cura"}
-
     Action
     {
         id:toggleFullScreenAction
@@ -74,7 +62,6 @@ Item
         text: catalog.i18nc("@action:inmenu", "Toggle Full Screen");
         iconName: "view-fullscreen";
     }
-
     Action
     {
         id: undoAction;
@@ -84,7 +71,6 @@ Item
         onTriggered: UM.OperationStack.undo();
         enabled: UM.OperationStack.canUndo;
     }
-
     Action
     {
         id: redoAction;
@@ -94,7 +80,6 @@ Item
         onTriggered: UM.OperationStack.redo();
         enabled: UM.OperationStack.canRedo;
     }
-
     Action
     {
         id: quitAction;
@@ -102,62 +87,82 @@ Item
         iconName: "application-exit";
         shortcut: StandardKey.Quit;
     }
-
     Action
     {
         id: view3DCameraAction;
         text: catalog.i18nc("@action:inmenu menubar:view","3D View");
         onTriggered: UM.Controller.rotateView("3d", 0);
     }
-
     Action
     {
         id: viewFrontCameraAction;
         text: catalog.i18nc("@action:inmenu menubar:view","Front View");
         onTriggered: UM.Controller.rotateView("home", 0);
     }
-
     Action
     {
         id: viewTopCameraAction;
         text: catalog.i18nc("@action:inmenu menubar:view","Top View");
         onTriggered: UM.Controller.rotateView("y", 90);
     }
-
     Action
     {
         id: viewLeftSideCameraAction;
         text: catalog.i18nc("@action:inmenu menubar:view","Left Side View");
         onTriggered: UM.Controller.rotateView("x", 90);
     }
-
     Action
     {
         id: viewRightSideCameraAction;
         text: catalog.i18nc("@action:inmenu menubar:view","Right Side View");
         onTriggered: UM.Controller.rotateView("x", -90);
     }
-
     Action
     {
         id: preferencesAction;
         text: catalog.i18nc("@action:inmenu","Configure MTCSlicer...");
         iconName: "configure";
-    }
-
+    } 
+    //sliceWizardAction
+    //inmenu menubar:help
+    Action
+    {
+        id: sliceWizardAction;
+        text: catalog.i18nc("@action:inmenu", "Slice Wizard...");
+        iconName: "configure";
+    } 
+     Action
+    {
+        id: sliceWizardActionHide;
+        text: catalog.i18nc("@action:inmenu", "Slice Wizard...");
+        iconName: "configure";
+    } 
+    /*    property alias profileEdit:profileEditAction;
+    property alias profileEditHide:profileEditActionHide;*/
+    
+   Action
+    {
+        id: profileEditAction;
+        text: catalog.i18nc("@action:inmenu", "Wizard");
+        iconName: "configure";
+    } 
+     Action
+    {
+        id: profileEditActionHide;
+        text: catalog.i18nc("@action:inmenu", "Wizard");
+        iconName: "configure";
+    } 
     Action
     {
         id: addMachineAction;
         text: catalog.i18nc("@action:inmenu menubar:printer","&Add Printer...");
     }
-
     Action
     {
         id: settingsAction;
         text: catalog.i18nc("@action:inmenu menubar:printer","Manage Pr&inters...");
         iconName: "configure";
     }
-
     Action
     {
         id: manageMaterialsAction
@@ -165,7 +170,6 @@ Item
         iconName: "configure"
         shortcut: "Ctrl+K"
     }
-
     Action
     {
         id: updateProfileAction;
@@ -173,7 +177,6 @@ Item
         text: catalog.i18nc("@action:inmenu menubar:profile","&Update profile with current settings/overrides");
         onTriggered: Cura.ContainerManager.updateQualityChanges();
     }
-
     Action
     {
         id: resetProfileAction;
@@ -185,14 +188,12 @@ Item
             Cura.ContainerManager.clearUserContainers();
         }
     }
-
     Action
     {
         id: addProfileAction;
         enabled: !Cura.MachineManager.stacksHaveErrors && Cura.MachineManager.hasUserSettings
         text: catalog.i18nc("@action:inmenu menubar:profile", "&Create profile from current settings/overrides...");
     }
-
     Action
     {
         id: manageProfilesAction
@@ -200,15 +201,12 @@ Item
         iconName: "configure"
         shortcut: "Ctrl+J"
     }
-
-
     Action
     {
         id: aboutAction;
         text: catalog.i18nc("@action:inmenu menubar:help", "About...");
         iconName: "help-about";
     }
-
     Action
     {
         id: deleteSelectionAction;
@@ -218,7 +216,6 @@ Item
         shortcut: StandardKey.Delete;
         onTriggered: CuraActions.deleteSelection();
     }
-
     Action
     {
         id: centerSelectionAction;
@@ -227,7 +224,6 @@ Item
         iconName: "align-vertical-center";
         onTriggered: CuraActions.centerSelection();
     }
-
     Action
     {
         id: multiplySelectionAction;
@@ -236,7 +232,6 @@ Item
         iconName: "edit-duplicate";
         shortcut: "Ctrl+M"
     }
-
     Action
     {
         id: deleteObjectAction;
@@ -244,13 +239,11 @@ Item
         enabled: UM.Controller.toolsEnabled;
         iconName: "edit-delete";
     }
-
     Action
     {
         id: centerObjectAction;
         text: catalog.i18nc("@action:inmenu","Ce&nter Model on Platform");
     }
-
     Action
     {
         id: groupObjectsAction
@@ -260,7 +253,6 @@ Item
         shortcut: "Ctrl+G";
         onTriggered: CuraApplication.groupSelected();
     }
-
     Action
     {
         id: reloadQmlAction
@@ -270,7 +262,6 @@ Item
         }
         shortcut: "Shift+F5"
     }
-
     Action
     {
         id: unGroupObjectsAction
@@ -280,7 +271,6 @@ Item
         shortcut: "Ctrl+Shift+G";
         onTriggered: CuraApplication.ungroupSelected();
     }
-
     Action
     {
         id: mergeObjectsAction
@@ -290,14 +280,12 @@ Item
         shortcut: "Ctrl+Alt+G";
         onTriggered: CuraApplication.mergeSelected();
     }
-
     Action
     {
         id: multiplyObjectAction;
         text: catalog.i18nc("@action:inmenu","&Multiply Model...");
         iconName: "edit-duplicate"
     }
-
     Action
     {
         id: selectAllAction;
@@ -307,7 +295,6 @@ Item
         shortcut: "Ctrl+A";
         onTriggered: CuraApplication.selectAll();
     }
-
     Action
     {
         id: deleteAllAction;
@@ -317,7 +304,6 @@ Item
         shortcut: "Ctrl+D";
         onTriggered: CuraApplication.deleteAll();
     }
-
     Action
     {
         id: reloadAllAction;
@@ -326,14 +312,12 @@ Item
         shortcut: "F5"
         onTriggered: CuraApplication.reloadAll();
     }
-
     Action
     {
         id: arrangeAllBuildPlatesAction;
         text: catalog.i18nc("@action:inmenu menubar:edit","Arrange All Models To All Build Plates");
         onTriggered: Printer.arrangeObjectsToAllBuildPlates();
     }
-
     Action
     {
         id: arrangeAllAction;
@@ -341,28 +325,24 @@ Item
         onTriggered: Printer.arrangeAll();
         shortcut: "Ctrl+R";
     }
-
     Action
     {
         id: arrangeSelectionAction;
         text: catalog.i18nc("@action:inmenu menubar:edit","Arrange Selection");
         onTriggered: Printer.arrangeSelection();
     }
-
     Action
     {
         id: resetAllTranslationAction;
         text: catalog.i18nc("@action:inmenu menubar:edit","Reset All Model Positions");
         onTriggered: CuraApplication.resetAllTranslation();
     }
-
     Action
     {
         id: resetAllAction;
         text: catalog.i18nc("@action:inmenu menubar:edit","Reset All Model Transformations");
         onTriggered: CuraApplication.resetAll();
     }
-
     Action
     {
         id: openAction;
@@ -370,18 +350,16 @@ Item
         iconName: "document-open";
         shortcut: StandardKey.Open;
     }
-
     Action
     {
         id: newProjectAction
         text: catalog.i18nc("@action:inmenu menubar:file","&New Project...");
         shortcut: StandardKey.New
     }
-
     /*Action
     {
         id: showProfileFolderAction;
-        text: catalog.i18nc("@action:inmenu menubar:help","Show Configuration Folder");
+        text: catalog.i18nc("@action:inmenu menubar:help","Show ration Folder");
     }*/
 
 /*
@@ -391,7 +369,6 @@ Item
         text: catalog.i18nc("@action:menu", "Configure setting visibility...");
         iconName: "configure"
     }*/
-
     Action
     {
         id: browsePackagesAction

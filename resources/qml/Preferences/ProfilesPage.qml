@@ -35,27 +35,21 @@ Item
         font.pointSize: 18
         text: catalog.i18nc("@title:tab", "Profiles")
     }
-
     property var hasCurrentItem: base.currentItem != null
-
     property var currentItem: {
         var current_index = qualityListView.currentIndex;
         return (current_index == -1) ? null : qualitiesModel.getItem(current_index);
     }
-
     property var currentItemName: hasCurrentItem ? base.currentItem.name : ""
-
     property var isCurrentItemActivated: {
         if (!base.currentItem) {
             return false;
         }
         return base.currentItem.name == Cura.MachineManager.activeQualityOrQualityChangesName;
     }
-
     property var canCreateProfile: {
         return isCurrentItemActivated && Cura.MachineManager.hasUserSettings;
     }
-
     Row  // Button Row
     {
         id: buttonRow
@@ -65,7 +59,6 @@ Item
             top: titleLabel.bottom
         }
         height: childrenRect.height
-
         // Activate button
         Button
         {
@@ -80,7 +73,6 @@ Item
                 }
             }
         }
-
         // Create button
         Button
         {
@@ -88,14 +80,12 @@ Item
             iconName: "list-add"
             enabled: base.canCreateProfile && !Cura.MachineManager.stacksHaveErrors
             visible: base.canCreateProfile
-
             onClicked: {
                 createQualityDialog.object = Cura.ContainerManager.makeUniqueName(base.currentItem.name);
                 createQualityDialog.open();
                 createQualityDialog.selectText();
             }
         }
-
         // Duplicate button
         Button
         {
@@ -103,14 +93,12 @@ Item
             iconName: "list-add"
             enabled: !base.canCreateProfile
             visible: !base.canCreateProfile
-
             onClicked: {
                 duplicateQualityDialog.object = Cura.ContainerManager.makeUniqueName(base.currentItem.name);
                 duplicateQualityDialog.open();
                 duplicateQualityDialog.selectText();
             }
         }
-
         // Remove button
         Button
         {
@@ -122,7 +110,6 @@ Item
                 confirmRemoveQualityDialog.open();
             }
         }
-
         // Rename button
         Button
         {
@@ -135,7 +122,6 @@ Item
                 renameQualityDialog.selectText();
             }
         }
-
         // Import button
         Button
         {
@@ -184,7 +170,6 @@ Item
 
     property string newQualityNameToSelect: ""
     property bool toActivateNewQuality: false
-
     // This connection makes sure that we will switch to the correct quality after the model gets updated
     Connections
     {
@@ -400,12 +385,10 @@ Item
                         }
                     }
                 }
-
                 section.property: "is_read_only"
                 section.delegate: Rectangle
                 {
                     height: childrenRect.height
-
                     Label
                     {
                         anchors.left: parent.left
@@ -414,15 +397,12 @@ Item
                         font.bold: true
                     }
                 }
-
                 delegate: Rectangle
                 {
                     width: profileScrollView.width
                     height: childrenRect.height
-
                     property bool isCurrentItem: ListView.isCurrentItem
                     color: isCurrentItem ? palette.highlight : (model.index % 2) ? palette.base : palette.alternateBase
-
                     Label
                     {
                         anchors.left: parent.left
@@ -434,7 +414,6 @@ Item
                         font.italic: model.name == Cura.MachineManager.activeQualityOrQualityChangesName
                         color: parent.isCurrentItem ? palette.highlightedText : palette.text
                     }
-
                     MouseArea
                     {
                         anchors.fill: parent
@@ -485,7 +464,7 @@ Item
                     anchors.top: profileName.bottom
                     anchors.topMargin: UM.Theme.getSize("default_margin").height
 
-                    Button
+                  Button
                     {
                         text: catalog.i18nc("@action:button", "Update profile with current settings/overrides")
                         enabled: Cura.MachineManager.hasUserSettings && !base.currentItem.is_read_only
@@ -498,8 +477,13 @@ Item
                         enabled: Cura.MachineManager.hasUserSettings
                         onClicked: Cura.ContainerManager.clearUserContainers();
                     }
+                    Button
+                    {
+                        text: catalog.i18nc("@label", "Edit Profile");
+                        enabled:base.hasCurrentItem && !base.currentItem.is_read_only && base.isCurrentItemActivated
+                        onClicked: Cura.Actions.profileEdit.trigger();
+                    }
                 }
-
                 Column {
                     id: profileNotices
                     anchors.top: currentSettingsActions.visible ? currentSettingsActions.bottom : currentSettingsActions.anchors.top
@@ -507,7 +491,6 @@ Item
                     anchors.left: parent.left
                     anchors.right: parent.right
                     spacing: UM.Theme.getSize("default_margin").height
-
                     Label {
                         id: defaultsMessage
                         visible: false
@@ -523,8 +506,6 @@ Item
                         width: parent.width
                     }
                 }
-
-
                 TabView
                 {
                     anchors.left: parent.left
@@ -532,15 +513,12 @@ Item
                     anchors.topMargin: UM.Theme.getSize("default_margin").height
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-
                     currentIndex: 0
-
                     ProfileTab
                     {
                         title: catalog.i18nc("@title:tab", "Global Settings")
                         qualityItem: base.currentItem
                     }
-
                     Repeater
                     {
                         model: base.extrudersModel

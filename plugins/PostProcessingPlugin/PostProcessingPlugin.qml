@@ -7,20 +7,16 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.1
 import QtQuick.Window 2.2
-
 import UM 1.2 as UM
 import Cura 1.0 as Cura
-
 UM.Dialog
 {
     id: dialog
-
     title: catalog.i18nc("@title:window", "Post Processing Plugin")
     width: 700 * screenScaleFactor;
     height: 500 * screenScaleFactor;
     minimumWidth: 400 * screenScaleFactor;
     minimumHeight: 250 * screenScaleFactor;
-
     onVisibleChanged:
     {
         if(!visible) //Whenever the window is closed (either via the "Close" button or the X on the window frame), we want to update it in the stack.
@@ -28,7 +24,6 @@ UM.Dialog
             manager.writeScriptsToStack()
         }
     }
-
     Item
     {
         UM.I18nCatalog{id: catalog; name: "cura"}
@@ -39,7 +34,6 @@ UM.Dialog
         SystemPalette{ id: palette }
         SystemPalette{ id: disabledPalette; colorGroup: SystemPalette.Disabled }
         anchors.fill: parent
-
         ExclusiveGroup
         {
             id: selectedScriptGroup
@@ -50,7 +44,6 @@ UM.Dialog
             anchors.left: parent.left
             width: base.columnWidth
             height: parent.height
-
             Label
             {
                 id: activeScriptsHeader
@@ -92,7 +85,6 @@ UM.Dialog
                         width: parent.width
                         height: UM.Theme.getSize("setting").height
                         checkable: true
-
                         checked:
                         {
                             if (manager.selectedScriptIndex == index)
@@ -129,7 +121,6 @@ UM.Dialog
                             }
                         }
                     }
-
                     Button
                     {
                         id: removeButton
@@ -257,7 +248,6 @@ UM.Dialog
                         text: manager.getScriptLabelByKey(modelData.toString())
                         onTriggered: manager.addScriptToList(modelData.toString())
                     }
-
                     onObjectAdded: scriptsMenu.insertItem(index, object)
                     onObjectRemoved: scriptsMenu.removeItem(object)
                 }

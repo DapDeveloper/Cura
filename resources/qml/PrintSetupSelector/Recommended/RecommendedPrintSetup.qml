@@ -16,7 +16,7 @@ Item
 
     property Action configureSettings
 
-    property bool settingsEnabled: Cura.ExtruderManager.activeExtruderStackId || extrudersEnabledCount.properties.value == 1
+    property bool settingsEnabled: true// Cura.ExtruderManager.activeExtruderStackId || extrudersEnabledCount.properties.value == 1
     property real padding: UM.Theme.getSize("thick_margin").width
 
     UM.I18nCatalog
@@ -29,7 +29,6 @@ Item
     {
         width: parent.width - 2 * parent.padding
         spacing: UM.Theme.getSize("wide_margin").height
-
         anchors
         {
             left: parent.left
@@ -37,37 +36,32 @@ Item
             top: parent.top
             margins: parent.padding
         }
-
         // TODO
         property real firstColumnWidth: Math.round(width / 3)
-
         RecommendedQualityProfileSelector
         {
             width: parent.width
             // TODO Create a reusable component with these properties to not define them separately for each component
             labelColumnWidth: parent.firstColumnWidth
         }
-
         RecommendedInfillDensitySelector
         {
             width: parent.width
             // TODO Create a reusable component with these properties to not define them separately for each component
             labelColumnWidth: parent.firstColumnWidth
         }
-
-        RecommendedSupportSelector
+        /*RecommendedSupportSelector
         {
             width: parent.width
             // TODO Create a reusable component with these properties to not define them separately for each component
             labelColumnWidth: parent.firstColumnWidth
         }
-
         RecommendedAdhesionSelector
         {
             width: parent.width
             // TODO Create a reusable component with these properties to not define them separately for each component
             labelColumnWidth: parent.firstColumnWidth
-        }
+        }*/
     }
 
     UM.SettingPropertyProvider

@@ -699,13 +699,11 @@ UM.PreferencesPage
                 height: UM.Theme.getSize("default_margin").height
                 width: UM.Theme.getSize("default_margin").height
             }
-
           /*  Label
             {
                 font.bold: true
                 text: catalog.i18nc("@label","Experimental")
             }
-
             UM.TooltipArea
             {
                 width: childrenRect.width

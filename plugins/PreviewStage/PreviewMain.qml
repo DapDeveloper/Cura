@@ -5,20 +5,16 @@ import QtQuick 2.4
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.1
-
 import UM 1.0 as UM
 import Cura 1.0 as Cura
-
 Item
 {
     Loader
     {
         id: previewMain
         anchors.fill: parent
-
         source: UM.Controller.activeView != null && UM.Controller.activeView.mainComponent != null ? UM.Controller.activeView.mainComponent : ""
     }
-
     Cura.ActionPanelWidget
     {
         id: actionPanelWidget

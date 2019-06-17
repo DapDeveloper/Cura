@@ -5,19 +5,16 @@ import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
-
 import UM 1.2 as UM
 import Cura 1.0 as Cura
 
 Item
 {
     id: base
-
     property QtObject materialManager: CuraApplication.getMaterialManager()
     // Keep PreferencesDialog happy
     property var resetEnabled: false
     property var currentItem: null
-
     property var hasCurrentItem: base.currentItem != null
     property var isCurrentItemActivated:
     {
@@ -31,26 +28,21 @@ Item
     }
     property string newRootMaterialIdToSwitchTo: ""
     property bool toActivateNewMaterial: false
-
     property var extruder_position: Cura.ExtruderManager.activeExtruderIndex
     property var active_root_material_id: Cura.MachineManager.currentRootMaterialId[extruder_position]
-
     UM.I18nCatalog
     {
         id: catalog
         name: "cura"
     }
-
     // When loaded, try to select the active material in the tree
     Component.onCompleted: materialListView.expandActiveMaterial(active_root_material_id)
-
     // Every time the selected item has changed, notify to the details panel
     onCurrentItemChanged:
     {
         forceActiveFocus()
         materialDetailsPanel.currentItem = currentItem
     }
-
     // Main layout
     Label
     {
@@ -65,7 +57,6 @@ Item
         font.pointSize: 18
         text: catalog.i18nc("@title:tab", "Materials")
     }
-
     // Button Row
     Row
     {
@@ -270,7 +261,6 @@ Item
             base.materialManager.removeMaterial(base.currentItem.container_node);
         }
     }
-
     FileDialog
     {
         id: importMaterialDialog
@@ -281,7 +271,6 @@ Item
         onAccepted:
         {
             var result = Cura.ContainerManager.importMaterialContainer(fileUrl);
-
             messageDialog.title = catalog.i18nc("@title:window", "Import Material");
             messageDialog.text = catalog.i18nc("@info:status Don't translate the XML tags <filename> or <message>!", "Could not import material <filename>%1</filename>: <message>%2</message>").arg(fileUrl).arg(result.message);
             if (result.status == "success")
@@ -301,7 +290,6 @@ Item
             CuraApplication.setDefaultPath("dialog_material_path", folder);
         }
     }
-
     FileDialog
     {
         id: exportMaterialDialog
@@ -312,7 +300,6 @@ Item
         onAccepted:
         {
             var result = Cura.ContainerManager.exportContainer(base.currentItem.root_material_id, selectedNameFilter, fileUrl);
-
             messageDialog.title = catalog.i18nc("@title:window", "Export Material");
             if (result.status == "error")
             {
@@ -329,7 +316,6 @@ Item
             CuraApplication.setDefaultPath("dialog_material_path", folder);
         }
     }
-
     MessageDialog
     {
         id: messageDialog

@@ -13,22 +13,17 @@ import ".." // Access to ReadOnlyTextArea.qml
 TabView
 {
     id: base
-
     property QtObject materialManager: CuraApplication.getMaterialManager()
-
     property QtObject properties
     property var currentMaterialNode: null
-
     property bool editingEnabled: false;
     property string currency: UM.Preferences.getValue("cura/currency") ? UM.Preferences.getValue("cura/currency") : "€"
     property real firstColumnWidth: (width * 0.50) | 0
     property real secondColumnWidth: (width * 0.40) | 0
     property string containerId: ""
     property var materialPreferenceValues: UM.Preferences.getValue("cura/material_settings") ? JSON.parse(UM.Preferences.getValue("cura/material_settings")) : {}
-
     property double spoolLength: calculateSpoolLength()
     property real costPerMeter: calculateCostPerMeter()
-
     property bool reevaluateLinkedMaterials: false
     property string linkedMaterialNames:
     {
@@ -47,12 +42,10 @@ TabView
         }
         return linkedMaterials.join(", ");
     }
-
     function getApproximateDiameter(diameter)
     {
         return Math.round(diameter);
     }
-
     // This trick makes sure to make all fields lose focus so their onEditingFinished will be triggered
     // and modified values will be saved. This can happen when a user changes a value and then closes the
     // dialog directly.
@@ -65,13 +58,10 @@ TabView
             base.focus = false;
         }
     }
-
     Tab
     {
         title: catalog.i18nc("@title", "Information")
-
         anchors.margins: UM.Theme.getSize("default_margin").width
-
         ScrollView
         {
             id: scrollView
@@ -79,46 +69,36 @@ TabView
             horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
             flickableItem.flickableDirection: Flickable.VerticalFlick
             frameVisible: true
-
             property real columnWidth: (viewport.width * 0.5 - UM.Theme.getSize("default_margin").width) | 0
-
             Flow
             {
                 id: containerGrid
-
                 x: UM.Theme.getSize("default_margin").width
                 y: UM.Theme.getSize("default_lining").height
-
                 width: base.width
                 property real rowHeight: brandTextField.height + UM.Theme.getSize("default_lining").height
-
                 MessageDialog
                 {
                     id: confirmDiameterChangeDialog
-
                     icon: StandardIcon.Question;
                     title: catalog.i18nc("@title:window", "Confirm Diameter Change")
                     text: catalog.i18nc("@label (%1 is a number)", "The new filament diameter is set to %1 mm, which is not compatible with the current extruder. Do you wish to continue?".arg(new_diameter_value))
                     standardButtons: StandardButton.Yes | StandardButton.No
                     modality: Qt.ApplicationModal
-
                     property var new_diameter_value: null;
                     property var old_diameter_value: null;
                     property var old_approximate_diameter_value: null;
                     property bool keyPressed: false
-
                     onYes:
                     {
                         base.setMetaDataEntry("approximate_diameter", old_approximate_diameter_value, getApproximateDiameter(new_diameter_value).toString());
                         base.setMetaDataEntry("properties/diameter", properties.diameter, new_diameter_value);
                     }
-
                     onNo:
                     {
                         properties.diameter = old_diameter_value;
                         diameterSpinBox.value = properties.diameter;
                     }
-
                     onVisibilityChanged:
                     {
                         if (!visible && !keyPressed)
@@ -159,26 +139,21 @@ TabView
                     readOnly: !base.editingEnabled;
                     onEditingFinished: base.updateMaterialType(properties.material, text)
                 }
-
                 Label { width: scrollView.columnWidth; height: parent.rowHeight; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Color") }
                 Row
                 {
                     width: scrollView.columnWidth
                     height:  parent.rowHeight
                     spacing: Math.round(UM.Theme.getSize("default_margin").width / 2)
-
                     // color indicator square
                     Rectangle
                     {
                         id: colorSelector
                         color: properties.color_code
-
                         width: Math.round(colorLabel.height * 0.75)
                         height: Math.round(colorLabel.height * 0.75)
                         border.width: UM.Theme.getSize("default_lining").height
-
                         anchors.verticalCenter: parent.verticalCenter
-
                         // open the color selection dialog on click
                         MouseArea
                         {
@@ -187,7 +162,6 @@ TabView
                             enabled: base.editingEnabled
                         }
                     }
-
                     // pretty color name text field
                     ReadOnlyTextField
                     {
@@ -197,7 +171,6 @@ TabView
                         readOnly: !base.editingEnabled
                         onEditingFinished: base.setMetaDataEntry("color_name", properties.color_name, text)
                     }
-
                     // popup dialog to select a new color
                     // if successful it sets the properties.color_code value to the new color
                     ColorDialog
@@ -207,11 +180,8 @@ TabView
                         onAccepted: base.setMetaDataEntry("color_code", properties.color_code, color)
                     }
                 }
-
                 Item { width: parent.width; height: UM.Theme.getSize("default_margin").height }
-
                 Label { width: parent.width; height: parent.rowHeight; font.bold: true; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Properties") }
-
                 Label { width: scrollView.columnWidth; height: parent.rowHeight; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Density") }
                 ReadOnlySpinBox
                 {
@@ -277,7 +247,6 @@ TabView
                         updateCostPerMeter()
                     }
                 }
-
                 Label { width: scrollView.columnWidth; height: parent.rowHeight; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Filament weight") }
                 SpinBox
                 {
@@ -288,14 +257,12 @@ TabView
                     stepSize: 100
                     decimals: 0
                     maximumValue: 10000
-
                     onValueChanged:
                     {
                         base.setMaterialPreferenceValue(properties.guid, "spool_weight", parseFloat(value))
                         updateCostPerMeter()
                     }
                 }
-
                 Label { width: scrollView.columnWidth; height: parent.rowHeight; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Filament length") }
                 Label
                 {
@@ -304,7 +271,6 @@ TabView
                     verticalAlignment: Qt.AlignVCenter
                     height: parent.rowHeight
                 }
-
                 Label { width: scrollView.columnWidth; height: parent.rowHeight; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Cost per Meter") }
                 Label
                 {
@@ -313,7 +279,6 @@ TabView
                     verticalAlignment: Qt.AlignVCenter
                     height: parent.rowHeight
                 }
-
                 Item { width: parent.width; height: UM.Theme.getSize("default_margin").height; visible: unlinkMaterialButton.visible }
                 Label
                 {
@@ -334,32 +299,23 @@ TabView
                         base.reevaluateLinkedMaterials = true
                     }
                 }
-
                 Item { width: parent.width; height: UM.Theme.getSize("default_margin").height }
-
                 Label { width: parent.width; height: parent.rowHeight; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Description") }
-
                 ReadOnlyTextArea
                 {
                     text: properties.description;
                     width: 2 * scrollView.columnWidth
                     wrapMode: Text.WordWrap
-
                     readOnly: !base.editingEnabled;
-
                     onEditingFinished: base.setMetaDataEntry("description", properties.description, text)
                 }
-
                 Label { width: parent.width; height: parent.rowHeight; verticalAlignment: Qt.AlignVCenter; text: catalog.i18nc("@label", "Adhesion Information") }
-
                 ReadOnlyTextArea
                 {
                     text: properties.adhesion_info;
                     width: 2 * scrollView.columnWidth
                     wrapMode: Text.WordWrap
-
                     readOnly: !base.editingEnabled;
-
                     onEditingFinished: base.setMetaDataEntry("adhesion_info", properties.adhesion_info, text)
                 }
 
@@ -373,7 +329,6 @@ TabView
             }
         }
     }
-
     Tab
     {
         title: catalog.i18nc("@label", "Print settings")
@@ -384,12 +339,10 @@ TabView
             bottomMargin: UM.Theme.getSize("default_margin").height
             rightMargin: 0
         }
-
         ScrollView
         {
-            anchors.fill: parent;
-
-            ListView
+           anchors.fill: parent;
+           ListView
             {
                 model: UM.SettingDefinitionsModel
                 {
@@ -397,7 +350,6 @@ TabView
                     visibilityHandler: Cura.MaterialSettingsVisibilityHandler { }
                     expanded: ["*"]
                 }
-
                 delegate: UM.TooltipArea
                 {
                     width: childrenRect.width
@@ -440,10 +392,8 @@ TabView
                         suffix: " " + model.unit
                         maximumValue: 99999
                         decimals: model.unit == "mm" ? 2 : 0
-
                         onEditingFinished: materialPropertyProvider.setPropertyValue("value", value)
                     }
-
                     UM.ContainerPropertyProvider
                     {
                         id: materialPropertyProvider

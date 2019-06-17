@@ -15,10 +15,8 @@ Item
         id: catalog
         name: "cura"
     }
-
     width: parent.width
     height: childrenRect.height
-
     Label
     {
         id: header
@@ -35,7 +33,6 @@ Item
             right: parent.right
         }
     }
-
     //Printer type selector.
     Item
     {
@@ -76,7 +73,6 @@ Item
             width: Math.round(parent.width * 0.7) + UM.Theme.getSize("default_margin").width
             anchors.right: parent.right
             style: UM.Theme.styles.print_setup_header_button
-
             menu: Cura.PrinterTypeMenu { }
         }
     }
@@ -207,7 +203,6 @@ Item
             {
                 height: visible ? UM.Theme.getSize("setting_control").height : 0
                 visible: extrudersModel.count > 1  // If there is only one extruder, there is no point to enable/disable that.
-
                 Label
                 {
                     text: catalog.i18nc("@label", "Enabled")
@@ -218,7 +213,6 @@ Item
                     width: selectors.textWidth
                     renderType: Text.NativeRendering
                 }
-
                 OldControls.CheckBox
                 {
                     checked: Cura.MachineManager.activeStack != null ? Cura.MachineManager.activeStack.isEnabled : false
@@ -239,12 +233,10 @@ Item
                     }
                 }
             }
-
             Row
             {
                 height: visible ? UM.Theme.getSize("print_setup_big_item").height : 0
                 visible: Cura.MachineManager.hasMaterials
-
                 Label
                 {
                     text: catalog.i18nc("@label", "Material")
@@ -255,20 +247,15 @@ Item
                     width: selectors.textWidth
                     renderType: Text.NativeRendering
                 }
-
                 OldControls.ToolButton
                 {
                     id: materialSelection
-
                     property bool valueError: Cura.MachineManager.activeStack !== null ? Cura.ContainerManager.getContainerMetaDataEntry(Cura.MachineManager.activeStack.material.id, "compatible", "") !== "True" : true
                     property bool valueWarning: !Cura.MachineManager.isActiveQualitySupported
-
                     text: Cura.MachineManager.activeStack !== null ? Cura.MachineManager.activeStack.material.name : ""
                     tooltip: text
-
                     width: selectors.controlWidth
                     height: parent.height
-
                     style: UM.Theme.styles.print_setup_header_button
                     activeFocusOnPress: true
                     menu: Cura.MaterialMenu
@@ -299,12 +286,10 @@ Item
                     }
                 }
             }
-
             Row
             {
                 height: visible ? UM.Theme.getSize("print_setup_big_item").height : 0
                 visible: Cura.MachineManager.hasVariants
-
                 Label
                 {
                     text: Cura.MachineManager.activeDefinitionVariantsName
@@ -315,7 +300,6 @@ Item
                     width: selectors.textWidth
                     renderType: Text.NativeRendering
                 }
-
                 OldControls.ToolButton
                 {
                     id: variantSelection
@@ -325,7 +309,6 @@ Item
                     width: selectors.controlWidth
                     style: UM.Theme.styles.print_setup_header_button
                     activeFocusOnPress: true;
-
                     menu: Cura.NozzleMenu { extruderIndex: Cura.ExtruderManager.activeExtruderIndex }
                 }
             }

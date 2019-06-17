@@ -275,6 +275,7 @@ class ContainerManager(QObject):
     #   \return \type{bool} True if successful, False if not.
     @pyqtSlot(result = bool)
     def updateQualityChanges(self) -> bool:
+        Logger.log("e", "CALLED UPDATE QUALITY")
         global_stack = self._machine_manager.activeMachine
         if not global_stack:
             return False
