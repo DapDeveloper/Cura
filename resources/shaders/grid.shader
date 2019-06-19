@@ -87,7 +87,7 @@ fragment41core =
     }
 
 [defaults]
-u_plateColor = [1.0, 1.0, 1.0, 1.0]
+u_plateColor = [0.0, 1.0, 1.0, 1.0]
 u_gridColor0 = [0.96, 0.96, 0.96, 1.0]
 u_gridColor1 = [0.8, 0.8, 0.8, 1.0]
 

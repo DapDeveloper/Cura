@@ -9,7 +9,7 @@ import Cura 1.1 as Cura
 UM.PreferencesPage
 {
     //: General configuration page title
-    title: catalog.i18nc("@title:label","Printer Settings")
+    title: catalog.i18nc("@label","Dual Extrusion")
     id: generalPreferencesPage
     anchors
     {
@@ -30,13 +30,6 @@ UM.PreferencesPage
             bottom:parent.bottom
         }
         color: UM.Theme.getColor("wizard_color1")
-        /*  
-        border
-        {
-            color: UM.Theme.getColor("wizard_color1")
-            width: borderSize // TODO: Remove once themed
-        }
-        */
         radius: 5 * screenScaleFactor // TODO: Theme!
     }
     Column

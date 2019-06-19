@@ -520,7 +520,8 @@ UM.MainWindow
             insertPage(1, catalog.i18nc("@title:label","Quality"), Qt.resolvedUrl("Preferences/wizard/QualityPage.qml"));
             insertPage(2, catalog.i18nc("@title:label","Structure"), Qt.resolvedUrl("Preferences/wizard/StructurePage.qml"));
             insertPage(3, catalog.i18nc("@title:label","Adhesion"), Qt.resolvedUrl("Preferences/wizard/AdhesionPage.qml"));
-            insertPage(4, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
+            insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
+            insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
             setPage(0);
         }
         onVisibleChanged:
