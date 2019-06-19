@@ -19,18 +19,18 @@ Item
         id: pathSlider
         height: UM.Theme.getSize("slider_handle").width
         width: UM.Theme.getSize("slider_layerview_size").height
-
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: UM.Theme.getSize("default_margin").height
-
+        anchors.bottomMargin: 50//UM.Theme.getSize("default_margin").height
+        /*anchors.left:parent.left
+        anchors.leftMargin:200
+*/
         anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter:parent.verticalCenter
 
         visible: !UM.SimulationView.compatibilityMode
-
         // Custom properties
         handleValue: UM.SimulationView.currentPath
         maximumValue: UM.SimulationView.numPaths
-
         // Update values when layer data changes.
         Connections
         {
@@ -46,7 +46,6 @@ Item
                 pathSlider.setHandleValue(UM.SimulationView.currentPath)
             }
         }
-
         // Ensure that the slider handlers show the correct value after switching views.
         Component.onCompleted:
         {
@@ -173,15 +172,17 @@ Item
     LayerSlider
     {
         id: layerSlider
-
         width: UM.Theme.getSize("slider_handle").width
         height: UM.Theme.getSize("slider_layerview_size").height
 
         anchors
         {
-            right: parent.right
-            verticalCenter: parent.verticalCenter
-            rightMargin: UM.Theme.getSize("default_margin").width
+            left: parent.left
+            //verticalCenter: parent.verticalCenter
+            //rightMargin: UM.Theme.getSize("default_margin").width
+            top:parent.top
+            topMargin:50
+            leftMargin:10
         }
 
         // Custom properties
@@ -205,7 +206,6 @@ Item
                 layerSlider.setUpperValue(UM.SimulationView.currentLayer)
             }
         }
-
         // Make sure the slider handlers show the correct value after switching views
         Component.onCompleted:
         {

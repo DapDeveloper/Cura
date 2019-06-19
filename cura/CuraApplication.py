@@ -1646,44 +1646,35 @@ class CuraApplication(QtApplication):
         default_extruder_id = self._global_container_stack.extruders[default_extruder_position].getId()
         select_models_on_load = self.getPreferences().getValue("cura/select_models_on_load")
         for original_node in nodes:
-
             # Create a CuraSceneNode just if the original node is not that type
             if isinstance(original_node, CuraSceneNode):
                 node = original_node
             else:
                 node = CuraSceneNode()
                 node.setMeshData(original_node.getMeshData())
-
                 #Setting meshdata does not apply scaling.
                 if(original_node.getScale() != Vector(1.0, 1.0, 1.0)):
                     node.scale(original_node.getScale())
-
             node.setSelectable(True)
             node.setName(os.path.basename(file_name))
             self.getBuildVolume().checkBoundsAndUpdate(node)
-
             is_non_sliceable = "." + file_extension in self._non_sliceable_extensions
-
             if is_non_sliceable:
                 # Need to switch first to the preview stage and then to layer view
                 self.callLater(lambda: (self.getController().setActiveStage("PreviewStage"),
                                         self.getController().setActiveView("SimulationView")))
-
                 block_slicing_decorator = BlockSlicingDecorator()
                 node.addDecorator(block_slicing_decorator)
             else:
                 sliceable_decorator = SliceableObjectDecorator()
                 node.addDecorator(sliceable_decorator)
-
             scene = self.getController().getScene()
-
             # If there is no convex hull for the node, start calculating it and continue.
             if not node.getDecorator(ConvexHullDecorator):
                 node.addDecorator(ConvexHullDecorator())
             for child in node.getAllChildren():
                 if not child.getDecorator(ConvexHullDecorator):
                     child.addDecorator(ConvexHullDecorator())
-
             if file_extension != "3mf":
                 if node.callDecoration("isSliceable"):
                     # Only check position if it's not already blatantly obvious that it won't fit.
@@ -1699,7 +1690,6 @@ class CuraApplication(QtApplication):
 
                         # Step is for skipping tests to make it a lot faster. it also makes the outcome somewhat rougher
                         arranger.findNodePlacement(node, offset_shape_arr, hull_shape_arr, step = 10)
-
             # This node is deep copied from some other node which already has a BuildPlateDecorator, but the deepcopy
             # of BuildPlateDecorator produces one that's associated with build plate -1. So, here we need to check if
             # the BuildPlateDecorator exists or not and always set the correct build plate number.

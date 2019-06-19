@@ -70,10 +70,8 @@ Item
         RowLayout
         {
             id: itemRow
-
             anchors.left: openFileButton.right
             anchors.leftMargin: UM.Theme.getSize("default_margin").width
-
             width: Math.round(0.9 * prepareMenu.width)
             height: parent.height
             spacing: 0
@@ -121,6 +119,7 @@ Item
                 width: childrenRect.width
             }
     }*/
+    
         Button
         {
             id: openFileButton
@@ -128,7 +127,6 @@ Item
             width: UM.Theme.getSize("stage_menu").height
             onClicked: Cura.Actions.open.trigger()
             hoverEnabled: true
-
             contentItem: Item
             {
                 anchors.fill: parent

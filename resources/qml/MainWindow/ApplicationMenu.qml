@@ -46,8 +46,8 @@ Item
             title: catalog.i18nc("@title:menu menubar:toplevel", "E&xtensions")
             Instantiator
             {
-                id: extensions
-                model: UM.ExtensionModel { }
+               id: extensions
+               model: UM.ExtensionModel { }
                Menu
                 {
                     id: sub_menu

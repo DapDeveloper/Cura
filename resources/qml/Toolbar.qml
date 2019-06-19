@@ -32,9 +32,7 @@ Item
         id: buttons
         width: parent.visible ? toolButtons.width : 0
         height: childrenRect.height
-
         Behavior on width { NumberAnimation { duration: 100 } }
-
         // Used to create a rounded rectangle behind the toolButtons
         Rectangle
         {

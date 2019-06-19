@@ -10,10 +10,8 @@ import Cura 1.0 as Cura
 Tab
 {
     id: base
-
     property int extruderPosition: -1 //Denotes the global stack.
     property var qualityItem: null
-
     property bool isQualityItemCurrentlyActivated:
     {
         if (qualityItem == null)
@@ -39,7 +37,6 @@ Tab
                 height: childrenRect.height
                 width: (parent != null) ? parent.width : 0
                 text: (styleData.value.substr(0,1) == "=") ? styleData.value : ""
-
                 Label
                 {
                     anchors.left: parent.left

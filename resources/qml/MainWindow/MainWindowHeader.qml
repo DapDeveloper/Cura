@@ -34,12 +34,10 @@ Item
         x:10
         anchors
         {
-           
             horizontalCenter:parent.horizontalCenter
             //bottom:parent.bottom
             top:parent.top
         }
-        
         Repeater
         {
             id: stagesHeader

@@ -197,13 +197,11 @@ UM.PreferencesPage
                         currentIndex -= 1;
                     }
                 }
-
                 Label
                 {
                     id: currencyLabel
                     text: catalog.i18nc("@label","Currency:")
                 }
-
                 TextField
                 {
                     id: currencyField
@@ -478,7 +476,6 @@ UM.PreferencesPage
                     onCheckedChanged: UM.Preferences.setValue("mesh/scale_tiny_meshes", checked)
                 }
             }
-
             UM.TooltipArea
             {
                 width: childrenRect.width

@@ -76,12 +76,21 @@ Item
     {
         return Math.min(Math.max(value, sliderRoot.minimumValue), sliderRoot.maximumValue)
     }
-
+    Label
+    {
+        id:lblTitleSlider
+        text:"Layer"
+        anchors
+        {
+            horizontalCenter:parent.horizontalCenter
+            bottom:track.top
+            bottomMargin:20
+        }
+    }
     // Slider track
     Rectangle
     {
         id: track
-
         width: sliderRoot.trackThickness
         height: sliderRoot.height - sliderRoot.handleSize
         radius: sliderRoot.trackRadius
@@ -105,13 +114,10 @@ Item
         function onHandleDragged()
         {
             sliderRoot.manuallyChanged = true
-
             upperHandle.y = y - upperHandle.height
             lowerHandle.y = y + height
-
             var upperValue = sliderRoot.getUpperValueFromSliderHandle()
             var lowerValue = sliderRoot.getLowerValueFromSliderHandle()
-
             // set both values after moving the handle position
             UM.SimulationView.setCurrentLayer(upperValue)
             UM.SimulationView.setMinimumLayer(lowerValue)

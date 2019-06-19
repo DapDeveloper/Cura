@@ -102,14 +102,11 @@ Item
         radius: sliderRoot.handleRadius
         color: handleLabel.activeFocus ? sliderRoot.handleActiveColor : sliderRoot.handleColor
         visible: sliderRoot.pathsVisible
-
         function onHandleDragged()
         {
             sliderRoot.manuallyChanged = true
-
             // update the range handle
             sliderRoot.updateRangeHandle()
-
             // set the new value after moving the handle position
             UM.SimulationView.setCurrentPath(getValue())
         }
@@ -152,7 +149,6 @@ Item
         MouseArea
         {
             anchors.fill: parent
-
             drag
             {
                 target: parent
@@ -163,18 +159,15 @@ Item
             onPressed: handleLabel.forceActiveFocus()
             onPositionChanged: parent.onHandleDragged()
         }
-
         SimulationSliderLabel
         {
             id: handleLabel
-
             height: sliderRoot.handleSize + UM.Theme.getSize("default_margin").height
             y: parent.y + sliderRoot.handleSize + UM.Theme.getSize("default_margin").height
             anchors.horizontalCenter: parent.horizontalCenter
             target: Qt.point(x + width / 2, sliderRoot.height)
             visible: false
             startFrom: 0
-
             // custom properties
             maximumValue: sliderRoot.maximumValue
             value: sliderRoot.handleValue

@@ -29,6 +29,7 @@ Column
         id: information
         width: parent.width
         height: childrenRect.height
+        visible:false
         PrintInformationWidget
         {
             id: printInformationPanel
@@ -94,14 +95,16 @@ Column
             }
         }
     }
-    /*Item
+    Item
     {
         id: buttonRow
         anchors.right: parent.right
         anchors.left: parent.left
         height: UM.Theme.getSize("action_button").height
+        visible:false
         Cura.SecondaryButton
         {
+            visible:false
             id: previewStageShortcut
             anchors
             {
@@ -115,13 +118,13 @@ Column
             fixedWidthMode: true
             toolTipContentAlignment: Cura.ToolTip.ContentAlignment.AlignLeft
             onClicked: UM.Controller.setActiveStage("PreviewStage")
-        }
+    }/*
         Cura.OutputDevicesActionButton
         {
             id: outputDevicesButton
             anchors.right: parent.right
             width: previewStageShortcut.visible ? UM.Theme.getSize("action_button").width : parent.width
             height: UM.Theme.getSize("action_button").height
-        }
-    }*/
+        }*/
+    }
 }

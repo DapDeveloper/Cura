@@ -411,7 +411,6 @@ Cura.ExpandableComponent
                 color: UM.Theme.getColor("setting_control_text")
                 font: UM.Theme.getFont("default")
             }
-
             Label //Maximum value.
             {
                 text: {
@@ -430,13 +429,11 @@ Cura.ExpandableComponent
                     }
                     return catalog.i18nc("@label","max")
                 }
-
                 anchors.right: parent.right
                 color: UM.Theme.getColor("setting_control_text")
                 font: UM.Theme.getFont("default")
             }
         }
-
         // Gradient colors for feedrate
         Rectangle
         {
@@ -447,7 +444,6 @@ Cura.ExpandableComponent
             height: Math.round(UM.Theme.getSize("layerview_row").height * 1.5)
             border.width: UM.Theme.getSize("default_lining").width
             border.color: UM.Theme.getColor("lining")
-
             LinearGradient
             {
                 anchors
@@ -488,7 +484,6 @@ Cura.ExpandableComponent
                 }
             }
         }
-
         // Gradient colors for layer thickness (similar to parula colormap)
         Rectangle
         {
@@ -499,7 +494,6 @@ Cura.ExpandableComponent
             height: Math.round(UM.Theme.getSize("layerview_row").height * 1.5)
             border.width: UM.Theme.getSize("default_lining").width
             border.color: UM.Theme.getColor("lining")
-
             LinearGradient
             {
                 anchors
@@ -546,7 +540,6 @@ Cura.ExpandableComponent
             }
         }
     }
-
     FontMetrics
     {
         id: fontMetrics

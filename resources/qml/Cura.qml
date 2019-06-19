@@ -265,7 +265,6 @@ UM.MainWindow
                 }
             }
         }
-     
         Toolbar
         {
             // The toolbar is the left bar that is populated by all the tools (which are dynamicly populated by
@@ -281,7 +280,8 @@ UM.MainWindow
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
-        
+         
+
         ToolbarExt
         {
             // The toolbar is the left bar that is populated by all the tools (which are dynamicly populated by
@@ -298,7 +298,6 @@ UM.MainWindow
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
-
         ToolbarInformations
         {
             id:toolbarInformations
@@ -307,6 +306,70 @@ UM.MainWindow
                 verticalCenter:parent.verticalCenter
             }
         }
+        /*SimulationViewMainComponent
+        {
+                id:ssvc 
+                anchors.left:parent.left
+                amchors.top:parent.top
+        }*/
+        /*SimulationSliderLabel
+        {
+            id:lss
+            anchors
+            {
+                left:toolbarInformations.left
+                top:toolbarInformations.bottom
+            }
+        }*/
+     /*   PathSlider
+        {
+            id:svMain
+            anchors
+            {
+                left:toolbarInformations.left
+                top:toolbarInformations.bottom
+            }
+        }
+*/
+  /*       PathSlider
+    {
+        id: pathSlider
+        height: UM.Theme.getSize("slider_handle").width
+        width: UM.Theme.getSize("slider_layerview_size").height
+        anchors
+            {
+                left:toolbarInformations.left
+                top:toolbarInformations.bottom
+            }
+        visible: !UM.SimulationView.compatibilityMode
+        // Custom properties
+        handleValue: UM.SimulationView.currentPath
+        maximumValue: UM.SimulationView.numPaths
+        // Update values when layer data changes.
+        Connections
+        {
+            target: UM.SimulationView
+            onMaxPathsChanged: pathSlider.setHandleValue(UM.SimulationView.currentPath)
+            onCurrentPathChanged:
+            {
+                // Only pause the simulation when the layer was changed manually, not when the simulation is running
+                if (pathSlider.manuallyChanged)
+                {
+                    playButton.pauseSimulation()
+                }
+                pathSlider.setHandleValue(UM.SimulationView.currentPath)
+            }
+        }
+
+        // Ensure that the slider handlers show the correct value after switching views.
+        Component.onCompleted:
+        {
+            pathSlider.setHandleValue(UM.SimulationView.currentPath)
+        }
+
+    }
+*/
+
         /*ObjectsList
         {
             id: objectsList

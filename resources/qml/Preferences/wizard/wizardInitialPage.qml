@@ -73,7 +73,6 @@ UM.PreferencesPage
             }
             anchors.topMargin:10
         }
-      
         Label
         {
             id:lblTitleMaterials
@@ -99,19 +98,19 @@ UM.PreferencesPage
             id: printerSetup
             width:parent.width
         }
-                Cura.CustomPrintSetupEasy
-                {
-                   
-                    anchors.topMargin:10
-                    id: machineProfile
-                    width:parent.width
-                    height:210
-                    anchors
-                    {
-                        left:printerSetup.left
-                        top:printerSetup.bottom
-                    }
-                }
+        Cura.CustomPrintSetupEasy
+        {
+            
+            anchors.topMargin:10
+            id: machineProfile
+            width:parent.width
+            height:210
+            anchors
+            {
+                left:printerSetup.left
+                top:printerSetup.bottom
+            }
+        }
 
        /* Label
         {

@@ -175,7 +175,7 @@ Item
                         top:definitionsModel.bottom
                     }
                 }
-                  Label
+                Label
                 {
                     id:lblTemperatureFirstLayer
                     text:catalog.i18nc("@title:label", "Printing Temperature Initial Layer")+":"+firstLayerTemperature.properties.value
@@ -195,7 +195,7 @@ Item
                         top:lblTemperatureFirstLayer.bottom
                     }
                 }
-                      Label
+                Label
                 {
                     id:lblLayerHeight
                     text:catalog.i18nc("@title:label", "Layer Height")+":"+layerHeight.properties.value
@@ -205,7 +205,7 @@ Item
                         top:lblTemperatureBed.bottom
                     }
                 }
-                      Label
+                Label
                 {
                     id:lblNozzleSize
                     text:catalog.i18nc("@title:label", "Nozzle Size")+":"+nozzleSize.properties.value
@@ -215,7 +215,7 @@ Item
                         top:lblLayerHeight.bottom
                     }
                 }
-                         Label
+                Label
                 {
                     id:lblFilamentDiameter
                     text:catalog.i18nc("@title:label", "Filament diameter")+":"+filamentDiameter.properties.value

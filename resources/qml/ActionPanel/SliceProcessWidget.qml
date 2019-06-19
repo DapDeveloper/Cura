@@ -13,6 +13,7 @@ import Cura 1.0 as Cura
 Column
 {
     id: widget
+    visible:false
     spacing: UM.Theme.getSize("thin_margin").height
     UM.I18nCatalog
     {
@@ -32,7 +33,7 @@ Column
             CuraApplication.backend.stopSlicing()
         }
     }
-    Label
+    /*Label
     {
         id: autoSlicingLabel
         width: parent.width
@@ -41,7 +42,7 @@ Column
         color: UM.Theme.getColor("text")
         font: UM.Theme.getFont("default")
         renderType: Text.NativeRendering
-    }
+    }*/
     Cura.IconWithText
     {
         id: unableToSliceMessage
@@ -69,8 +70,8 @@ Column
         // Disable the slice process when
         width: parent.width
         height: UM.Theme.getSize("action_button").height
-        visible: !autoSlice
-        /*Cura.PrimaryButton
+        visible: false//!autoSlice
+        Cura.PrimaryButton
         {
             id: sliceButton
             width:parent.width/2
@@ -81,7 +82,7 @@ Column
             enabled: widget.backendState != UM.Backend.Error
             visible: widget.backendState == UM.Backend.NotStarted || widget.backendState == UM.Backend.Error
             onClicked: sliceOrStopSlicing()
-        }*/
+        }
         Cura.PrimaryButton
         {
             id: sliceWizardButton
@@ -92,10 +93,10 @@ Column
             leftPadding: UM.Theme.getSize("default_margin").width
             rightPadding: UM.Theme.getSize("default_margin").width
             text: catalog.i18nc("@button", "Wizard")
-            visible: true
+            visible: false
             onClicked: Cura.Actions.sliceWizard.trigger()
         }
-       /* Cura.SecondaryButton
+        /*Cura.SecondaryButton
         {
             id: cancelButton
             fixedWidthMode: true

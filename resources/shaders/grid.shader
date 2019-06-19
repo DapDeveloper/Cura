@@ -91,6 +91,7 @@ u_plateColor = [1.0, 1.0, 1.0, 1.0]
 u_gridColor0 = [0.96, 0.96, 0.96, 1.0]
 u_gridColor1 = [0.8, 0.8, 0.8, 1.0]
 
+
 [bindings]
 u_modelViewProjectionMatrix = model_view_projection_matrix
 

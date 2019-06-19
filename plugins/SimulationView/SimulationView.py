@@ -37,16 +37,12 @@ from .SimulationPass import SimulationPass
 from .SimulationViewProxy import SimulationViewProxy
 import numpy
 import os.path
-
 from typing import Optional, TYPE_CHECKING, List, cast
-
 if TYPE_CHECKING:
     from UM.Scene.SceneNode import SceneNode
     from UM.Scene.Scene import Scene
     from UM.Settings.ContainerStack import ContainerStack
-
 catalog = i18nCatalog("cura")
-
 
 ## View used to display g-code paths.
 class SimulationView(CuraView):
@@ -55,7 +51,6 @@ class SimulationView(CuraView):
     LAYER_VIEW_TYPE_LINE_TYPE = 1
     LAYER_VIEW_TYPE_FEEDRATE = 2
     LAYER_VIEW_TYPE_THICKNESS = 3
-
     def __init__(self, parent = None) -> None:
         super().__init__(parent)
 
@@ -110,12 +105,9 @@ class SimulationView(CuraView):
         self._solid_layers = int(Application.getInstance().getPreferences().getValue("view/top_layer_count"))
         self._only_show_top_layers = bool(Application.getInstance().getPreferences().getValue("view/only_show_top_layers"))
         self._compatibility_mode = self._evaluateCompatibilityMode()
-
         self._wireprint_warning_message = Message(catalog.i18nc("@info:status", "Cura does not accurately display layers when Wire Printing is enabled"),
                                                   title = catalog.i18nc("@info:title", "Simulation View"))
-
         QtApplication.getInstance().engineCreatedSignal.connect(self._onEngineCreated)
-
     def _onEngineCreated(self) -> None:
         plugin_path = PluginRegistry.getInstance().getPluginPath(self.getPluginId())
         if plugin_path:
@@ -123,10 +115,8 @@ class SimulationView(CuraView):
             self.addDisplayComponent("menu", os.path.join(plugin_path, "SimulationViewMenuComponent.qml"))
         else:
             Logger.log("e", "Unable to find the path for %s", self.getPluginId())
-
     def _evaluateCompatibilityMode(self) -> bool:
         return OpenGLContext.isLegacyOpenGL() or bool(Application.getInstance().getPreferences().getValue("view/force_layer_view_compatibility_mode"))
-
     def _resetSettings(self) -> None:
         self._layer_view_type = 0  # type: int # 0 is material color, 1 is color by linetype, 2 is speed, 3 is layer thickness
         self._extruder_count = 0
@@ -136,16 +126,13 @@ class SimulationView(CuraView):
         self._show_skin = True
         self._show_infill = True
         self.resetLayerData()
-
     def getActivity(self) -> bool:
         return self._activity
-
     def setActivity(self, activity: bool) -> None:
         if self._activity == activity:
             return
         self._activity = activity
         self.activityChanged.emit()
-
     def getSimulationPass(self) -> SimulationPass:
         if not self._layer_pass:
             # Currently the RenderPass constructor requires a size > 0
@@ -154,52 +141,38 @@ class SimulationView(CuraView):
             self._compatibility_mode = self._evaluateCompatibilityMode()
             self._layer_pass.setSimulationView(self)
         return self._layer_pass
-
     def getCurrentLayer(self) -> int:
         return self._current_layer_num
-
     def getMinimumLayer(self) -> int:
         return self._minimum_layer_num
-
     def getMaxLayers(self) -> int:
         return self._max_layers
-
     def getCurrentPath(self) -> int:
         return self._current_path_num
-
     def getMinimumPath(self) -> int:
         return self._minimum_path_num
-
     def getMaxPaths(self) -> int:
         return self._max_paths
-
     def getNozzleNode(self) -> NozzleNode:
         if not self._nozzle_node:
             self._nozzle_node = NozzleNode()
         return self._nozzle_node
-
     def _onSceneChanged(self, node: "SceneNode") -> None:
         if node.getMeshData() is None:
             self.resetLayerData()
-
         self.setActivity(False)
         self.calculateMaxLayers()
         self.calculateMaxPathsOnLayer(self._current_layer_num)
-
     def isBusy(self) -> bool:
         return self._busy
-
     def setBusy(self, busy: bool) -> None:
         if busy != self._busy:
             self._busy = busy
             self.busyChanged.emit()
-
     def isSimulationRunning(self) -> bool:
         return self._simulation_running
-
     def setSimulationRunning(self, running: bool) -> None:
         self._simulation_running = running
-
     def resetLayerData(self) -> None:
         self._current_layer_mesh = None
         self._current_layer_jumps = None
@@ -207,27 +180,22 @@ class SimulationView(CuraView):
         self._min_feedrate = sys.float_info.max
         self._max_thickness = sys.float_info.min
         self._min_thickness = sys.float_info.max
-
     def beginRendering(self) -> None:
         scene = self.getController().getScene()
         renderer = self.getRenderer()
-
         if not self._ghost_shader:
             self._ghost_shader = OpenGL.getInstance().createShaderProgram(Resources.getPath(Resources.Shaders, "color.shader"))
             theme = CuraApplication.getInstance().getTheme()
             if theme is not None:
                 self._ghost_shader.setUniformValue("u_color", Color(*theme.getColor("layerview_ghost").getRgb()))
-
         for node in DepthFirstIterator(scene.getRoot()):  # type: ignore
             # We do not want to render ConvexHullNode as it conflicts with the bottom layers.
             # However, it is somewhat relevant when the node is selected, so do render it then.
             if type(node) is ConvexHullNode and not Selection.isSelected(node.getWatchedNode()):
                 continue
-
             if not node.render(renderer):
                 if (node.getMeshData()) and node.isVisible():
                     renderer.queueNode(node, transparent = True, shader = self._ghost_shader)
-
     def setLayer(self, value: int) -> None:
         if self._current_layer_num != value:
             self._current_layer_num = value
@@ -237,9 +205,7 @@ class SimulationView(CuraView):
                 self._current_layer_num = self._max_layers
             if self._current_layer_num < self._minimum_layer_num:
                 self._minimum_layer_num = self._current_layer_num
-
             self._startUpdateTopLayers()
-
             self.currentLayerNumChanged.emit()
 
     def setMinimumLayer(self, value: int) -> None:
@@ -251,9 +217,7 @@ class SimulationView(CuraView):
                 self._minimum_layer_num = self._max_layers
             if self._minimum_layer_num > self._current_layer_num:
                 self._current_layer_num = self._minimum_layer_num
-
             self._startUpdateTopLayers()
-
             self.currentLayerNumChanged.emit()
 
     def setPath(self, value: int) -> None:
@@ -265,9 +229,7 @@ class SimulationView(CuraView):
                 self._current_path_num = self._max_paths
             if self._current_path_num < self._minimum_path_num:
                 self._minimum_path_num = self._current_path_num
-
             self._startUpdateTopLayers()
-
             self.currentPathNumChanged.emit()
 
     def setMinimumPath(self, value: int) -> None:
@@ -279,9 +241,7 @@ class SimulationView(CuraView):
                 self._minimum_path_num = self._max_layers
             if self._minimum_path_num > self._current_path_num:
                 self._current_path_num = self._minimum_path_num
-
             self._startUpdateTopLayers()
-
             self.currentPathNumChanged.emit()
 
     ##  Set the layer view type
@@ -428,7 +388,6 @@ class SimulationView(CuraView):
                 self.maxPathsChanged.emit()
 
             self.setPath(int(new_max_paths))
-
     maxLayersChanged = Signal()
     maxPathsChanged = Signal()
     currentLayerNumChanged = Signal()
@@ -643,27 +602,20 @@ class _CreateTopLayersJob(Job):
             except Exception:
                 Logger.logException("w", "An exception occurred while creating layer mesh.")
                 return
-
             if not layer or layer.getVertices() is None:
                 continue
-
             layer_mesh.addIndices(layer_mesh.getVertexCount() + layer.getIndices())
             layer_mesh.addVertices(layer.getVertices())
-
             # Scale layer color by a brightness factor based on the current layer number
             # This will result in a range of 0.5 - 1.0 to multiply colors by.
             brightness = numpy.ones((1, 4), dtype=numpy.float32) * (2.0 - (i / self._solid_layers)) / 2.0
             brightness[0, 3] = 1.0
             layer_mesh.addColors(layer.getColors() * brightness)
-
             if self._cancel:
                 return
-
             Job.yieldThread()
-
         if self._cancel:
             return
-
         Job.yieldThread()
         jump_mesh = layer_data.getLayer(self._layer_number).createJumps()
         if not jump_mesh or jump_mesh.getVertices() is None:

@@ -16,6 +16,7 @@ Item
     property bool hasPreviewButton: true
     Rectangle
     {
+        visible:false
         id: actionPanelWidget
         width: UM.Theme.getSize("action_panel_widget").width
         height: childrenRect.height + 2 * UM.Theme.getSize("thick_margin").height
