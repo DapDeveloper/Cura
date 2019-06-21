@@ -114,18 +114,15 @@ Column
         Label
         {
             id: byMaterialType
-
             property var printMaterialLengths: PrintInformation.materialLengths
             property var printMaterialWeights: PrintInformation.materialWeights
             property var printMaterialCosts: PrintInformation.materialCosts
             property var printMaterialNames: PrintInformation.materialNames
             property var columnWidthMultipliers: [ 0.46, 0.18, 0.18, 0.18 ]
             property var columnHorizontalAligns: [ Text.AlignLeft, Text.AlignHCenter, Text.AlignHCenter, Text.AlignRight ]
-
             function getMaterialTable()
             {
                 var result = []
-
                 var lengths = []
                 var weights = []
                 var costs = []

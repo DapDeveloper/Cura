@@ -249,6 +249,13 @@ class CuraEngineBackend(QObject, Backend):
         if build_plate_to_be_sliced not in num_objects or num_objects[build_plate_to_be_sliced] == 0:
             self._scene.gcode_dict[build_plate_to_be_sliced] = [] #type: ignore #Because we created this attribute above.
             Logger.log("d", "Build plate %s has no objects to be sliced, skipping", build_plate_to_be_sliced)
+            #status_message = Message(i18n_catalog.i18nc("@info:status", "Finding new location for objects"),
+            #                     lifetime = 0,
+            #                     dismissable=False,
+            #                     progress = 0,
+            #                     title = i18n_catalog.i18nc("@info:title", "Finding Location"))
+            #status_message.show()
+
             if self._build_plates_to_be_sliced:
                 self.slice()
             return

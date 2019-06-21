@@ -13,7 +13,7 @@ class WhatsNewPagesModel(WelcomePagesModel):
     def initialize(self) -> None:
         self._pages = []
         self._pages.append({"id": "whats_new",
-                            "page_url": self._getBuiltinWelcomePagePath("WhatsNewContent.qml"),
+                            "page_url": self._getBuiltinWelcomePagePath("WhatsNewContentWizard.qml"),
                             "next_page_button_text": self._catalog.i18nc("@action:button", "Close"),
                             })
         self.setItems(self._pages)

@@ -7589,3 +7589,17 @@ msgstr "X3GWriter"
 #~ msgctxt "@label"
 #~ msgid "Active printer"
 #~ msgstr "Stampante selezionata:"
+
+
+msgctxt "@button"
+msgid "Add Model"
+msgstr "Aggiungi modello 3D"
+
+#~ msgctxt "@label"
+#~ msgid "Want add model"
+#~ msgstr "Vuoi aggiungere modelli 3d?"
+
+#~ msgctxt "@label"
+#~ msgid "Choose your printer"
+#~ msgstr "Segli la tua stampante"
+

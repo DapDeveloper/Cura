@@ -2774,7 +2774,7 @@
                         }
                     }
                 },
-                "skin_overlap":
+                " ":
                 {
                     "label": "Skin Overlap Percentage",
                     "description": "Adjust the amount of overlap between the walls and (the endpoints of) the skin-centerlines, as a percentage of the line widths of the skin lines and the innermost wall. A slight overlap allows the walls to connect firmly to the skin. Note that, given an equal skin and wall line-width, any percentage over 50% may already cause any skin to go past the wall, because at that point the position of the nozzle of the skin-extruder may already reach past the middle of the wall.",
@@ -3857,7 +3857,6 @@
                             "default_value": 3000,
                             "value": "machine_acceleration_wall",
                             "enabled": true,
-                          
                             "settable_per_mesh": false,
                             "settable_per_extruder": false,
                             "settable_per_meshgroup": false,
@@ -3875,11 +3874,10 @@
                                     "default_value": 3000,
                                     "value": "machine_acceleration_wall0",
                                     "enabled": true,
-                                    "limit_to_extruder": "wall_0_extruder_nr",
-                                     
-                            "settable_per_mesh": false,
-                            "settable_per_extruder": false,
-                            "settable_per_meshgroup": false
+                                    "limit_to_extruder": "wall_0_extruder_nr",        
+                                    "settable_per_mesh": false,
+                                    "settable_per_extruder": true,
+                                    "settable_per_meshgroup": false
                                 },
                                 "acceleration_wall_x":
                                 {
@@ -3893,7 +3891,6 @@
                                     "default_value": 3000,
                                     "value": "machine_acceleration_wallX",
                                     "enabled": true,
-                                    "limit_to_extruder": "wall_x_extruder_nr",
                                      
                             "settable_per_mesh": false,
                             "settable_per_extruder": false,
@@ -3913,7 +3910,6 @@
                             "default_value": 3000,
                             "value": "machine_acceleration_roofing",
                             "enabled": true,
-                            "limit_to_extruder": "roofing_extruder_nr",
                               
                             "settable_per_mesh": false,
                             "settable_per_extruder": false,
@@ -3931,8 +3927,6 @@
                             "default_value": 3000,
                             "value": "machine_acceleration_topbottom",
                             "enabled": true,
-                            "limit_to_extruder": "top_bottom_extruder_nr",
-                            
                             "settable_per_mesh": false,
                             "settable_per_extruder": false,
                             "settable_per_meshgroup": false
@@ -3949,8 +3943,6 @@
                             "default_value": 3000,
                             "value": "machine_acceleration_support",
                             "enabled": true,
-                
-                            
                             "settable_per_mesh": false,
                             "settable_per_extruder": false,
                             "settable_per_meshgroup": false,
@@ -4776,10 +4768,10 @@
                     "type": "extruder",
                     "default_value": "0",
                     "value": "machine_support_extruder_nr",
-                    "enabled": false,
+                    "enabled": true,
                     "settable_per_mesh": false,
                     "settable_per_extruder": true,
-                    "visible": false,
+                    "visible": true,
                     "children": {
                         "support_infill_extruder_nr":
                         {
@@ -4788,9 +4780,9 @@
                             "type": "extruder",
                             "default_value": "0",
                             "value": "machine_support_infill_extruder_nr",
-                            "enabled": false,
+                            "enabled": true,
                             "settable_per_mesh": false,       
-                             "visible": false,
+                             "visible": true,
                             "settable_per_extruder": true
                         },
                         "support_extruder_nr_layer_0":
@@ -4800,9 +4792,9 @@
                             "type": "extruder",
                             "default_value": "0",
                             "value": "machine_support_infill_extruder_nr_layer0",
-                            "enabled": false,
+                            "enabled": true,
                             "settable_per_mesh": false,
-                            "visible": false,
+                            "visible": true,
                             "settable_per_extruder": true
                         },
                         "support_interface_extruder_nr":
@@ -4812,9 +4804,9 @@
                             "type": "extruder",
                             "default_value": "0",
                             "value": "machine_support_interface_extruder_nr",
-                            "enabled": false,
+                            "enabled": true,
                             "settable_per_mesh": false,
-                            "visible": false,
+                            "visible": true,
                             "settable_per_extruder": true,
                             "children":
                             {
@@ -4825,9 +4817,9 @@
                                     "type": "extruder",
                                     "default_value": "0",
                                     "value": "machine_support_roof_extruder_nr",
-                                    "enabled": false,
+                                    "enabled": true,
                                     "settable_per_mesh": false,
-                                    "visible": false,
+                                    "visible": true,
                                     "settable_per_extruder": true
                                 },
                                 "support_bottom_extruder_nr":
@@ -4836,9 +4828,9 @@
                                     "description": "The extruder train to use for printing the floors of the support. This is used in multi-extrusion.",
                                     "type": "extruder",
                                     "default_value": "0",
-                                    "visible": false,
+                                    "visible": true,
                                     "value": "machine_support_bottom_extruder_nr",
-                                    "enabled": false,
+                                    "enabled": true,
                                     "settable_per_mesh": false,
                                     "settable_per_extruder": true
                                 }

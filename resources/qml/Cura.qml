@@ -57,6 +57,19 @@ UM.MainWindow
         visible: true  // True, so if somehow no preferences are found/loaded, it's shown anyway.
         z: greyOutBackground.z + 1
     }
+    WelcomeDialogWizardItem
+    {
+        id: welcomeDialogWizardItem
+        visible: true  // True, so if somehow no preferences are found/loaded, it's shown anyway.
+        z: greyOutBackground.z + 1
+    }
+    
+    Connections
+    {
+        target:Cura.Actions.closeWelcomeWindow
+        onTriggered:welcomeDialogWizardItem.visible=false
+    }
+
     Component.onCompleted:
     {
         CuraApplication.setMinimumWindowSize(UM.Theme.getSize("window_minimum_size"))
@@ -93,11 +106,12 @@ UM.MainWindow
                 welcomeDialogItem.model = CuraApplication.getWhatsNewPagesModel()
                 welcomeDialogItem.progressBarVisible = false
                 welcomeDialogItem.visible = true
-            }
+           }
+            welcomeDialogWizardItem.model = CuraApplication.getWelcomeWizardPagesModel()
+                welcomeDialogWizardItem.progressBarVisible = false
+                welcomeDialogWizardItem.visible = true
         }
     }
-
-  
 
     Item
     {
@@ -194,25 +208,86 @@ UM.MainWindow
         Item
         {
             id:profileItem
-            width:200
+            width:500
             anchors
             {
                 right:parent.right
                 top:parent.top
             }
             anchors.topMargin:20
+            Cura.ConfigurationMenuSimple
+            {
+                id: materialsViewer
+                height:50
+                width:300
+                anchors
+                {
+                //left:gPPs.left
+              // horizontalCenter:parent.horizontalCenter
+                right:parent.right
+               //verticalCenter:parent.verticalCenter
+                top:parent.top    
+                }
+            }
             Cura.GlobalProfileSelectorMW
             {
                 id:gPPs
                 visible:true
-                width:300
+                //width:100
+                width:200
                 anchors
                 {
-                    left:parent.left
-                    top:parent.top
+                    //left:parent.left
+                    //horizontalCenter:materialsViewer.horizontalCenter
+                    right:parent.right
+                    top:materialsViewer.bottom
+                }
+            }
+
+        }
+        /*Item
+        {
+            id:itemMaterialWindow
+            anchors
+            {
+                horizontalCenter:parent.horizontalCenter
+                verticalCenter:parent.verticalCenter
+            }
+            Cura.ConfigurationMenuSimple
+            {
+                id: printerSetup
+                height:50
+                anchors
+                {
+                //left:gPPs.left
+               horizontalCenter:parent.horizontalCenter
+               verticalCenter:parent.verticalCenter
                 }
             }
         }
+        /*
+        Item
+        {
+            id:ppI
+            width:300
+            anchors
+            {
+                left:profileItem.left
+                top:profileItem.bottom
+            }
+            Cura.ConfigurationMenu
+            {
+                anchors
+                {
+                   left:parent.left
+                   top:parent.top
+                }
+                id: printerSetup
+                width:300
+                height:50
+            }
+        }*/
+
         MainWindowHeader
         {
             id: mainWindowHeader
@@ -237,13 +312,11 @@ UM.MainWindow
         DropArea
         {
             // The drop area is here to handle files being dropped onto Cura.
-           anchors.fill: parent
-        
+            anchors.fill: parent
             onDropped:
             {
                 if (drop.urls.length > 0)
                 {
-
                     var nonPackages = [];
                     for (var i = 0; i < drop.urls.length; i++)
                     {
@@ -280,7 +353,6 @@ UM.MainWindow
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
-         
 
         ToolbarExt
         {
@@ -294,7 +366,6 @@ UM.MainWindow
                 //verticalCenter: parent.verticalCenter
                 bottom:parent.bottom
                 right: parent.right
-
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
@@ -304,7 +375,10 @@ UM.MainWindow
             anchors{
                 right:parent.right
                 verticalCenter:parent.verticalCenter
+                //top:gPPs.bottom
+
             }
+            anchors.topMargin:100
         }
         /*SimulationViewMainComponent
         {
@@ -394,7 +468,6 @@ UM.MainWindow
                 right: parent.right
                 bottom: parent.bottom
             }
-      
             source: UM.Controller.activeStage != null ? UM.Controller.activeStage.mainComponent : ""
         }
         Loader//open file btn
@@ -406,7 +479,6 @@ UM.MainWindow
             anchors
             {
                 left: parent.left
-        
                 //bottom:parent.bottom
                 top:parent.top
             }
@@ -501,48 +573,105 @@ UM.MainWindow
         target: Cura.Actions.preferences
         onTriggered: preferences.visible = true
     }
+
+    
     Connections
     {
         target: CuraApplication
         onShowPreferencesWindow: preferences.visible = true
     }
+    UM.SettingPropertyProvider
+    {
+        id: machineExtruderCount
+
+        containerStackId: Cura.MachineManager.activeMachineId
+        key: "machine_extruder_count"
+        watchedProperties: [ "value" ]
+        storeIndex: 0
+    }
+
     UM.SliceWizard
     {
         id: sliceWizard
+        property bool multipleExtruders: extrudersModel.count > 1
+        property var extrudersModel: CuraApplication.getExtrudersModel()
+        property var pages:5
         Component.onCompleted:
-        {
+        {//:update()
             removePage(0);
             removePage(1);
             removePage(2);
             removePage(3);
             removePage(4);
+            removePage(5);
             insertPage(0, catalog.i18nc("@title:label","Printer Settings"), Qt.resolvedUrl("Preferences/wizard/wizardInitialPage.qml"));
             insertPage(1, catalog.i18nc("@title:label","Quality"), Qt.resolvedUrl("Preferences/wizard/QualityPage.qml"));
             insertPage(2, catalog.i18nc("@title:label","Structure"), Qt.resolvedUrl("Preferences/wizard/StructurePage.qml"));
             insertPage(3, catalog.i18nc("@title:label","Adhesion"), Qt.resolvedUrl("Preferences/wizard/AdhesionPage.qml"));
             insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
             insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
+            pages=5;
             setPage(0);
         }
-        onVisibleChanged:
+        function update()
         {
+            if(!multipleExtruders)
+            {
+                if(pages==5){
+                removePage(4);
+                pages=4;
+                }
+            } else
+            {
+                if(pages==4)
+                {
+                removePage(4);
+                removePage(5);
+                insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
+                insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
+                pages=5;
+                }
+            }
+        }
+       /* onVisibleChanged:
+        {
+            /*if(!machineExtruderCount.properties.value>1)
+            removePage(4);
             // When the dialog closes, switch to the General page.
             // This prevents us from having a heavy page like Setting Visiblity active in the background.
             setPage(0);
-        }
+
+            if(!multipleExtruders)
+            {
+                 removePage(4);
+                 removePage(5);
+                 insertPage(4, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
+            }
+            else
+            {
+                removePage(4);
+                removePage(5);
+                insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
+                insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
+            }
+    }*/
+    }
+
+    Connections
+    {
+        target: CuraApplication.getExtrudersModel()
+        onItemsChanged: sliceWizard.update()
     }
     Connections
     {
         target: Cura.Actions.sliceWizard
-        onTriggered: sliceWizard.visible = true
+        onTriggered: sliceWizard.visible=true 
     }
     Connections
     {
         target: Cura.Actions.sliceWizardHide
         onTriggered: sliceWizard.visible = false
     }
-
-
     UM.ProfileEditPage
     {
         property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
@@ -714,7 +843,6 @@ UM.MainWindow
         {
             if (!visible)
             {
-                // reset the text to default because other modules may change the message text.
                 text = catalog.i18nc("@label", "Are you sure you want to exit Cura?");
             }
         }

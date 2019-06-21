@@ -146,6 +146,11 @@
     },
 
     "colors": {
+
+        "mat_show_background_color":[198,198,198,255],
+        "mat_show_active_color":[198,198,198,255],
+        "mat_show_hover_color":[198,198,198,255],
+
         "psColor":[188,188,188,100],
         "wizard":[255,0,0,255],
         "main_background": [217, 217,217, 255],

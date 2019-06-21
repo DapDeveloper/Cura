@@ -3,10 +3,8 @@
 
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-
 import UM 1.3 as UM
 import Cura 1.1 as Cura
-
 
 //
 // This component contains the content for the "Welcome" page of the welcome on-boarding process.
@@ -14,13 +12,11 @@ import Cura 1.1 as Cura
 Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     Column  // Arrange the items vertically and put everything in the center
     {
         anchors.centerIn: parent
         width: parent.width
         spacing: UM.Theme.getSize("wide_margin").height
-
         Label
         {
             id: titleLabel

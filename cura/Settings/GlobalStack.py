@@ -63,10 +63,11 @@ class GlobalStack(CuraContainerStack):
 
         machine_extruder_count = self.getProperty("machine_extruder_count", "value")
         return result_list[:machine_extruder_count]
-
+        
     @pyqtProperty(int, constant = True)
     def maxExtruderCount(self):
         return len(self.getMetaDataEntry("machine_extruder_trains"))
+
 
     @classmethod
     def getLoadingPriority(cls) -> int:
@@ -237,7 +238,6 @@ class GlobalStack(CuraContainerStack):
     def isValid(self) -> bool:
         container_registry = ContainerRegistry.getInstance()
         extruder_trains = container_registry.findContainerStacks(type = "extruder_train", machine = self.getId())
-
         machine_extruder_count = self.getProperty("machine_extruder_count", "value")
         extruder_check_position = set()
         for extruder_train in extruder_trains:
@@ -248,19 +248,14 @@ class GlobalStack(CuraContainerStack):
             if str(check_position) not in extruder_check_position:
                 return False
         return True
-
     def getHeadAndFansCoordinates(self):
         return self.getProperty("machine_head_with_fans_polygon", "value")
-
     def getHasMaterials(self) -> bool:
         return parseBool(self.getMetaDataEntry("has_materials", False))
-
     def getHasVariants(self) -> bool:
         return parseBool(self.getMetaDataEntry("has_variants", False))
-
     def getHasVariantsBuildPlates(self) -> bool:
         return parseBool(self.getMetaDataEntry("has_variant_buildplates", False))
-
     def getHasMachineQuality(self) -> bool:
         return parseBool(self.getMetaDataEntry("has_machine_quality", False))
     def has_heated_chamber(self):
@@ -269,8 +264,6 @@ class GlobalStack(CuraContainerStack):
         return self.getProperty("machine_heated_bed","value")    
     def getMachineExtruderCount(self):
         return self.getProperty("machine_extruder_count", "value")
-    ##  Get default firmware file name if one is specified in the firmware
-
     ##  Get default firmware file name if one is specified in the firmware
     @pyqtSlot(result = str)
     def getDefaultFirmwareName(self) -> str:

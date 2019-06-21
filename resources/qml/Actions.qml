@@ -48,7 +48,7 @@ Item
     property alias sliceWizardHide:sliceWizardActionHide;
     property alias profileEdit:profileEditAction;
     property alias profileEditHide:profileEditActionHide;
-    
+    property alias closeWelcomeWindow:welcomeWindowHide;
     
     property alias about: aboutAction;
     property alias toggleFullScreen: toggleFullScreenAction;
@@ -152,6 +152,15 @@ Item
         text: catalog.i18nc("@action:inmenu", "Wizard");
         iconName: "configure";
     } 
+    
+     Action
+    {
+        id: welcomeWindowHide;
+        text: catalog.i18nc("@action:inmenu", "");
+        iconName: "configure";
+    }
+
+
     Action
     {
         id: addMachineAction;

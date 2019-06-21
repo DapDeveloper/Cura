@@ -5099,3 +5099,16 @@ msgstr ""
 #~ msgctxt "@label"
 #~ msgid "Active printer"
 #~ msgstr "Active printer:"
+
+msgctxt "@button"
+msgid "Add Model"
+msgstr "Add 3d Model"
+
+#~ msgctxt "@label"
+#~ msgid "Want add model"
+#~ msgstr "Want to add 3d Models?"
+
+#~ msgctxt "@label"
+#~ msgid "Choose your printer"
+#~ msgstr "Choose your printer"
+

@@ -8,9 +8,14 @@ Item
 {
     id: base
     width: buttons.width
-    height: buttons.height
+    height: 500
     property int activeY
-
+    anchors
+    {
+        right:parent.right
+        top:parent.top
+    }
+    anchors.topMargin:200
     /*
     activeId: Cura.MachineManager.activeMachineId
     activeIndex: activeMachineIndex()
@@ -106,6 +111,7 @@ Item
                         top:parent.top
                     }
                 }
+               
             }
           /*  Cura.CustomPrintSetupResolution
             {
@@ -121,6 +127,9 @@ Item
                 anchors.rightMargin:200
             }
 */
+
+               
+
         }
     }
 }

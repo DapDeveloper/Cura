@@ -115,7 +115,7 @@ from cura.UI.TextManager import TextManager
 from cura.UI.AddPrinterPagesModel import AddPrinterPagesModel
 from cura.UI.WelcomePagesModel import WelcomePagesModel
 from cura.UI.WhatsNewPagesModel import WhatsNewPagesModel
-
+from cura.UI.WelcomeWizardPagesModel import WelcomeWizardPagesModel
 from .SingleInstance import SingleInstance
 from .AutoSave import AutoSave
 from . import PlatformPhysics
@@ -213,20 +213,17 @@ class CuraApplication(QtApplication):
         self._simple_mode_settings_manager = None
         self._cura_scene_controller = None
         self._machine_error_checker = None
-
         self._machine_settings_manager = MachineSettingsManager(self)
-
         self._discovered_printer_model = DiscoveredPrintersModel(self)
         self._first_start_machine_actions_model = FirstStartMachineActionsModel(self)
         self._welcome_pages_model = WelcomePagesModel(self)
         self._add_printer_pages_model = AddPrinterPagesModel(self)
         self._whats_new_pages_model = WhatsNewPagesModel(self)
+        self._welcome_wizard_pages_model=WelcomeWizardPagesModel(self)
         self._text_manager = TextManager(self)
-
         self._quality_profile_drop_down_menu_model = None
         self._custom_quality_profile_drop_down_menu_model = None
         self._cura_API = CuraAPI(self)
-
         self._physics = None
         self._volume = None
         self._output_devices = {}
@@ -234,32 +231,24 @@ class CuraApplication(QtApplication):
         self._previous_active_tool = None
         self._platform_activity = False
         self._scene_bounding_box = AxisAlignedBox.Null
-
         self._center_after_select = False
         self._camera_animation = None
         self._cura_actions = None
         self.started = False
-
         self._message_box_callback = None
         self._message_box_callback_arguments = []
         self._i18n_catalog = None
-
         self._currently_loading_files = []
         self._non_sliceable_extensions = []
         self._additional_components = {}  # Components to add to certain areas in the interface
-
         self._open_file_queue = []  # A list of files to open (after the application has started)
-
         self._update_platform_activity_timer = None
-
         self._sidebar_custom_menu_items = []  # type: list # Keeps list of custom menu items for the side bar
-
         self._plugins_loaded = False
 
         # Backups
         self._auto_save = None
         self._save_data_enabled = True
-
         from cura.Settings.CuraContainerRegistry import CuraContainerRegistry
         self._container_registry_class = CuraContainerRegistry
         # Redefined here in order to please the typing.
@@ -766,7 +755,7 @@ class CuraApplication(QtApplication):
         self._welcome_pages_model.initialize()
         self._add_printer_pages_model.initialize()
         self._whats_new_pages_model.initialize()
-
+        self._welcome_wizard_pages_model.initialize()
         # Detect in which mode to run and execute that mode
         if self._is_headless:
             self.runWithoutGUI()
@@ -864,11 +853,9 @@ class CuraApplication(QtApplication):
     @pyqtSlot(result = QObject)
     def getDiscoveredPrintersModel(self, *args) -> "DiscoveredPrintersModel":
         return self._discovered_printer_model
-
     @pyqtSlot(result = QObject)
     def getFirstStartMachineActionsModel(self, *args) -> "FirstStartMachineActionsModel":
         return self._first_start_machine_actions_model
-
     @pyqtSlot(result = QObject)
     def getSettingVisibilityPresetsModel(self, *args) -> SettingVisibilityPresetsModel:
         return self._setting_visibility_presets_model
@@ -883,7 +870,10 @@ class CuraApplication(QtApplication):
     @pyqtSlot(result = QObject)
     def getWhatsNewPagesModel(self, *args) -> "WhatsNewPagesModel":
         return self._whats_new_pages_model
-
+    @pyqtSlot(result = QObject)
+    def getWelcomeWizardPagesModel(self, *args) -> "WelcomeWizardPagesModel":
+        return self._welcome_wizard_pages_model
+    
     @pyqtSlot(result = QObject)
     def getMachineSettingsManager(self, *args) -> "MachineSettingsManager":
         return self._machine_settings_manager
@@ -1026,6 +1016,8 @@ class CuraApplication(QtApplication):
 
         qmlRegisterType(WelcomePagesModel, "Cura", 1, 0, "WelcomePagesModel")
         qmlRegisterType(WhatsNewPagesModel, "Cura", 1, 0, "WhatsNewPagesModel")
+        qmlRegisterType(WelcomeWizardPagesModel, "Cura", 1, 0, "WelcomeWizardPagesModel")
+        
         qmlRegisterType(AddPrinterPagesModel, "Cura", 1, 0, "AddPrinterPagesModel")
         qmlRegisterType(TextManager, "Cura", 1, 0, "TextManager")
 
@@ -1292,17 +1284,14 @@ class CuraApplication(QtApplication):
 
             if not node.isSelectable():
                 continue  # i.e. node with layer data
-
             if not node.callDecoration("isSliceable") and not node.callDecoration("isGroup"):
                 continue  # i.e. node with layer data
-
             if node.callDecoration("getBuildPlateNumber") == active_build_plate:
                 # Skip nodes that are too big
                 bounding_box = node.getBoundingBox()
                 if bounding_box is None or bounding_box.width < self._volume.getBoundingBox().width or bounding_box.depth < self._volume.getBoundingBox().depth:
                     nodes_to_arrange.append(node)
         self.arrange(nodes_to_arrange, fixed_nodes = [])
-
     ##  Arrange a set of nodes given a set of fixed nodes
     #   \param nodes nodes that we have to place
     #   \param fixed_nodes nodes that are placed in the arranger before finding spots for nodes
@@ -1310,7 +1299,6 @@ class CuraApplication(QtApplication):
         min_offset = self.getBuildVolume().getEdgeDisallowedSize() + 2  # Allow for some rounding errors
         job = ArrangeObjectsJob(nodes, fixed_nodes, min_offset = max(min_offset, 8))
         job.start()
-
     ##  Reload all mesh data on the screen from file.
     @pyqtSlot()
     def reloadAll(self) -> None:
@@ -1322,12 +1310,9 @@ class CuraApplication(QtApplication):
                 if node.getName() == "MergedMesh":
                     has_merged_nodes = True
                 continue
-
             nodes.append(node)
-
         if not nodes:
             return
-
         for node in nodes:
             file_name = node.getMeshData().getFileName()
             if file_name:

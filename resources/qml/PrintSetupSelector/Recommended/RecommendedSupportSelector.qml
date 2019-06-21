@@ -87,13 +87,10 @@ Item
                 rightMargin: UM.Theme.getSize("thick_margin").width
                 verticalCenter: parent.verticalCenter
             }
-
             enabled: recommendedPrintSetup.settingsEnabled
             visible: enableSupportCheckBox.visible && (supportEnabled.properties.value == "True") && (extrudersEnabledCount.properties.value > 1)
             textRole: "name"  // this solves that the combobox isn't populated in the first time Cura is started
-
             model: extruderModel
-
             // knowing the extruder position, try to find the item index in the model
             function getIndexByPosition(position)
             {

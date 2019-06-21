@@ -217,12 +217,10 @@ class ProcessSlicedLayersJob(Job):
         else:
             line_type_brightness = 1.0
         layer_mesh = layer_data.build(material_color_map, line_type_brightness)
-
         if self._abort_requested:
             if self._progress_message:
                 self._progress_message.hide()
             return
-
         # Add LayerDataDecorator to scene node to indicate that the node has layer data
         decorator = LayerDataDecorator.LayerDataDecorator()
         decorator.setLayerData(layer_mesh)
