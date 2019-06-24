@@ -1355,7 +1355,8 @@
                     "minimum_value": "0",
                     "maximum_value_warning": "10",
                     "settable_per_mesh": false,
-                    "settable_per_extruder": true
+                    "settable_per_extruder": false,
+                    "settable_globally":true
                 },
                 "machine_support_extruder_nr":
                 {
@@ -2592,7 +2593,7 @@
                     "value":"machine_infill_extruder_nr",
                     "default_value": "-1",
                     "settable_per_mesh": false,
-                    "settable_per_extruder": true,
+                    "settable_per_extruder": false,
                     "settable_per_meshgroup": false,
                     "settable_globally": true,
                     "enabled": "extruders_enabled_count > 1"

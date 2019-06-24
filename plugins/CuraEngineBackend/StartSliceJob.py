@@ -378,7 +378,6 @@ class StartSliceJob(Job):
         settings["machine_extruder_start_code"] = self._expandGcodeTokens(settings["machine_extruder_start_code"], extruder_nr)
         settings["machine_extruder_end_code"] = self._expandGcodeTokens(settings["machine_extruder_end_code"], extruder_nr)
         settings["print_chamber_temperature"] = settings["print_chamber_temperature"]
-
         for key, value in settings.items():
             # Do not send settings that are not settable_per_extruder.
             if not stack.getProperty(key, "settable_per_extruder"):
@@ -387,14 +386,12 @@ class StartSliceJob(Job):
             setting.name = key
             setting.value = str(value).encode("utf-8")
             Job.yieldThread()
-
     ##  Sends all global settings to the engine.
     #
     #   The settings are taken from the global stack. This does not include any
     #   per-extruder settings or per-object settings.
     def _buildGlobalSettingsMessage(self, stack: ContainerStack) -> None:
         settings = self._buildReplacementTokens(stack)
-
         # Pre-compute material material_bed_temp_prepend and material_print_temp_prepend
         start_gcode = settings["machine_start_gcode"]
         bed_temperature_settings = ["material_bed_temperature", "material_bed_temperature_layer_0"]
@@ -494,7 +491,6 @@ class StartSliceJob(Job):
                 setting_extruder.name = key
                 setting_extruder.extruder = extruder_position
             Job.yieldThread()
-
     ##  Check if a node has per object settings and ensure that they are set correctly in the message
     #   \param node Node to check.
     #   \param message object_lists message to put the per object settings in
@@ -512,16 +508,13 @@ class StartSliceJob(Job):
             instance = top_of_stack.getInstance(key)
             self._addRelations(changed_setting_keys, instance.definition.relations)
             Job.yieldThread()
-
         # Ensure that the engine is aware what the build extruder is.
         changed_setting_keys.add("extruder_nr")
-
         # Get values for all changed settings
         for key in changed_setting_keys:
             setting = message.addRepeatedMessage("settings")
             setting.name = key
             extruder = int(round(float(stack.getProperty(key, "limit_to_extruder"))))
-
             # Check if limited to a specific extruder, but not overridden by per-object settings.
             if extruder >= 0 and key not in changed_setting_keys:
                 limited_stack = ExtruderManager.getInstance().getActiveExtruderStacks()[extruder]

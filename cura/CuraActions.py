@@ -121,26 +121,20 @@ class CuraActions(QObject):
                 for grouped_node in BreadthFirstIterator(node): #type: ignore #Ignore type error because iter() should get called automatically by Python syntax.
                     if grouped_node.callDecoration("getActiveExtruder") == extruder_id:
                         continue
-
                     if grouped_node.callDecoration("isGroup"):
                         continue
-
                     nodes_to_change.append(grouped_node)
                 continue
-
             # Do not change any nodes that already have the right extruder set.
             if node.callDecoration("getActiveExtruder") == extruder_id:
                 continue
-
             nodes_to_change.append(node)
-
         if not nodes_to_change:
             # If there are no changes to make, we still need to reset the selected extruders.
             # This is a workaround for checked menu items being deselected while still being
             # selected.
             ExtruderManager.getInstance().resetSelectedObjectExtruders()
             return
-
         for node in nodes_to_change:
             operation.addOperation(SetObjectExtruderOperation(node, extruder_id))
         operation.push()
