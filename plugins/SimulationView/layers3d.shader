@@ -63,6 +63,29 @@ vertex41core =
         float blue = 0.75-abs(0.25-value);
         return vec4(red, green, blue, 1.0);
     }
+    vec4 extruderGradientColor(float abs_value, float min_value, float max_value)
+    {
+        float value = (abs_value - min_value)/(max_value - min_value);
+        float red = min(max(4*value-2, 0), 1);
+        float green = min(1.5*value, 0.75);
+        if (value > 0.75)
+        {
+            green = value;
+        }
+        float blue = 0.75-abs(0.25-value);
+        if(a_extruder==0)
+        {
+        red=1;
+        blue=0;
+        green=0;
+        }else if(a_extruder==1)
+        {
+        red=0;
+        blue=1;
+        green=0;
+        }
+        return vec4(red, green, blue, 1.0);
+    }
 
     void main()
     {
@@ -86,6 +109,10 @@ vertex41core =
             case 3:  // "Layer thickness"
                 v_color = layerThicknessGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
                 break;
+            case 4:  // "Extruder color"
+               v_color = extruderGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
+                break;
+                
         }
 
         v_vertex = world_space_vert.xyz;

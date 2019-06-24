@@ -7,6 +7,7 @@ import QtQuick.Controls.Styles 1.1
 import QtGraphicalEffects 1.0
 import UM 1.0 as UM
 import Cura 1.0 as Cura
+
 Cura.ExpandableComponent
 {
     id: base
@@ -44,7 +45,6 @@ Cura.ExpandableComponent
             color: UM.Theme.getColor("text_medium")
             renderType: Text.NativeRendering
         }
-
         Label
         {
             text: layerTypeCombobox.currentText
@@ -62,35 +62,29 @@ Cura.ExpandableComponent
             renderType: Text.NativeRendering
         }
     }
-
     contentItem: Column
     {
         id: viewSettings
-
         property var extruder_opacities: UM.Preferences.getValue("layerview/extruder_opacities").split("|")
         property bool show_travel_moves: UM.Preferences.getValue("layerview/show_travel_moves")
         property bool show_helpers: UM.Preferences.getValue("layerview/show_helpers")
         property bool show_skin: UM.Preferences.getValue("layerview/show_skin")
         property bool show_infill: UM.Preferences.getValue("layerview/show_infill")
-
         // If we are in compatibility mode, we only show the "line type"
         property bool show_legend: UM.SimulationView.compatibilityMode ? true : UM.Preferences.getValue("layerview/layer_view_type") == 1
         property bool show_gradient: UM.SimulationView.compatibilityMode ? false : UM.Preferences.getValue("layerview/layer_view_type") == 2 || UM.Preferences.getValue("layerview/layer_view_type") == 3
         property bool show_feedrate_gradient: show_gradient && UM.Preferences.getValue("layerview/layer_view_type") == 2
         property bool show_thickness_gradient: show_gradient && UM.Preferences.getValue("layerview/layer_view_type") == 3
+        property bool show_extruders_gradient: show_gradient && UM.Preferences.getValue("layerview/layer_view_type") == 4
         property bool only_show_top_layers: UM.Preferences.getValue("view/only_show_top_layers")
         property int top_layer_count: UM.Preferences.getValue("view/top_layer_count")
-
         width: UM.Theme.getSize("layerview_menu_size").width - 2 * UM.Theme.getSize("default_margin").width
         height: implicitHeight
-
         spacing: UM.Theme.getSize("layerview_row_spacing").height
-
         ListModel  // matches SimulationView.py
         {
             id: layerViewTypes
         }
-
         Component.onCompleted:
         {
             layerViewTypes.append({
@@ -109,8 +103,11 @@ Cura.ExpandableComponent
                 text: catalog.i18nc("@label:listbox", "Layer thickness"),
                 type_id: 3  // these ids match the switching in the shader
             })
+            layerViewTypes.append({
+                text: catalog.i18nc("@label:listbox", "Extruders Colors"),
+                type_id: 4  // these ids match the switching in the shader
+            })
         }
-
         ComboBox
         {
             id: layerTypeCombobox
@@ -118,18 +115,15 @@ Cura.ExpandableComponent
             model: layerViewTypes
             visible: !UM.SimulationView.compatibilityMode
             style: UM.Theme.styles.combobox
-
             onActivated:
             {
                 UM.Preferences.setValue("layerview/layer_view_type", index);
             }
-
             Component.onCompleted:
             {
                 currentIndex = UM.SimulationView.compatibilityMode ? 1 : UM.Preferences.getValue("layerview/layer_view_type");
                 updateLegends(currentIndex);
             }
-
             function updateLegends(type_id)
             {
                 // Update the visibility of the legends.
@@ -137,9 +131,10 @@ Cura.ExpandableComponent
                 viewSettings.show_gradient = !UM.SimulationView.compatibilityMode && (type_id == 2 || type_id == 3);
                 viewSettings.show_feedrate_gradient = viewSettings.show_gradient && (type_id == 2);
                 viewSettings.show_thickness_gradient = viewSettings.show_gradient && (type_id == 3);
+                viewSettings.show_extruders_gradient = viewSettings.show_gradient && (type_id == 4);
+                
             }
         }
-
         Label
         {
             id: compatibilityModeLabel
@@ -151,17 +146,14 @@ Cura.ExpandableComponent
             width: parent.width
             renderType: Text.NativeRendering
         }
-
         Item  // Spacer
         {
             height: UM.Theme.getSize("narrow_margin").width
             width: width
         }
-
         Repeater
         {
             model: CuraApplication.getExtrudersModel()
-
             CheckBox
             {
                 id: extrudersModelCheckBox
@@ -169,16 +161,12 @@ Cura.ExpandableComponent
                 height: UM.Theme.getSize("layerview_row").height + UM.Theme.getSize("default_lining").height
                 width: parent.width
                 visible: !UM.SimulationView.compatibilityMode
-
                 onClicked:
                 {
                     viewSettings.extruder_opacities[index] = checked ? 1.0 : 0.0
                     UM.Preferences.setValue("layerview/extruder_opacities", viewSettings.extruder_opacities.join("|"));
                 }
-
                 style: UM.Theme.styles.checkbox
-
-
                 UM.RecolorImage
                 {
                     id: swatch
@@ -187,9 +175,8 @@ Cura.ExpandableComponent
                     width: UM.Theme.getSize("layerview_legend_size").width
                     height: UM.Theme.getSize("layerview_legend_size").height
                     source: UM.Theme.getIcon("extruder_button")
-                    color: model.color
+                    color:model.color
                 }
-
                 Label
                 {
                     text: model.name
@@ -528,6 +515,63 @@ Cura.ExpandableComponent
                 }
             }
         }
+
+          Rectangle
+        {
+            id: extrudersGradient
+            visible: viewSettings.show_extruders_gradient
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: Math.round(UM.Theme.getSize("layerview_row").height * 1.5)
+            border.width: UM.Theme.getSize("default_lining").width
+            border.color: UM.Theme.getColor("lining")
+            LinearGradient
+            {
+                anchors
+                {
+                    left: parent.left
+                    leftMargin: UM.Theme.getSize("default_lining").width
+                    right: parent.right
+                    rightMargin: UM.Theme.getSize("default_lining").width
+                    top: parent.top
+                    topMargin: UM.Theme.getSize("default_lining").width
+                    bottom: parent.bottom
+                    bottomMargin: UM.Theme.getSize("default_lining").width
+                }
+                start: Qt.point(0, 0)
+                end: Qt.point(parent.width, 0)
+                gradient: Gradient
+                {
+                    GradientStop
+                    {
+                        position: 0.000
+                        color: Qt.rgba(0, 0, 0.5, 1)
+                    }
+                    GradientStop
+                    {
+                        position: 0.25
+                        color: Qt.rgba(0, 0.375, 0.75, 1)
+                    }
+                    GradientStop
+                    {
+                        position: 0.5
+                        color: Qt.rgba(0, 0.75, 0.5, 1)
+                    }
+                    GradientStop
+                    {
+                        position: 0.75
+                        color: Qt.rgba(1, 0.75, 0.25, 1)
+                    }
+                    GradientStop
+                    {
+                        position: 1.0
+                        color: Qt.rgba(1, 1, 0, 1)
+                    }
+                }
+            }
+        }
+
+
     }
     FontMetrics
     {

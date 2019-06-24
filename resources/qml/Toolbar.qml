@@ -11,6 +11,7 @@ Item
 {
     id: base
     property int backendState: UM.Backend.state
+        property real progress: UM.Backend.progress
     width: buttons.width
     height: buttons.height
     property int activeY
@@ -184,22 +185,43 @@ Item
                onClicked: sliceOrStopSlicing()
             }
         }
-         Column
+        Column
         {
             id: saveButtons
             anchors.top: sliceButtons.bottom
             anchors.left: parent.left
             width: childrenRect.width
             height: childrenRect.height
-            Cura.OutputDevicesActionButton
+            Cura.OutputDevicesActionButton2
             {
                 id: outputDevicesButton
-                width: 100
+                width: 200
                 height: 50  
                 visible: base.backendState==UM.Backend.Done
+                anchors
+                {
+                    left:parent.left
+                    top:parent.top
+                }
+            }
+            UM.ProgressBar
+            {
+                id: progressBar
+                width: 300
+                height: UM.Theme.getSize("progressbar").height
+                value: base.progress
+                indeterminate: widget.backendState == UM.Backend.NotStarted
+                visible: base.backendState!=UM.Backend.Done && sliceButton.visible==false//true//base.backendState!=UM.Backend.Done && outputDevicesButton.visible==false
+                anchors
+                {
+                    left:parent.left
+                    bottom:parent.bottom
+                }
             }
         }
     }
+
+
     property var extrudersModel: CuraApplication.getExtrudersModel()
     UM.PointingRectangle
     {

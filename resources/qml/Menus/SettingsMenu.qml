@@ -18,7 +18,7 @@ Menu
 
     onAboutToShow: extruderInstantiator.active = true
     onAboutToHide: extruderInstantiator.active = false
-    Instantiator
+   /* Instantiator
     {
         id: extruderInstantiator
         model: activeMachine == null ? null : activeMachine.extruderList
@@ -60,7 +60,7 @@ Menu
         }
         onObjectAdded: base.insertItem(index, object)
         onObjectRemoved: base.removeItem(object)
-    }
+    }*/
 
     // TODO Only show in dev mode. Remove check when feature ready
     BuildplateMenu

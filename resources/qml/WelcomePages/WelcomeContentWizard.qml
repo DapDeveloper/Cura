@@ -77,7 +77,7 @@ Item
                 topMargin:10
                 leftMargin:10
             }
-            text: catalog.i18nc("@label", "Want to add 3d Models?")
+            text: catalog.i18nc("@label", "Do you want to add 3D models?")
             color: UM.Theme.getColor("primary_button")
             font: UM.Theme.getFont("huge")
             renderType: Text.NativeRendering

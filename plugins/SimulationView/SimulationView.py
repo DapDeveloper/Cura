@@ -90,15 +90,12 @@ class SimulationView(CuraView):
         Application.getInstance().getPreferences().addPreference("view/top_layer_count", 5)
         Application.getInstance().getPreferences().addPreference("view/only_show_top_layers", False)
         Application.getInstance().getPreferences().addPreference("view/force_layer_view_compatibility_mode", False)
-
         Application.getInstance().getPreferences().addPreference("layerview/layer_view_type", 0)
         Application.getInstance().getPreferences().addPreference("layerview/extruder_opacities", "")
-
         Application.getInstance().getPreferences().addPreference("layerview/show_travel_moves", False)
         Application.getInstance().getPreferences().addPreference("layerview/show_helpers", True)
         Application.getInstance().getPreferences().addPreference("layerview/show_skin", True)
         Application.getInstance().getPreferences().addPreference("layerview/show_infill", True)
-
         Application.getInstance().getPreferences().preferenceChanged.connect(self._onPreferencesChanged)
         self._updateWithPreferences()
 
@@ -207,7 +204,6 @@ class SimulationView(CuraView):
                 self._minimum_layer_num = self._current_layer_num
             self._startUpdateTopLayers()
             self.currentLayerNumChanged.emit()
-
     def setMinimumLayer(self, value: int) -> None:
         if self._minimum_layer_num != value:
             self._minimum_layer_num = value
@@ -219,7 +215,6 @@ class SimulationView(CuraView):
                 self._current_layer_num = self._minimum_layer_num
             self._startUpdateTopLayers()
             self.currentLayerNumChanged.emit()
-
     def setPath(self, value: int) -> None:
         if self._current_path_num != value:
             self._current_path_num = value
@@ -231,7 +226,6 @@ class SimulationView(CuraView):
                 self._minimum_path_num = self._current_path_num
             self._startUpdateTopLayers()
             self.currentPathNumChanged.emit()
-
     def setMinimumPath(self, value: int) -> None:
         if self._minimum_path_num != value:
             self._minimum_path_num = value
@@ -243,18 +237,15 @@ class SimulationView(CuraView):
                 self._current_path_num = self._minimum_path_num
             self._startUpdateTopLayers()
             self.currentPathNumChanged.emit()
-
     ##  Set the layer view type
     #
     #   \param layer_view_type integer as in SimulationView.qml and this class
     def setSimulationViewType(self, layer_view_type: int) -> None:
         self._layer_view_type = layer_view_type
         self.currentLayerNumChanged.emit()
-
     ##  Return the layer view type, integer as in SimulationView.qml and this class
     def getSimulationViewType(self) -> int:
         return self._layer_view_type
-
     ##  Set the extruder opacity
     #
     #   \param extruder_nr 0..3
@@ -263,17 +254,13 @@ class SimulationView(CuraView):
         if 0 <= extruder_nr <= 3:
             self._extruder_opacity[extruder_nr] = opacity
             self.currentLayerNumChanged.emit()
-
     def getExtruderOpacities(self)-> List[float]:
         return self._extruder_opacity
-
     def setShowTravelMoves(self, show):
         self._show_travel_moves = show
         self.currentLayerNumChanged.emit()
-
     def getShowTravelMoves(self):
         return self._show_travel_moves
-
     def setShowHelpers(self, show: bool) -> None:
         self._show_helpers = show
         self.currentLayerNumChanged.emit()
@@ -327,16 +314,13 @@ class SimulationView(CuraView):
             layer_data = node.callDecoration("getLayerData")
             if not layer_data:
                 continue
-
             self.setActivity(True)
             min_layer_number = sys.maxsize
             max_layer_number = -sys.maxsize
             for layer_id in layer_data.getLayers():
-
                 # If a layer doesn't contain any polygons, skip it (for infill meshes taller than print objects
                 if len(layer_data.getLayer(layer_id).polygons) < 1:
                     continue
-
                 # Store the max and min feedrates and thicknesses for display purposes
                 for p in layer_data.getLayer(layer_id).polygons:
                     self._max_feedrate = max(float(p.lineFeedrates.max()), self._max_feedrate)
@@ -551,7 +535,6 @@ class SimulationView(CuraView):
         self.setShowHelpers(bool(Application.getInstance().getPreferences().getValue("layerview/show_helpers")))
         self.setShowSkin(bool(Application.getInstance().getPreferences().getValue("layerview/show_skin")))
         self.setShowInfill(bool(Application.getInstance().getPreferences().getValue("layerview/show_infill")))
-
         self._startUpdateTopLayers()
         self.preferencesChanged.emit()
 
@@ -568,35 +551,27 @@ class SimulationView(CuraView):
             "layerview/show_infill",
             }:
             return
-
         self._updateWithPreferences()
-
-
 class _CreateTopLayersJob(Job):
     def __init__(self, scene: "Scene", layer_number: int, solid_layers: int) -> None:
         super().__init__()
-
         self._scene = scene
         self._layer_number = layer_number
         self._solid_layers = solid_layers
         self._cancel = False
-
     def run(self) -> None:
         layer_data = None
         for node in DepthFirstIterator(self._scene.getRoot()):  # type: ignore
             layer_data = node.callDecoration("getLayerData")
             if layer_data:
                 break
-
         if self._cancel or not layer_data:
             return
-
         layer_mesh = MeshBuilder()
         for i in range(self._solid_layers):
             layer_number = self._layer_number - i
             if layer_number < 0:
                 continue
-
             try:
                 layer = layer_data.getLayer(layer_number).createMesh()
             except Exception:

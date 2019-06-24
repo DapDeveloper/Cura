@@ -118,13 +118,14 @@ Column
             fixedWidthMode: true
             toolTipContentAlignment: Cura.ToolTip.ContentAlignment.AlignLeft
             onClicked: UM.Controller.setActiveStage("PreviewStage")
-    }/*
+    }
         Cura.OutputDevicesActionButton
         {
             id: outputDevicesButton
             anchors.right: parent.right
             width: previewStageShortcut.visible ? UM.Theme.getSize("action_button").width : parent.width
             height: UM.Theme.getSize("action_button").height
-        }*/
+            visible:false
+        }
     }
 }

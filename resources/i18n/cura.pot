@@ -5106,7 +5106,7 @@ msgstr "Add 3d Model"
 
 #~ msgctxt "@label"
 #~ msgid "Want add model"
-#~ msgstr "Want to add 3d Models?"
+#~ msgstr "Do you want to add 3D models?"
 
 #~ msgctxt "@label"
 #~ msgid "Choose your printer"

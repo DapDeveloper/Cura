@@ -494,6 +494,7 @@ class StartSliceJob(Job):
                 setting_extruder.name = key
                 setting_extruder.extruder = extruder_position
             Job.yieldThread()
+
     ##  Check if a node has per object settings and ensure that they are set correctly in the message
     #   \param node Node to check.
     #   \param message object_lists message to put the per object settings in

@@ -8,21 +8,18 @@
         "manufacturer": "Meccatronicore",
         "category": "Meccatronicore",
         "file_formats": "text/x-gcode",
-        "has_materials": true,
-		"preferred_material": "pla",
+        "preferred_material": "pla",
         "preferred_quality_type": "normal",
+        "has_materials": true,
+	    "exclude_materials": [ "generic_hips", "generic_petg", "structur3d_dap100silicone" ],
         "machine_extruder_trains":
         {
-            "0": "custom_extruder_1",
-            "1": "custom_extruder_2",
-            "2": "custom_extruder_3",
-            "3": "custom_extruder_4",
-            "4": "custom_extruder_5",
-            "5": "custom_extruder_6",
-            "6": "custom_extruder_7",
-            "7": "custom_extruder_8"
+            "0": "RED_EXTRUDER",
+            "1": "BLUE_EXTRUDER"
         },
-        "first_start_actions": ["MachineSettingsAction"]
+        "first_start_actions": ["MachineSettingsAction"],
+        "platform": "piano_studio200.stl",
+		"platform_offset": [-167,-255,135]
     },
 	 "overrides": {
         "machine_heated_bed": { "default_value": true },
@@ -45,7 +42,7 @@
             "default_value": "G28"
          },
         "machine_end_gcode": {
-            "default_value": "G28 XY\nM104 T0 S0\nM104 T1 S0\nM140 S0\nM141 S0\nM106 P0 S0\nM106 P1 S0\n"
+            "default_value": "M104 S0\nM140 S0\nG92 Z0\nG1 Z10\nG28 X Y\nM84\nM106\n"
         },
 		"machine_extruder_count": {
             "default_value": 1

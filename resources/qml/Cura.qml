@@ -1,9 +1,9 @@
 // Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 import QtQuick 2.7
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 import UM 1.3 as UM
@@ -95,10 +95,15 @@ UM.MainWindow
             if (CuraApplication.shouldShowWelcomeDialog())
             {
                 welcomeDialogItem.visible = true
+                welcomeDialogWizardItem.visible = false
             }
             else
             {
                 welcomeDialogItem.visible = false
+                  welcomeDialogWizardItem.model = CuraApplication.getWelcomeWizardPagesModel()
+                welcomeDialogWizardItem.progressBarVisible = false
+                welcomeDialogWizardItem.visible = true
+
             }
             // Reuse the welcome dialog item to show "What's New" only.
             if (CuraApplication.shouldShowWhatsNewDialog())
@@ -107,9 +112,6 @@ UM.MainWindow
                 welcomeDialogItem.progressBarVisible = false
                 welcomeDialogItem.visible = true
            }
-            welcomeDialogWizardItem.model = CuraApplication.getWelcomeWizardPagesModel()
-                welcomeDialogWizardItem.progressBarVisible = false
-                welcomeDialogWizardItem.visible = true
         }
     }
 
@@ -347,13 +349,28 @@ UM.MainWindow
             property int mouseY: base.mouseY
             anchors
             {
-                //verticalCenter: parent.verticalCenter
+               // verticalCenter: parent.verticalCenter
                 bottom:parent.bottom
                 left: parent.left
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
-
+     /*    ToolbarSave
+        {
+            // The toolbar is the left bar that is populated by all the tools (which are dynamicly populated by
+            // plugins)
+            id: toolbarSave
+            property int mouseX: base.mouseX
+            property int mouseY: base.mouseY
+            anchors
+            {
+                //verticalCenter: parent.verticalCenter
+                top:toolbar.bottom
+                left: parent.left
+            }
+            visible: CuraApplication.platformActivity && !PrintInformation.preSliced
+        }
+*/
         ToolbarExt
         {
             // The toolbar is the left bar that is populated by all the tools (which are dynamicly populated by
@@ -376,10 +393,36 @@ UM.MainWindow
                 right:parent.right
                 verticalCenter:parent.verticalCenter
                 //top:gPPs.bottom
-
             }
             anchors.topMargin:100
         }
+       /* Item
+        {
+            id:item1
+            width:200
+            height:50
+            anchors
+            {
+                left:parent.left
+                bottom:parent.bottom
+                leftMargin:200
+                topMargin:200
+            }    
+            Cura.OutputDevicesActionButton
+            {
+                id: outputDevicesButton3
+                width: 200
+                height: 50  
+                visible: true//base.backendState==UM.Backend.Done
+                anchors
+                {
+                    //left:parent.left
+                    horizontalCenter:parent.horizontalCenter
+                    verticalCenter:parent.verticalCenter
+                    //top:parent.top
+                }
+            }
+        }*/
         /*SimulationViewMainComponent
         {
                 id:ssvc 
@@ -656,7 +699,6 @@ UM.MainWindow
             }
     }*/
     }
-
     Connections
     {
         target: CuraApplication.getExtrudersModel()
@@ -909,7 +951,6 @@ UM.MainWindow
                 nonGcodeFileList.push(fileUrlList[i]);
             }
             hasGcode = nonGcodeFileList.length < fileUrlList.length;
-
             // show a warning if selected multiple files together with Gcode
             var hasProjectFile = projectFileUrlList.length > 0;
             var selectedMultipleFiles = fileUrlList.length > 1;

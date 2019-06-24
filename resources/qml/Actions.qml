@@ -200,7 +200,7 @@ Item
     Action
     {
         id: addProfileAction;
-        enabled: !Cura.MachineManager.stacksHaveErrors && Cura.MachineManager.hasUserSettings
+        enabled: !Cura.MachineManager.stacksHaveErrors //&& Cura.MachineManager.hasUserSettings
         text: catalog.i18nc("@action:inmenu menubar:profile", "&Create profile from current settings/overrides...");
     }
     Action

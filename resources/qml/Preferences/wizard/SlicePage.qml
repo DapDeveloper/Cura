@@ -83,6 +83,21 @@ UM.PreferencesPage
             visible: generalPreferencesPage.backendState == UM.Backend.NotStarted || generalPreferencesPage.backendState == UM.Backend.Error
             onClicked: sliceOrStopSlicing()
         }
+         Cura.SecondaryButton
+        {
+            id:saveProfileButton
+            //width:200
+            height:25
+            text:catalog.i18nc("@button","Create profile from current settings/overrides...")
+            visible:!Cura.MachineManager.stacksHaveErrors && lblSlicingDone.visible
+            anchors
+            {
+                right:parent.right
+                top:parent.top
+            }
+            onClicked:Cura.Actions.addProfile.trigger()
+        }
+
         /*Cura.SliceProcessWidget
         {
             id:sliceProcessWidget
@@ -119,13 +134,14 @@ UM.PreferencesPage
                 top:lblSlicing.top
                 left:lblSlicing.left
             }
-            width: parent.width
+            width: parent.width/2
             wrapMode: Text.WordWrap
             text: catalog.i18nc("@label","Slicing done!")
             font.pointSize: 20
             renderType: Text.NativeRendering
             visible:generalPreferencesPage.backendState==UM.Backend.Done && lblSlicing.visible==false
         }
+       
         UM.ProgressBar
         {
             id: progressBar
@@ -166,7 +182,7 @@ UM.PreferencesPage
             }
             anchors.bottomMargin:20
             anchors.rightMargin:20
-            width: 100
+            width: 200
             height: 50  
             visible: generalPreferencesPage.backendState==UM.Backend.Done
         }
