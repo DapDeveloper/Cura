@@ -77,11 +77,12 @@ Item
                 }
                 settingKey: "adhesion_type"
                 settingStoreIndex: propertyStoreIndex
-                labelText: catalog.i18nc("@label", "Build Plate Adhesion Type")
+                labelText: settingStoreIndex//catalog.i18nc("@label", "Build Plate Adhesion Type")
                 labelWidth: 200
                 controlWidth: 100
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
+
          /*   Cura.ComboBoxWithOptions
             {
                 id: machineAdhesionExtruder
