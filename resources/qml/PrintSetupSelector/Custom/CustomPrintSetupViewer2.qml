@@ -77,7 +77,6 @@ Item
         {
             top: tabBar.visible ? tabBar.bottom : parent.top
             topMargin: tabBar.visible ? -UM.Theme.getSize("default_lining").width : 20
-             
             left: parent.left
             leftMargin: parent.padding
             right: parent.right

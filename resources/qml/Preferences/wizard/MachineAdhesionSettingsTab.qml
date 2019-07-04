@@ -227,6 +227,7 @@ Item
                 id: raftObjectListContainer
                 frameVisible: true
                 width: parent.width/1.8
+                height:250
                 anchors.left:lblRaftSettings.left
                 anchors.top:lblRaftSettings.bottom
                 Column
