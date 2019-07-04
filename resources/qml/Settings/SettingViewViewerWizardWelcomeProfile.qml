@@ -18,12 +18,12 @@ Item
     Cura.CustomPrintSetupWizardWelcome
     {
         height:50
-        width:300
+        width:parent.width
         anchors
         {
-            horizontalCenter:parent.horizontalCenter
+            //horizontalCenter:parent.horizontalCenter
+            right:parent.right
             top:parent.top
-
         }
         id: printerSetup
     }

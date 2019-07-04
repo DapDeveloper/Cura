@@ -1,15 +1,11 @@
 // Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
-
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-
 import UM 1.3 as UM
 import Cura 1.1 as Cura
-
 import "../Widgets"
-
 
 //
 // ComboBox with dropdown options in the Machine Settings dialog.
@@ -17,40 +13,32 @@ import "../Widgets"
 UM.TooltipArea
 {
     id: comboBoxWithOptions
-
     UM.I18nCatalog { id: catalog; name: "cura"; }
-
     height: childrenRect.height
     width: childrenRect.width
     text: tooltipText
-
     property int controlWidth: UM.Theme.getSize("setting_control").width
     property int controlHeight: UM.Theme.getSize("setting_control").height
-
     property alias containerStackId: propertyProvider.containerStackId
     property alias settingKey: propertyProvider.key
     property alias settingStoreIndex: propertyProvider.storeIndex
-
     property alias labelText: fieldLabel.text
     property alias labelFont: fieldLabel.font
     property alias labelWidth: fieldLabel.width
     property alias optionModel: comboBox.model
-
+    property var editable:true
     property string tooltipText: propertyProvider.properties.description
-
     // callback functions
     property var forceUpdateOnChangeFunction: dummy_func
     property var afterOnEditingFinishedFunction: dummy_func
     property var setValueFunction: null
     // a dummy function for default property values
     function dummy_func() {}
-
     UM.SettingPropertyProvider
     {
         id: propertyProvider
         watchedProperties: [ "value", "options", "description" ]
     }
-
     Label
     {
         id: fieldLabel
@@ -60,11 +48,9 @@ UM.TooltipArea
         font: UM.Theme.getFont("medium")
         renderType: Text.NativeRendering
     }
-
     ListModel
     {
         id: defaultOptionsModel
-
         function updateModel()
         {
             clear()
@@ -80,17 +66,14 @@ UM.TooltipArea
                 }
             }
         }
-
         Component.onCompleted: updateModel()
     }
-
     // Remake the model when the model is bound to a different container stack
     Connections
     {
         target: propertyProvider
         onContainerStackChanged: defaultOptionsModel.updateModel()
     }
-
     Cura.ComboBox
     {
         id: comboBox

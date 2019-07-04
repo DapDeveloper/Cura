@@ -15,6 +15,7 @@ Item
     {
         id: tabBar
         visible: multipleExtruders 
+        height:60
         anchors
         {
             top: parent.top
@@ -38,6 +39,13 @@ Item
                         anchors.horizontalCenter: parent.horizontalCenter
                         materialColor: model.color
                         extruderEnabled: model.enabled
+                        id:extLabel
+                    }
+                      Label
+                    {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text:model.material_brand + " " + model.material
+                        anchors.top:extLabel.bottom
                     }
                 }
                 onClicked:

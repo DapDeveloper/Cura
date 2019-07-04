@@ -21,7 +21,6 @@ from PyQt5.QtCore import QTimer
 from UM.View.RenderBatch import RenderBatch
 from UM.View.GL.OpenGL import OpenGL
 catalog = i18nCatalog("cura")
-
 import numpy
 import math
 import copy
@@ -149,10 +148,8 @@ class BuildVolume(SceneNode):
                     node.callDecoration("getActiveExtruderChangedSignal").disconnect(self._updateDisallowedAreasAndRebuild)
                 node.decoratorsChanged.disconnect(self._updateNodeListeners)
             self.rebuild()
-
             self._scene_objects = new_scene_objects
             self._onSettingPropertyChanged("print_sequence", "value")  # Create fake event, so right settings are triggered.
-
     ##  Updates the listeners that listen for changes in per-mesh stacks.
     #
     #   \param node The node for which the decorators changed.
@@ -304,17 +301,14 @@ class BuildVolume(SceneNode):
             if not self._global_container_stack.extruders[extruder_position].isEnabled:
                 node.setOutsideBuildArea(True)
                 return
-
             node.setOutsideBuildArea(False)
 
     ##  Recalculates the build volume & disallowed areas.
     def rebuild(self):
         if not self._width or not self._height or not self._depth:
             return
-
         if not self._engine_ready:
             return
-
         if not self._volume_outline_color:
             theme = self._application.getTheme()
             self._volume_outline_color = Color(*theme.getColor("volume_outline").getRgb())
@@ -350,9 +344,6 @@ class BuildVolume(SceneNode):
             mb.addLine(Vector(max_w, min_h, min_d), Vector(max_w, min_h, max_d), color = self._volume_outline_color)
             mb.addLine(Vector(min_w, max_h, min_d), Vector(min_w, max_h, max_d), color = self._volume_outline_color)
             mb.addLine(Vector(max_w, max_h, min_d), Vector(max_w, max_h, max_d), color = self._volume_outline_color)
-            
-          
-
 
             self.setMeshData(mb.build())
 
@@ -393,12 +384,10 @@ class BuildVolume(SceneNode):
                 indices.append([0, n + 2, n + 1])
             mb.addIndices(numpy.asarray(indices, dtype = numpy.int32))
             mb.calculateNormals()
-
             for n in range(0, mb.getVertexCount()):
                 v = mb.getVertex(n)
                 mb.setVertexUVCoordinates(n, v[0], v[2] * aspect)
             self._grid_mesh = mb.build().getTransformed(scale_matrix)
-
         # Indication of the machine origin
         if self._global_container_stack.getProperty("machine_center_is_zero", "value"):
             origin = (Vector(min_w, min_h, min_d) + Vector(max_w, min_h, max_d)) / 2
@@ -877,12 +866,10 @@ class BuildVolume(SceneNode):
             polygon = Polygon(numpy.array(area, numpy.float32))
             polygon = polygon.getMinkowskiHull(Polygon.approximatedCircle(border_size))
             machine_disallowed_polygons.append(polygon)
-
         # For certain machines we don't need to compute disallowed areas for each nozzle.
         # So we check here and only do the nozzle offsetting if needed.
         nozzle_offsetting_for_disallowed_areas = self._global_container_stack.getMetaDataEntry(
             "nozzle_offsetting_for_disallowed_areas", True)
-
         result = {}
         for extruder in used_extruders:
             extruder_id = extruder.getId()
@@ -894,10 +881,8 @@ class BuildVolume(SceneNode):
                 offset_y = 0
             offset_y = -offset_y #Y direction of g-code is the inverse of Y direction of Cura's scene space.
             result[extruder_id] = []
-
             for polygon in machine_disallowed_polygons:
                 result[extruder_id].append(polygon.translate(offset_x, offset_y)) #Compensate for the nozzle offset of this extruder.
-
             #Add the border around the edge of the build volume.
             left_unreachable_border = 0
             right_unreachable_border = 0
@@ -1047,10 +1032,8 @@ class BuildVolume(SceneNode):
                     self._global_container_stack.getProperty("adhesion_type", "value") != "raft")):
             brim_line_count = self._global_container_stack.getProperty("brim_line_count", "value")
             bed_adhesion_size = skirt_brim_line_width * brim_line_count * initial_layer_line_width_factor / 100.0
-
             for extruder_stack in used_extruders:
                 bed_adhesion_size += extruder_stack.getProperty("skirt_brim_line_width", "value") * extruder_stack.getProperty("initial_layer_line_width_factor", "value") / 100.0
-
             # We don't create an additional line for the extruder we're printing the brim with.
             bed_adhesion_size -= skirt_brim_line_width * initial_layer_line_width_factor / 100.0
 
@@ -1068,19 +1051,16 @@ class BuildVolume(SceneNode):
             self._global_container_stack.getProperty("machine_depth", "value")
         )
         bed_adhesion_size = min(bed_adhesion_size, max_length_available)
-
         support_expansion = 0
         support_enabled = self._global_container_stack.getProperty("support_enable", "value")
         support_offset = self._global_container_stack.getProperty("support_offset", "value")
         if support_enabled and support_offset:
             support_expansion += support_offset
-
         farthest_shield_distance = 0
         if container_stack.getProperty("draft_shield_enabled", "value"):
             farthest_shield_distance = max(farthest_shield_distance, container_stack.getProperty("draft_shield_dist", "value"))
         if container_stack.getProperty("ooze_shield_enabled", "value"):
             farthest_shield_distance = max(farthest_shield_distance, container_stack.getProperty("ooze_shield_dist", "value"))
-
         move_from_wall_radius = 0  # Moves that start from outer wall.
         move_from_wall_radius = max(move_from_wall_radius, max(self._getSettingFromAllExtruders("infill_wipe_dist")))
         avoid_enabled_per_extruder = [stack.getProperty("travel_avoid_other_parts","value") for stack in used_extruders]
@@ -1088,13 +1068,11 @@ class BuildVolume(SceneNode):
         for avoid_other_parts_enabled, avoid_distance in zip(avoid_enabled_per_extruder, travel_avoid_distance_per_extruder): #For each extruder (or just global).
             if avoid_other_parts_enabled:
                 move_from_wall_radius = max(move_from_wall_radius, avoid_distance)
-
         # Now combine our different pieces of data to get the final border size.
         # Support expansion is added to the bed adhesion, since the bed adhesion goes around support.
         # Support expansion is added to farthest shield distance, since the shields go around support.
         border_size = max(move_from_wall_radius, support_expansion + farthest_shield_distance, support_expansion + bed_adhesion_size)
         return border_size
-
     def _clamp(self, value, min_value, max_value):
         return max(min(value, max_value), min_value)
 

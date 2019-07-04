@@ -32,38 +32,28 @@ if TYPE_CHECKING:
 # Note that in any case, a page that has its "should_show_function" == False will ALWAYS be skipped.
 #
 class WelcomeWizardPagesModel(ListModel):
-
     IdRole = Qt.UserRole + 1  # Page ID
     PageUrlRole = Qt.UserRole + 2  # URL to the page's QML file
     NextPageIdRole = Qt.UserRole + 3  # The next page ID it should go to
     NextPageButtonTextRole = Qt.UserRole + 4  # The text for the next page button
-
     def __init__(self, application: "CuraApplication", parent: Optional["QObject"] = None) -> None:
         super().__init__(parent)
-
         self.addRoleName(self.IdRole, "id")
         self.addRoleName(self.PageUrlRole, "page_url")
         self.addRoleName(self.NextPageIdRole, "next_page_id")
         self.addRoleName(self.NextPageButtonTextRole, "next_page_button_text")
-
         self._application = application
         self._catalog = i18nCatalog("cura")
-
         self._default_next_button_text = self._catalog.i18nc("@action:button", "Next")
-
         self._pages = []  # type: List[Dict[str, Any]]
-
         self._current_page_index = 0
         # Store all the previous page indices so it can go back.
         self._previous_page_indices_stack = deque()  # type: deque
-
     allFinished = pyqtSignal()  # emitted when all steps have been finished
     currentPageIndexChanged = pyqtSignal()
-
     @pyqtProperty(int, notify = currentPageIndexChanged)
     def currentPageIndex(self) -> int:
         return self._current_page_index
-
     # Returns a float number in [0, 1] which indicates the current progress.
     @pyqtProperty(float, notify = currentPageIndexChanged)
     def currentProgress(self) -> float:
@@ -71,24 +61,20 @@ class WelcomeWizardPagesModel(ListModel):
             return 0
         else:
             return self._current_page_index / len(self._items)
-
     # Indicates if the current page is the last page.
     @pyqtProperty(bool, notify = currentPageIndexChanged)
     def isCurrentPageLast(self) -> bool:
         return self._current_page_index == len(self._items) - 1
-
     def _setCurrentPageIndex(self, page_index: int) -> None:
         if page_index != self._current_page_index:
             self._previous_page_indices_stack.append(self._current_page_index)
             self._current_page_index = page_index
             self.currentPageIndexChanged.emit()
-
     # Ends the Welcome-Pages. Put as a separate function for cases like the 'decline' in the User-Agreement.
     @pyqtSlot()
     def atEnd(self) -> None:
         self.allFinished.emit()
         self.resetState()
-
     # Goes to the next page.
     # If "from_index" is given, it will look for the next page to show starting from the "from_index" page instead of
     # the "self._current_page_index".
@@ -98,7 +84,6 @@ class WelcomeWizardPagesModel(ListModel):
         current_index = self._current_page_index if from_index is None else from_index
         while True:
             page_item = self._items[current_index]
-
             # Check if there's a "next_page_id" assigned. If so, go to that page. Otherwise, go to the page with the
             # current index + 1.
             next_page_id = page_item.get("next_page_id")
@@ -110,34 +95,27 @@ class WelcomeWizardPagesModel(ListModel):
                     Logger.log("e", "Cannot find page with ID [%s]", next_page_id)
                     return
                 next_page_index = idx
-
             # If we have reached the last page, emit allFinished signal and reset.
             if next_page_index == len(self._items):
                 self.atEnd()
                 return
-
             # Check if the this page should be shown (default yes), if not, keep looking for the next one.
             next_page_item = self.getItem(next_page_index)
             if self._shouldPageBeShown(next_page_index):
                 break
-
             Logger.log("d", "Page [%s] should not be displayed, look for the next page.", next_page_item["id"])
             current_index = next_page_index
-
         # Move to the next page
         self._setCurrentPageIndex(next_page_index)
-
     # Goes to the previous page. If there's no previous page, do nothing.
     @pyqtSlot()
     def goToPreviousPage(self) -> None:
         if len(self._previous_page_indices_stack) == 0:
             Logger.log("i", "No previous page, do nothing")
             return
-
         previous_page_index = self._previous_page_indices_stack.pop()
         self._current_page_index = previous_page_index
         self.currentPageIndexChanged.emit()
-
     # Sets the current page to the given page ID. If the page ID is not found, do nothing.
     @pyqtSlot(str)
     def goToPage(self, page_id: str) -> None:
@@ -154,14 +132,12 @@ class WelcomeWizardPagesModel(ListModel):
         else:
             # Find the next page to show starting from the "page_index"
             self.goToNextPage(from_index = page_index)
-
     # Checks if the page with the given index should be shown by calling the "should_show_function" associated with it.
     # If the function is not present, returns True (show page by default).
     def _shouldPageBeShown(self, page_index: int) -> bool:
         next_page_item = self.getItem(page_index)
         should_show_function = next_page_item.get("should_show_function", lambda: True)
         return should_show_function()
-
     # Resets the state of the WelcomePagesModel. This functions does the following:
     #  - Resets current_page_index to 0
     #  - Clears the previous page indices stack
@@ -169,9 +145,7 @@ class WelcomeWizardPagesModel(ListModel):
     def resetState(self) -> None:
         self._current_page_index = 0
         self._previous_page_indices_stack.clear()
-
         self.currentPageIndexChanged.emit()
-
     # Gets the page index with the given page ID. If the page ID doesn't exist, returns None.
     def getPageIndexById(self, page_id: str) -> Optional[int]:
         page_idx = None
@@ -180,7 +154,6 @@ class WelcomeWizardPagesModel(ListModel):
                 page_idx = idx
                 break
         return page_idx
-
     # Convenience function to get QUrl path to pages that's located in "resources/qml/WelcomePages".
     def _getBuiltinWelcomePagePath(self, page_filename: str) -> "QUrl":
         from cura.CuraApplication import CuraApplication
@@ -207,33 +180,24 @@ class WelcomeWizardPagesModel(ListModel):
                            "page_url": self._getBuiltinWelcomePagePath("FirstStartMachineActionsContent.qml"),
                            "should_show_function": self.shouldShowMachineActions,
                            },
-                        
                           ]
-
         self._pages = all_pages_list
         self.setItems(self._pages)
-
     # For convenience, inject the default "next" button text to each item if it's not present.
     def setItems(self, items: List[Dict[str, Any]]) -> None:
         for item in items:
             if "next_page_button_text" not in item:
                 item["next_page_button_text"] = self._default_next_button_text
-
         super().setItems(items)
-
     # Indicates if the machine action panel should be shown by checking if there's any first start machine actions
     # available.
     def shouldShowMachineActions(self) -> bool:
         global_stack = self._application.getMachineManager().activeMachine
         if global_stack is None:
             return False
-
         definition_id = global_stack.definition.getId()
         first_start_actions = self._application.getMachineActionManager().getFirstStartActions(definition_id)
         return len([action for action in first_start_actions if action.needsUserInteraction()]) > 0
-
     def addPage(self) -> None:
         pass
-
-
 __all__ = ["WelcomePagesModel"]

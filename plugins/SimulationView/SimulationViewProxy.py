@@ -12,6 +12,7 @@ class SimulationViewProxy(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
         self._current_layer = 0
+        self._simSpeed=127
         self._controller = Application.getInstance().getController()
         self._controller.activeViewChanged.connect(self._onActiveViewChanged)
         self._onActiveViewChanged()
@@ -20,6 +21,7 @@ class SimulationViewProxy(QObject):
     currentLayerChanged = pyqtSignal()
     currentPathChanged = pyqtSignal()
     maxLayersChanged = pyqtSignal()
+    simSpeedChanged = pyqtSignal()
     maxPathsChanged = pyqtSignal()
     activityChanged = pyqtSignal()
     globalStackChanged = pyqtSignal()
@@ -60,21 +62,26 @@ class SimulationViewProxy(QObject):
         if isinstance(active_view, SimulationView.SimulationView.SimulationView):
             return active_view.getMaxPaths()
         return 0
-
     @pyqtProperty(int, notify=currentPathChanged)
     def currentPath(self):
         active_view = self._controller.getActiveView()
         if isinstance(active_view, SimulationView.SimulationView.SimulationView):
             return active_view.getCurrentPath()
         return 0
-
+    @pyqtProperty(int, notify=simSpeedChanged)
+    def simulationSpeed(self):
+        active_view = self._controller.getActiveView()
+        print(active_view.getSimulationSpeed())
+        if(active_view.getSimulationSpeed()>= 2.0):
+            return active_view.getSimulationSpeed()-1
+        else:
+            return 1
     @pyqtProperty(int, notify=currentPathChanged)
     def minimumPath(self):
         active_view = self._controller.getActiveView()
         if isinstance(active_view, SimulationView.SimulationView.SimulationView):
             return active_view.getMinimumPath()
         return 0
-
     @pyqtProperty(bool, notify=busyChanged)
     def busy(self):
         active_view = self._controller.getActiveView()
@@ -94,7 +101,12 @@ class SimulationViewProxy(QObject):
         active_view = self._controller.getActiveView()
         if isinstance(active_view, SimulationView.SimulationView.SimulationView):
             active_view.setLayer(layer_num)
-
+    @pyqtSlot(int)
+    def setCurrentLayer2(self, layer_num):
+        active_view = self._controller.getActiveView()
+        active_view.setSimulationSpeed(layer_num)
+        '''print("CHANGE HANDLE")
+        print(layer_num)'''
     @pyqtSlot(int)
     def setMinimumLayer(self, layer_num):
         active_view = self._controller.getActiveView()
@@ -211,29 +223,23 @@ class SimulationViewProxy(QObject):
     def _onLayerChanged(self):
         self.currentLayerChanged.emit()
         self._layerActivityChanged()
-
     def _onPathChanged(self):
         self.currentPathChanged.emit()
         self._layerActivityChanged()
-
     def _onMaxLayersChanged(self):
         self.maxLayersChanged.emit()
-
+    def _onSimSpeedChanged(self):
+        self.simSpeedChanged.emit()
     def _onMaxPathsChanged(self):
         self.maxPathsChanged.emit()
-
     def _onBusyChanged(self):
         self.busyChanged.emit()
-
     def _onActivityChanged(self):
         self.activityChanged.emit()
-
     def _onGlobalStackChanged(self):
         self.globalStackChanged.emit()
-
     def _onPreferencesChanged(self):
         self.preferencesChanged.emit()
-
     def _onActiveViewChanged(self):
         active_view = self._controller.getActiveView()
         if isinstance(active_view, SimulationView.SimulationView.SimulationView):
@@ -242,16 +248,17 @@ class SimulationViewProxy(QObject):
                 active_view.currentLayerNumChanged.disconnect(self._onLayerChanged)
                 active_view.currentPathNumChanged.disconnect(self._onPathChanged)
                 active_view.maxLayersChanged.disconnect(self._onMaxLayersChanged)
+                active_view.simSpeedChanged.disconnect(self._onSimSpeedChanged)
                 active_view.maxPathsChanged.disconnect(self._onMaxPathsChanged)
                 active_view.busyChanged.disconnect(self._onBusyChanged)
                 active_view.activityChanged.disconnect(self._onActivityChanged)
                 active_view.globalStackChanged.disconnect(self._onGlobalStackChanged)
                 active_view.preferencesChanged.disconnect(self._onPreferencesChanged)
-
             self.is_simulationView_selected = True
             active_view.currentLayerNumChanged.connect(self._onLayerChanged)
             active_view.currentPathNumChanged.connect(self._onPathChanged)
             active_view.maxLayersChanged.connect(self._onMaxLayersChanged)
+            active_view.simSpeedChanged.connect(self._onSimSpeedChanged)
             active_view.maxPathsChanged.connect(self._onMaxPathsChanged)
             active_view.busyChanged.connect(self._onBusyChanged)
             active_view.activityChanged.connect(self._onActivityChanged)

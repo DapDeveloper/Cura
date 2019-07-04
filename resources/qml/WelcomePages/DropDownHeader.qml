@@ -16,36 +16,27 @@ import ".."
 Cura.RoundedRectangle
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     id: base
-
     border.width: UM.Theme.getSize("default_lining").width
     border.color: UM.Theme.getColor("lining")
     color: hovered ? UM.Theme.getColor("secondary_button_hover") : UM.Theme.getColor("secondary_button")
     radius: UM.Theme.getSize("default_radius").width
-
     cornerSide: contentShown ? Cura.RoundedRectangle.Direction.Up : Cura.RoundedRectangle.Direction.All
-
     property string title: ""
     property url rightIconSource: UM.Theme.getIcon("arrow_bottom")
-
     // If the tab is under hovering state
     property bool hovered: false
     // If the content is shown
     property bool contentShown: false
-
     signal clicked()
-
     MouseArea
     {
         anchors.fill: parent
         hoverEnabled: true
         onEntered: base.hovered = true
         onExited: base.hovered = false
-
         onClicked: base.clicked()
     }
-
     Label
     {
         id: title
@@ -58,7 +49,6 @@ Cura.RoundedRectangle
         renderType: Text.NativeRendering
         color: base.hovered ? UM.Theme.getColor("small_button_text_hover") : UM.Theme.getColor("small_button_text")
     }
-
     UM.RecolorImage
     {
         id: rightIcon
@@ -70,4 +60,5 @@ Cura.RoundedRectangle
         color: base.hovered ? UM.Theme.getColor("small_button_text_hover") : UM.Theme.getColor("small_button_text")
         source: base.rightIconSource
     }
+
 }

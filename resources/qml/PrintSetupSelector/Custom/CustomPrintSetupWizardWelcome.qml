@@ -11,16 +11,17 @@ Item
     property bool multipleExtruders: extrudersModel.count > 1
     property var extrudersModel: CuraApplication.getExtrudersModel()
     // Profile selector row
-    GlobalProfileSelector
+    GlobalProfileSelector2
     {
         id: globalProfileRow
         height:50
+        width:parent.width
         anchors
         {
             top: parent.top
             topMargin: parent.padding
-            left: parent.left
-            leftMargin: parent.padding
+            //left: parent.left
+            //leftMargin: parent.padding
             right: parent.right
             rightMargin: parent.padding
         }

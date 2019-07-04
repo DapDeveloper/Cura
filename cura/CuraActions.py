@@ -19,18 +19,13 @@ from cura.Operations.SetParentOperation import SetParentOperation
 from cura.MultiplyObjectsJob import MultiplyObjectsJob
 from cura.Settings.SetObjectExtruderOperation import SetObjectExtruderOperation
 from cura.Settings.ExtruderManager import ExtruderManager
-
 from cura.Operations.SetBuildPlateNumberOperation import SetBuildPlateNumberOperation
-
 from UM.Logger import Logger
-
 if TYPE_CHECKING:
     from UM.Scene.SceneNode import SceneNode
-
 class CuraActions(QObject):
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent)
-
     @pyqtSlot()
     def openDocumentation(self) -> None:
         # Starting a web browser from a signal handler connected to a menu will crash on windows.
@@ -38,12 +33,10 @@ class CuraActions(QObject):
         # Note that weirdly enough, only signal handlers that open a web browser fail like that.
         event = CallFunctionEvent(self._openUrl, [QUrl("https://ultimaker.com/en/resources/manuals/software")], {})
         cura.CuraApplication.CuraApplication.getInstance().functionEvent(event)
-
     @pyqtSlot()
     def openBugReportPage(self) -> None:
         event = CallFunctionEvent(self._openUrl, [QUrl("https://github.com/Ultimaker/Cura/issues")], {})
         cura.CuraApplication.CuraApplication.getInstance().functionEvent(event)
-
     ##  Reset camera position and direction to default
     @pyqtSlot()
     def homeCamera(self) -> None:
@@ -54,7 +47,6 @@ class CuraActions(QObject):
             camera.setPosition(Vector(-80, 250, 700) * diagonal_size / 375)
             camera.setPerspective(True)
             camera.lookAt(Vector(0, 0, 0))
-
     ##  Center all objects in the selection
     @pyqtSlot()
     def centerSelection(self) -> None:
@@ -65,7 +57,6 @@ class CuraActions(QObject):
             while parent_node and parent_node.callDecoration("isGroup"):
                 current_node = parent_node
                 parent_node = current_node.getParent()
-
             #   This was formerly done with SetTransformOperation but because of
             #   unpredictable matrix deconstruction it was possible that mirrors
             #   could manifest as rotations. Centering is therefore done by
@@ -73,7 +64,6 @@ class CuraActions(QObject):
             center_operation = TranslateOperation(current_node, -current_node._position)
             operation.addOperation(center_operation)
         operation.push()
-
     ##  Multiply all objects in the selection
     #
     #   \param count The number of times to multiply the selection.
@@ -88,7 +78,6 @@ class CuraActions(QObject):
     def deleteSelection(self) -> None:
         if not cura.CuraApplication.CuraApplication.getInstance().getController().getToolsEnabled():
             return
-
         removed_group_nodes = [] #type: List[SceneNode]
         op = GroupedOperation()
         nodes = Selection.getAllSelectedObjects()
@@ -101,19 +90,15 @@ class CuraActions(QObject):
                     removed_group_nodes.append(group_node)
                     op.addOperation(SetParentOperation(remaining_nodes_in_group[0], group_node.getParent()))
                     op.addOperation(RemoveSceneNodeOperation(group_node))
-
             # Reset the print information
             cura.CuraApplication.CuraApplication.getInstance().getController().getScene().sceneChanged.emit(node)
-
         op.push()
-
     ##  Set the extruder that should be used to print the selection.
     #
     #   \param extruder_id The ID of the extruder stack to use for the selected objects.
     @pyqtSlot(str)
     def setExtruderForSelection(self, extruder_id: str) -> None:
         operation = GroupedOperation()
-
         nodes_to_change = []
         for node in Selection.getAllSelectedObjects():
             # If the node is a group, apply the active extruder to all children of the group.
@@ -138,31 +123,24 @@ class CuraActions(QObject):
         for node in nodes_to_change:
             operation.addOperation(SetObjectExtruderOperation(node, extruder_id))
         operation.push()
-
     @pyqtSlot(int)
     def setBuildPlateForSelection(self, build_plate_nr: int) -> None:
         Logger.log("d", "Setting build plate number... %d" % build_plate_nr)
         operation = GroupedOperation()
-
         root = cura.CuraApplication.CuraApplication.getInstance().getController().getScene().getRoot()
-
         nodes_to_change = []  # type: List[SceneNode]
         for node in Selection.getAllSelectedObjects():
             parent_node = node  # Find the parent node to change instead
             while parent_node.getParent() != root:
                 parent_node = cast(SceneNode, parent_node.getParent())
-
             for single_node in BreadthFirstIterator(parent_node):  # type: ignore #Ignore type error because iter() should get called automatically by Python syntax.
                 nodes_to_change.append(single_node)
-
         if not nodes_to_change:
             Logger.log("d", "Nothing to change.")
             return
-
         for node in nodes_to_change:
             operation.addOperation(SetBuildPlateNumberOperation(node, build_plate_nr))
         operation.push()
-
         Selection.clear()
 
     def _openUrl(self, url: QUrl) -> None:

@@ -119,13 +119,10 @@ class GCodeWriter(MeshWriter):
             Logger.log("e","END FF2F")
             return True
         self.setInformation(catalog.i18nc("@warning:status", "Please prepare G-code before exporting."))
-     
         return False
-
     ##  Create a new container with container 2 as base and container 1 written over it.
     def _createFlattenedContainerInstance(self, instance_container1, instance_container2):
         flat_container = InstanceContainer(instance_container2.getName())
-
         # The metadata includes id, name and definition
         flat_container.setMetaData(copy.deepcopy(instance_container2.getMetaData()))
 
@@ -151,10 +148,8 @@ class GCodeWriter(MeshWriter):
     def _serialiseSettings(self, stack):
         container_registry = self._application.getContainerRegistry()
         quality_manager = self._application.getQualityManager()
-
         prefix = self._setting_keyword + str(GCodeWriter.version) + " "  # The prefix to put before each line.
         prefix_length = len(prefix)
-
         quality_type = stack.quality.getMetaDataEntry("quality_type")
         container_with_profile = stack.qualityChanges
         if container_with_profile.getId() == "empty_quality_changes":

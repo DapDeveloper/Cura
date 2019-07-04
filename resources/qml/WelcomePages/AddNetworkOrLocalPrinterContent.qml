@@ -25,7 +25,7 @@ Item
         font: UM.Theme.getFont("huge")
         renderType: Text.NativeRendering
     }
-    DropDownWidget
+    DropDownWidget2
     {
         id: addLocalPrinterDropDown
         anchors.top: titleLabel

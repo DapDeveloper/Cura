@@ -15,7 +15,6 @@ Item
 {
     id: base
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.top: parent.top
@@ -28,6 +27,12 @@ Item
     property string machineStackId: Cura.MachineManager.activeMachineId
     property var forceUpdateFunction: manager.forceUpdate
     property var forceUpdateQuality: Cura.MachineManager.updateQualityChanges()
+    property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
+    property var editable1:settingVisibilityPresetsModel.items[1].presetId == settingVisibilityPresetsModel.activePreset
+    property var editable2:settingVisibilityPresetsModel.items[2].presetId == settingVisibilityPresetsModel.activePreset
+    property var editable3:settingVisibilityPresetsModel.items[3].presetId == settingVisibilityPresetsModel.activePreset
+    
+    
 
     Item
     {
@@ -49,8 +54,8 @@ Item
             {
                 id: objectListContainer
                 frameVisible: true
-                width: parent.width/2
-                height: 100
+                width: parent.width/4.2
+                height: 280
                 anchors.left:parent.left
                 anchors.top:lblPrinterSettings.bottom
         Column
@@ -72,8 +77,8 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
-
             Cura.NumericTextFieldWithUnit  // "Y (Depth)"
             {
                 id: machineYDepthField
@@ -86,8 +91,8 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
-
             Cura.NumericTextFieldWithUnit  // "Z (Height)"
             {
                 id: machineZHeightField
@@ -100,8 +105,8 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3    
             }
-
             Cura.ComboBoxWithOptions  // "Build plate shape"
             {
                 id: buildPlateShapeComboBox
@@ -113,6 +118,7 @@ Item
                 labelWidth: base.labelWidth
                 controlWidth: base.controlWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                visible:editable3  
             }
 
             Cura.SimpleCheckBox  // "Origin at center"
@@ -125,6 +131,7 @@ Item
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                      editable:editable3    
             }
             Cura.SimpleCheckBox  // "Heated bed"
             {
@@ -136,6 +143,7 @@ Item
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                      editable:editable3    
             }
             Cura.SimpleCheckBox  // "Chamber"
             {
@@ -147,6 +155,7 @@ Item
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                      editable:editable3    
             }
 
             Cura.ComboBoxWithOptions  // "G-code flavor"
@@ -164,7 +173,23 @@ Item
                 // This has something to do with UM2 and UM2+ regarding "has_material" and the gcode flavor settings.
                 // I don't remember exactly what.
                 afterOnEditingFinishedFunction: manager.updateHasMaterialsMetadata
+                visible:editable3  
             }
+
+            Cura.SimpleCheckBox  // "Acceleration control"
+                {
+                    id: machineRelativeExtrusion
+                    settingStoreIndex: propertyStoreIndex
+                    containerStackId: machineStackId
+                    settingKey: "machine_relative_extrusion"
+                    labelText: catalog.i18nc("@label", "Relative extrusion")
+                    labelFont: base.labelFont
+                    labelWidth: base.labelWidth
+                    forceUpdateOnChangeFunction: forceUpdateFunction
+                          editable:editable3    
+                }
+
+
         }
 
       
@@ -299,12 +324,12 @@ Item
             anchors.left:objectListContainer.right
            anchors.margins:20
         }
-       ScrollView
+        ScrollView
             {
                 id: objectListContainer2
                 frameVisible: true
-                width: parent.width/2-20
-                height: 100
+                width: parent.width/4.2-20
+                height: 550
                 anchors.left:lblAccelerationsSettings.left
                 anchors.top:lblAccelerationsSettings.bottom
         Column
@@ -323,6 +348,7 @@ Item
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
               Cura.NumericTextFieldWithUnit  // "Acceleration print"
             {
@@ -336,8 +362,9 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
-             Cura.NumericTextFieldWithUnit  // "Acceleration infill"
+            Cura.NumericTextFieldWithUnit  // "Acceleration infill"
             {
                 id: machineAccelerationInfill
                 containerStackId: machineStackId
@@ -349,6 +376,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration wall"
             {
@@ -362,6 +390,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration wall 0" 
             {
@@ -375,6 +404,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration wall 0" 
             {
@@ -388,6 +418,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
              Cura.NumericTextFieldWithUnit  // "Acceleration wall roofing" 
             {
@@ -401,6 +432,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration topbottom" 
             {
@@ -414,6 +446,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
              Cura.NumericTextFieldWithUnit  // "Acceleration support" 
             {
@@ -427,6 +460,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration support infill" 
             {
@@ -440,6 +474,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration support interface" 
             {
@@ -453,6 +488,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
            Cura.NumericTextFieldWithUnit  // "Acceleration support roof" 
             {
@@ -466,6 +502,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration support bottom" 
             {
@@ -479,6 +516,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
              Cura.NumericTextFieldWithUnit  // "Acceleration travel" 
             {
@@ -492,6 +530,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
                Cura.NumericTextFieldWithUnit  // "Acceleration prime tower" 
             {
@@ -505,6 +544,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration first layer" 
             {
@@ -518,6 +558,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration print layer 0" 
             {
@@ -531,6 +572,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration print travel layer 0" 
             {
@@ -544,6 +586,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
             Cura.NumericTextFieldWithUnit  // "Acceleration skirt brim" 
             {
@@ -557,37 +600,36 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3  
             }
-          
-            
         }
     }
-
              Label   // Title Label
             {
                 id:lblPrinterJerk
                 text: catalog.i18nc("@title:label", "Jerk Settings")
                 font: UM.Theme.getFont("medium_bold")
                 renderType: Text.NativeRendering
-                anchors.left:lblPrinterSettings.left
-                anchors.top:objectListContainer.bottom
+                anchors.left:objectListContainer5.right
+                anchors.top:lblRaftController.top
+                anchors.leftMargin:20
             }
 
         ScrollView
             {
                 id: objectListContainer3
                 frameVisible: true
-                width: parent.width/2
-                height: 100
+                width: parent.width/4.2
+                height: 560
                 anchors.left:lblPrinterJerk.left
                 anchors.top:lblPrinterJerk.bottom
+                
         Column
         {
             width: objectListContainer.width/2
             id:columnX
             spacing: base.columnSpacing
             padding:10
-
             Cura.SimpleCheckBox  // "Jerk control"
             {
                 id: machineJerkControl
@@ -598,8 +640,8 @@ Item
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
-
             Cura.NumericTextFieldWithUnit  // "jerk print"
             {
                 id: machineJerkPrint
@@ -612,8 +654,8 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
-
              Cura.NumericTextFieldWithUnit  // "jerk infill"
             {
                 id: machineJerkInfill
@@ -626,6 +668,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk wall"
             {
@@ -639,6 +682,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
               Cura.NumericTextFieldWithUnit  // "jerk wall 0"
             {
@@ -652,8 +696,8 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
-
             Cura.NumericTextFieldWithUnit  // "jerk wall 0"
             {
                 id: machineJerkWallX
@@ -666,6 +710,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
 
         Cura.NumericTextFieldWithUnit  // "jerk roofing"
@@ -680,6 +725,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             
             Cura.NumericTextFieldWithUnit  // "jerk topbottom"
@@ -694,6 +740,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk support"
             {
@@ -707,6 +754,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
 
             Cura.NumericTextFieldWithUnit  // "jerk support infill"
@@ -721,6 +769,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk support interface"
             {
@@ -734,6 +783,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk support interface roof"
             {
@@ -747,6 +797,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             } 
             Cura.NumericTextFieldWithUnit  // "jerk support interface bottom"
             {
@@ -760,6 +811,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk prime tower "
             {
@@ -773,6 +825,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk travel "
             {
@@ -786,6 +839,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk layer 0 "
             {
@@ -799,6 +853,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk print layer 0 "
             {
@@ -812,6 +867,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
              Cura.NumericTextFieldWithUnit  // "jerk print layer 0 "
             {
@@ -825,6 +881,7 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "jerk skirt brim"
             {
@@ -838,25 +895,24 @@ Item
                 controlWidth: base.controlWidth
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                             editable:editable3
             }
-
-        }
-    }  
-
+            }
+        }  
                Label   // Title Label
                 {
                     id:lblCollingController
                     text: catalog.i18nc("@title:label", "Cooling controller")
                     font: UM.Theme.getFont("medium_bold")
                     renderType: Text.NativeRendering
-                    anchors.left:lblAccelerationsSettings.left
+                    anchors.left:lblPrinterSettings.left
                     anchors.top:objectListContainer.bottom
                 }
                ScrollView
                 {
                     id: objectListContainer4
                     frameVisible: true
-                    width: parent.width/2-20
+                    width: parent.width/4.2-20
                     height: 100
                     anchors.left:lblCollingController.left
                     anchors.top:lblCollingController.bottom
@@ -878,6 +934,7 @@ Item
                             controlWidth: base.controlWidth
                             unitText: catalog.i18nc("@label", "%")
                             forceUpdateOnChangeFunction: forceUpdateFunction
+                               editable:editable3
                         }
                         
                         Cura.NumericTextFieldWithUnit  // "machine fan speed max"
@@ -892,6 +949,7 @@ Item
                             controlWidth: base.controlWidth
                             unitText: catalog.i18nc("@label", "%")
                             forceUpdateOnChangeFunction: forceUpdateFunction
+                               editable:editable3
                         }
                     }
                 }  
@@ -899,19 +957,19 @@ Item
          Label
             {
                 id:lblRaftController
-                text: catalog.i18nc("@title:label", "Raft controller")
+                text: catalog.i18nc("@title:label", "Raft Controller")
                 font: UM.Theme.getFont("medium_bold")
                 renderType: Text.NativeRendering
-                anchors.left:lblPrinterJerk.left
-                anchors.top:objectListContainer3.bottom
-               
+                anchors.left:objectListContainer2.right
+                anchors.top:lblAccelerationsSettings.top
+                anchors.leftMargin:20
             }
             ScrollView
             {
                 id: objectListContainer5
                 frameVisible: true
-                width: parent.width/2
-                height: 100
+                width: parent.width/4.2
+                height: 350
                 anchors.left:lblRaftController.left
                 anchors.top:lblRaftController.bottom
                 Column
@@ -933,6 +991,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }  
                      Cura.NumericTextFieldWithUnit  // "Raft speed roof"
                     {
@@ -946,6 +1005,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "Raft speed interface"
                     {
@@ -959,6 +1019,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "Raft speed base"
                     {
@@ -972,6 +1033,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "Raft acceleration"
                     {
@@ -985,6 +1047,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s²")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                      Cura.NumericTextFieldWithUnit  // "Raft acceleration roof"
                     {
@@ -998,6 +1061,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s²")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "Raft acceleration interface"
                     {
@@ -1011,6 +1075,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s²")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "Raft acceleration base"
                     {
@@ -1024,6 +1089,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s²")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "raft jerk"
                     {
@@ -1037,6 +1103,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "raft jerk roof"
                     {
@@ -1050,6 +1117,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "raft jerk interface"
                     {
@@ -1063,6 +1131,7 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                     Cura.NumericTextFieldWithUnit  // "raft jerk base"
                     {
@@ -1076,27 +1145,10 @@ Item
                         controlWidth: base.controlWidth
                         unitText: catalog.i18nc("@label", "mm/s")
                         forceUpdateOnChangeFunction: forceUpdateFunction
+                        editable:editable3
                     }
                 }
             }  
-            Item
-            { 
-                anchors.left:objectListContainer5.right
-                anchors.top:lblRaftController.top
-                anchors.margins:20
-                Cura.SimpleCheckBox  // "Acceleration control"
-                    {
-                        id: machineRelativeExtrusion
-                        settingStoreIndex: propertyStoreIndex
-                        containerStackId: machineStackId
-                        settingKey: "machine_relative_extrusion"
-                       
-                        labelText: catalog.i18nc("@label", "Relative extrusion")
-                        labelFont: base.labelFont
-                        labelWidth: base.labelWidth
-                        forceUpdateOnChangeFunction: forceUpdateFunction
-                    }
-
-            }
+          
     }//end item
 }

@@ -26,7 +26,6 @@ Item
 */
         anchors.horizontalCenter: parent.horizontalCenter
         //anchors.verticalCenter:parent.verticalCenter
-
         visible: !UM.SimulationView.compatibilityMode
         // Custom properties
         handleValue: UM.SimulationView.currentPath
@@ -51,7 +50,6 @@ Item
         {
             pathSlider.setHandleValue(UM.SimulationView.currentPath)
         }
-
     }
 
     UM.SimpleButton
@@ -64,7 +62,6 @@ Item
         color: UM.Theme.getColor("slider_handle")
         iconMargin: UM.Theme.getSize("thick_lining").width
         visible: !UM.SimulationView.compatibilityMode
-
         Connections
         {
             target: UM.Preferences
@@ -74,11 +71,9 @@ Item
                 {
                     return;
                 }
-
                 playButton.pauseSimulation()
             }
         }
-
         anchors
         {
             right: pathSlider.left
@@ -96,7 +91,6 @@ Item
                 resumeSimulation()
             }
         }
-
         function pauseSimulation()
         {
             UM.SimulationView.setSimulationRunning(false)
@@ -105,7 +99,6 @@ Item
             layerSlider.manuallyChanged = true
             pathSlider.manuallyChanged = true
         }
-
         function resumeSimulation()
         {
             UM.SimulationView.setSimulationRunning(true)
@@ -114,7 +107,6 @@ Item
             pathSlider.manuallyChanged = false
         }
     }
-
     Timer
     {
         id: simulationTimer
@@ -127,7 +119,6 @@ Item
             var numPaths = UM.SimulationView.numPaths
             var currentLayer = UM.SimulationView.currentLayer
             var numLayers = UM.SimulationView.numLayers
-
             // When the user plays the simulation, if the path slider is at the end of this layer, we start
             // the simulation at the beginning of the current layer.
             if (!is_simulation_playing)
@@ -174,7 +165,6 @@ Item
         id: layerSlider
         width: UM.Theme.getSize("slider_handle").width
         height: UM.Theme.getSize("slider_layerview_size").height
-
         anchors
         {
             left: parent.left
@@ -184,12 +174,10 @@ Item
             topMargin:50
             leftMargin:10
         }
-
         // Custom properties
         upperValue: UM.SimulationView.currentLayer
         lowerValue: UM.SimulationView.minimumLayer
         maximumValue: UM.SimulationView.numLayers
-
         // Update values when layer data changes
         Connections
         {

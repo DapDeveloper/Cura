@@ -13,9 +13,9 @@ Item
     anchors
     {
         right:parent.right
-        top:parent.top
+        //top:parent.top
     }
-    anchors.topMargin:200
+    //anchors.topMargin:200
     /*
     activeId: Cura.MachineManager.activeMachineId
     activeIndex: activeMachineIndex()
@@ -70,6 +70,7 @@ Item
             id: extruderButtons
             anchors.topMargin: UM.Theme.getSize("default_margin").height
             anchors.top: toolButtons.bottom
+            
             //anchors.right: parent.right
             //anchors.rightMargin:180
             anchors.left:parent.left
@@ -99,17 +100,20 @@ Item
                 {
                     left:parent.left
                     top:lbl1.bottom
+                    bottom:parent.bottom
                 }
-                Cura.CustomPrintSetupViewer
+                Cura.CustomPrintSetupViewer2
                 {
                     id:pers1
                     width:300//600extruderButtons.width
-                    height:200
+                    //height:200
                     anchors
                     {
                         left:extruderButtons.left
                         top:parent.top
+                        bottom:parent.bottom
                     }
+                    
                 }
                
             }

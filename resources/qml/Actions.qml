@@ -39,6 +39,8 @@ Item
     property alias addMachine: addMachineAction;
     property alias configureMachines: settingsAction;
     property alias addProfile: addProfileAction;
+    property alias autoSaveProfile: autoSaveProfileAction;
+    
     property alias updateProfile: updateProfileAction;
     property alias resetProfile: resetProfileAction;
     property alias manageProfiles: manageProfilesAction;
@@ -137,9 +139,10 @@ Item
         text: catalog.i18nc("@action:inmenu", "Slice Wizard...");
         iconName: "configure";
     } 
-    /*    property alias profileEdit:profileEditAction;
-    property alias profileEditHide:profileEditActionHide;*/
-    
+    /*
+        property alias profileEdit:profileEditAction;
+        property alias profileEditHide:profileEditActionHide;
+    */
    Action
     {
         id: profileEditAction;
@@ -152,15 +155,12 @@ Item
         text: catalog.i18nc("@action:inmenu", "Wizard");
         iconName: "configure";
     } 
-    
      Action
     {
         id: welcomeWindowHide;
         text: catalog.i18nc("@action:inmenu", "");
         iconName: "configure";
     }
-
-
     Action
     {
         id: addMachineAction;
@@ -200,6 +200,12 @@ Item
     Action
     {
         id: addProfileAction;
+        enabled: !Cura.MachineManager.stacksHaveErrors //&& Cura.MachineManager.hasUserSettings
+        text: catalog.i18nc("@action:inmenu menubar:profile", "&Create profile from current settings/overrides...");
+    }
+    Action
+    {
+        id: autoSaveProfileAction;
         enabled: !Cura.MachineManager.stacksHaveErrors //&& Cura.MachineManager.hasUserSettings
         text: catalog.i18nc("@action:inmenu menubar:profile", "&Create profile from current settings/overrides...");
     }
@@ -370,7 +376,6 @@ Item
         id: showProfileFolderAction;
         text: catalog.i18nc("@action:inmenu menubar:help","Show ration Folder");
     }*/
-
 /*
     Action
     {

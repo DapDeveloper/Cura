@@ -4,7 +4,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-
 import UM 1.1 as UM
 import Cura 1.0 as Cura
 
@@ -14,7 +13,7 @@ Item
     function requestWriteToDevice()
     {
         UM.OutputDeviceManager.requestWriteToDevice(UM.OutputDeviceManager.activeDevice, PrintInformation.jobName,
-            { "filter_by_machine": true, "preferred_mimetypes": Cura.MachineManager.activeMachine.preferred_output_file_formats });
+         { "filter_by_machine": true, "preferred_mimetypes": Cura.MachineManager.activeMachine.preferred_output_file_formats });
     }
     Cura.PrimaryButton
     {
@@ -52,19 +51,15 @@ Item
         rightPadding: UM.Theme.getSize("narrow_margin").width
         iconSource: popup.opened ? UM.Theme.getIcon("arrow_top") : UM.Theme.getIcon("arrow_bottom")
         color: UM.Theme.getColor("action_panel_secondary")
-       visible: (devicesModel.deviceCount > 1)
-   
+        visible: (devicesModel.deviceCount > 1)
         onClicked: popup.opened ? popup.close() : popup.open()
-       Popup
+        Popup
         {
             id: popup
             padding: 0
-
             y: -height
             x: parent.width/2
-
             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-
             contentItem: ColumnLayout
             {
                 Repeater
@@ -91,7 +86,6 @@ Item
                     }
                 }
             }
-
             background: Rectangle
             {
                 opacity: visible ? 1 : 0
@@ -100,6 +94,5 @@ Item
             }
         }
     }
-
     UM.OutputDevicesModel { id: devicesModel }
 }

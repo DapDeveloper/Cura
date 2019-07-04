@@ -14,7 +14,8 @@ class QualityManagementModel(ListModel):
     IsReadOnlyRole = Qt.UserRole + 2
     QualityGroupRole = Qt.UserRole + 3
     QualityChangesGroupRole = Qt.UserRole + 4
-
+    IsAutosaved=Qt.UserRole+5
+    Type=Qt.UserRole+6
     def __init__(self, parent = None):
         super().__init__(parent)
 
@@ -22,6 +23,9 @@ class QualityManagementModel(ListModel):
         self.addRoleName(self.IsReadOnlyRole, "is_read_only")
         self.addRoleName(self.QualityGroupRole, "quality_group")
         self.addRoleName(self.QualityChangesGroupRole, "quality_changes_group")
+        self.addRoleName(self.IsAutosaved,"is_autosaved")
+        self.addRoleName(self.Type,"type")
+
 
         from cura.CuraApplication import CuraApplication
         self._container_registry = CuraApplication.getInstance().getContainerRegistry()
@@ -51,21 +55,20 @@ class QualityManagementModel(ListModel):
             # Nothing to show
             self.setItems([])
             return
-
         item_list = []
         # Create quality group items
         for quality_group in quality_group_dict.values():
             if not quality_group.is_available:
                 continue
-
             item = {"name": quality_group.name,
                     "is_read_only": True,
                     "quality_group": quality_group,
-                    "quality_changes_group": None}
+                    "quality_changes_group": None,
+                    "is_autosaved":False,
+                    "type":"0"}
             item_list.append(item)
         # Sort by quality names
         item_list = sorted(item_list, key = lambda x: x["name"].upper())
-
         # Create quality_changes group items
         quality_changes_item_list = []
         for quality_changes_group in quality_changes_group_dict.values():
@@ -73,15 +76,43 @@ class QualityManagementModel(ListModel):
             item = {"name": quality_changes_group.name,
                     "is_read_only": False,
                     "quality_group": quality_group,
-                    "quality_changes_group": quality_changes_group}
-            quality_changes_item_list.append(item)
-
+                    "quality_changes_group": quality_changes_group,
+                    "is_autosaved":False,
+                    "type":"1"}
+            if(quality_changes_group.name[0]!='*'):        
+                quality_changes_item_list.append(item)
         # Sort quality_changes items by names and append to the item list
         quality_changes_item_list = sorted(quality_changes_item_list, key = lambda x: x["name"].upper())
         item_list += quality_changes_item_list
-
+        '''
+        NEW LIST WITH AUTOSAVED PROFILES
+        '''
+        autosaved_items_list=[]
+        for quality_changes_group in quality_changes_group_dict.values():
+            quality_group = quality_group_dict.get(quality_changes_group.quality_type)
+            #name=quality_changes_group.name[0]=='*' ? quality_changes_group.name[1:]:quality_changes_group
+            #*AUTOSAVE
+            toShow=False
+            name=quality_changes_group.name
+            if(len(quality_changes_group.name)>10):
+                #print("LUNGHEZZA:"+str(len(quality_changes_group.name)))            
+                #print("QUALITY:"+quality_changes_group.name[0:8])
+                if(quality_changes_group.name[0:9]=='*AUTOSAVE'):
+                    name=quality_changes_group.name[9:]
+                    toShow=True
+            item = {"name": name,
+                    "is_read_only": False,
+                    "quality_group": quality_group,
+                    "quality_changes_group": quality_changes_group,
+                    "is_autosaved":True,
+                    "type":"2"}
+            if(toShow): 
+                #quality_changes_group.name[0]=""       
+                autosaved_items_list.append(item)
+        # Sort quality_changes items by names and append to the item list
+        autosaved_items_list = sorted(autosaved_items_list, key = lambda x: x["name"].upper())
+        item_list += autosaved_items_list
         self.setItems(item_list)
-
     # TODO: Duplicated code here from InstanceContainersModel. Refactor and remove this later.
     #
     ##  Gets a list of the possible file filters that the plugins have
@@ -103,20 +134,17 @@ class QualityManagementModel(ListModel):
             for io_plugin in meta_data[io_type]:
                 filters.append(io_plugin["description"] + " (*." + io_plugin["extension"] + ")")
                 all_types.append("*.{0}".format(io_plugin["extension"]))
-
         if "_reader" in io_type:
             # if we're listing readers, add the option to show all supported files as the default option
             filters.insert(0, catalog.i18nc("@item:inlistbox", "All Supported Types ({0})", " ".join(all_types)))
             filters.append(catalog.i18nc("@item:inlistbox", "All Files (*)"))  # Also allow arbitrary files, if the user so prefers.
         return filters
-
     ##  Gets a list of profile reader or writer plugins
     #   \return List of tuples of (plugin_id, meta_data).
     def _getIOPlugins(self, io_type):
         from UM.PluginRegistry import PluginRegistry
         pr = PluginRegistry.getInstance()
         active_plugin_ids = pr.getActivePlugins()
-
         result = []
         for plugin_id in active_plugin_ids:
             meta_data = pr.getMetaData(plugin_id)

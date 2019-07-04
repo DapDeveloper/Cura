@@ -37,6 +37,7 @@ Item
             right: parent.right
             rightMargin: parent.padding
         }
+
         Repeater
         {
             id: repeater
@@ -98,7 +99,7 @@ Item
         border.color: tabBar.visible ? UM.Theme.getColor("lining") : "transparent"
         border.width: UM.Theme.getSize("default_lining").width
         color: UM.Theme.getColor("main_background")
-       Cura.SettingView
+        Cura.SettingView
         {
             anchors
             {

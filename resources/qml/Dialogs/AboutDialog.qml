@@ -22,7 +22,7 @@ UM.Dialog
         anchors.topMargin: -margin
         anchors.horizontalCenter: parent.horizontalCenter
         property real topPadding: UM.Theme.getSize("wide_margin").height
-        color: UM.Theme.getColor("main_window_header_background")
+        color: UM.Theme.getColor("main_window_header_background2")
         Image
         {
             id: logo

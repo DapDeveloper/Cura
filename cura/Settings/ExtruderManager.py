@@ -239,11 +239,9 @@ class ExtruderManager(QObject):
             if not stack_to_use:
                 # if there is no per-mesh stack, we use the build extruder for this mesh
                 stack_to_use = container_registry.findContainerStacks(id = extruder_stack_id)[0]
-
             support_enabled |= stack_to_use.getProperty("support_enable", "value")
             support_bottom_enabled |= stack_to_use.getProperty("support_bottom_enable", "value")
             support_roof_enabled |= stack_to_use.getProperty("support_roof_enable", "value")
-
             # Check limit to extruders
             limit_to_extruder_feature_list = ["wall_0_extruder_nr",
                                               "wall_x_extruder_nr",
@@ -274,13 +272,11 @@ class ExtruderManager(QObject):
             if extruder_str_nr == "-1":
                 extruder_str_nr = self._application.getMachineManager().defaultExtruderPosition
             used_extruder_stack_ids.add(self.extruderIds[extruder_str_nr])
-
         try:
             return [container_registry.findContainerStacks(id = stack_id)[0] for stack_id in used_extruder_stack_ids]
         except IndexError:  # One or more of the extruders was not found.
             Logger.log("e", "Unable to find one or more of the extruders in %s", used_extruder_stack_ids)
             return []
-
     ##  Removes the container stack and user profile for the extruders for a specific machine.
     #
     #   \param machine_id The machine to remove the extruders for.
@@ -290,7 +286,6 @@ class ExtruderManager(QObject):
             ContainerRegistry.getInstance().removeContainer(extruder.getId())
         if machine_id in self._extruder_trains:
             del self._extruder_trains[machine_id]
-
     ##  Returns extruders for a specific machine.
     #
     #   \param machine_id The machine to get the extruders of.
@@ -298,7 +293,6 @@ class ExtruderManager(QObject):
         if machine_id not in self._extruder_trains:
             return []
         return [self._extruder_trains[machine_id][name] for name in self._extruder_trains[machine_id]]
-
     ##  Returns the list of active extruder stacks, taking into account the machine extruder count.
     #
     #   \return \type{List[ContainerStack]} a list of
@@ -330,23 +324,19 @@ class ExtruderManager(QObject):
             if global_stack_id not in self._extruder_trains:
                 self._extruder_trains[global_stack_id] = {}
                 extruders_changed = True
-
             # Register the extruder trains by position
             for extruder_train in extruder_trains:
                 extruder_position = extruder_train.getMetaDataEntry("position")
                 self._extruder_trains[global_stack_id][extruder_position] = extruder_train
-
                 # regardless of what the next stack is, we have to set it again, because of signal routing. ???
                 extruder_train.setParent(global_stack)
                 extruder_train.setNextStack(global_stack)
                 extruders_changed = True
-
             self.fixSingleExtrusionMachineExtruderDefinition(global_stack)
             if extruders_changed:
                 self.extrudersChanged.emit(global_stack_id)
                 self.setActiveExtruderIndex(0)
                 self.activeExtruderChanged.emit()
-
     # After 3.4, all single-extrusion machines have their own extruder definition files instead of reusing
     # "fdmextruder". We need to check a machine here so its extruder definition is correct according to this.
     def fixSingleExtrusionMachineExtruderDefinition(self, global_stack: "GlobalStack") -> None:
@@ -363,13 +353,11 @@ class ExtruderManager(QObject):
                     if extruder.getMetaDataEntry("position") == "0":
                         extruder_stack_0 = extruder
                         break
-
         if extruder_stack_0 is None:
             Logger.log("i", "No extruder stack for global stack [%s], create one", global_stack.getId())
             # Single extrusion machine without an ExtruderStack, create it
             from cura.Settings.CuraStackBuilder import CuraStackBuilder
             CuraStackBuilder.createExtruderStackWithDefaultSetup(global_stack, 0)
-
         elif extruder_stack_0.definition.getId() != expected_extruder_definition_0_id:
             Logger.log("e", "Single extruder printer [{printer}] expected extruder [{expected}], but got [{got}]. I'm making it [{expected}].".format(
                 printer = global_stack.getId(), expected = expected_extruder_definition_0_id, got = extruder_stack_0.definition.getId()))

@@ -97,19 +97,19 @@ vertex41core =
         // shade the color depending on the extruder index stored in the alpha component of the color
 
         switch (u_layer_view_type) {
-            case 0:  // "Material color"
-                v_color = a_material_color;
-                break;
-            case 1:  // "Line type"
+            //case 0:  // "Material color"
+            //    v_color = a_material_color;
+            //    break;
+            case 0:  // "Line type"
                 v_color = a_color;
                 break;
-            case 2:  // "Feedrate"
+            case 1:  // "Feedrate"
                 v_color = feedrateGradientColor(a_feedrate, u_min_feedrate, u_max_feedrate);
                 break;
-            case 3:  // "Layer thickness"
+            case 2:  // "Layer thickness"
                 v_color = layerThicknessGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
                 break;
-            case 4:  // "Extruder color"
+            case 3:  // "Extruder color"
                v_color = extruderGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
                 break;
                 

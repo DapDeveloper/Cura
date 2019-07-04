@@ -91,7 +91,6 @@ UM.Dialog {
             width: parent.width;
         }
     }
-
     // Utils
     function resetPrintersModel() {
         printersModel.clear();

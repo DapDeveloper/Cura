@@ -156,7 +156,6 @@ class QualityManager(QObject):
         for i in range(machine.getProperty("machine_extruder_count", "value")):
             if str(i) in machine.extruders and machine.extruders[str(i)].isEnabled:
                 used_extruders.add(str(i))
-
         # Update the "is_available" flag for each quality group.
         for quality_group in quality_group_list:
             is_available = True
@@ -167,7 +166,6 @@ class QualityManager(QObject):
                     if position not in quality_group.nodes_for_extruders:
                         is_available = False
                         break
-
             quality_group.is_available = is_available
 
     # Returns a dict of "custom profile name" -> QualityChangesGroup
@@ -487,7 +485,6 @@ class QualityManager(QObject):
             if not quality_container or not quality_changes_container:
                 Logger.log("w", "No quality or quality changes container found in stack %s, ignoring it", stack.getId())
                 continue
-
             quality_type = quality_container.getMetaDataEntry("quality_type")
             extruder_stack = None
             if isinstance(stack, ExtruderStack):
@@ -496,9 +493,7 @@ class QualityManager(QObject):
             from cura.Settings.ContainerManager import ContainerManager
             ContainerManager.getInstance()._performMerge(new_changes, quality_changes_container, clear_settings = False)
             ContainerManager.getInstance()._performMerge(new_changes, user_container)
-
             self._container_registry.addContainer(new_changes)
-
     #
     # Create a quality changes container with the given setup.
     #
@@ -508,25 +503,19 @@ class QualityManager(QObject):
         new_id = base_id + "_" + new_name
         new_id = new_id.lower().replace(" ", "_")
         new_id = self._container_registry.uniqueName(new_id)
-
         # Create a new quality_changes container for the quality.
         quality_changes = InstanceContainer(new_id)
         quality_changes.setName(new_name)
         quality_changes.setMetaDataEntry("type", "quality_changes")
         quality_changes.setMetaDataEntry("quality_type", quality_type)
-
         # If we are creating a container for an extruder, ensure we add that to the container
         if extruder_stack is not None:
             quality_changes.setMetaDataEntry("position", extruder_stack.getMetaDataEntry("position"))
-
         # If the machine specifies qualities should be filtered, ensure we match the current criteria.
         machine_definition_id = getMachineDefinitionIDForQualitySearch(machine.definition)
         quality_changes.setDefinition(machine_definition_id)
-
         quality_changes.setMetaDataEntry("setting_version", self._application.SettingVersion)
         return quality_changes
-
-
 #
 # Gets the machine definition ID that can be used to search for Quality containers that are suitable for the given
 # machine. The rule is as follows:

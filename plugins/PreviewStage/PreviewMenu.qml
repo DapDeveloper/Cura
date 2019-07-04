@@ -61,12 +61,13 @@ Item
         {
             id: viewPanel
             height: parent.height
-            width: 200//source != "" ? (stageMenuRow.preferredWidth - viewsSelector.width - printSetupSelectorItem.width - 2 * UM.Theme.getSize("default_lining").width) : 0
+            width: 300//source != "" ? (stageMenuRow.preferredWidth - viewsSelector.width - printSetupSelectorItem.width - 2 * UM.Theme.getSize("default_lining").width) : 0
             source: UM.Controller.activeView != null && UM.Controller.activeView.stageMenuComponent != null ? UM.Controller.activeView.stageMenuComponent : ""
             anchors
             {
-                left:viewsSelector.right
-                top:viewsSelector.top
+                left:parent.left//viewsSelector.right
+                top:parent.top
+                leftMargin:-60
             }
         }
       /*  // Separator line

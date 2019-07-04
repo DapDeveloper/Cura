@@ -6,15 +6,12 @@ import QtQuick.Controls 1.1
 
 import UM 1.2 as UM
 import Cura 1.0 as Cura
-
 Menu
 {
     title: catalog.i18nc("@title:menu menubar:toplevel", "&View")
     id: base
-
     property var multiBuildPlateModel: CuraApplication.getMultiBuildPlateModel()
-
-    Menu
+    /*Menu
     {
         title: catalog.i18nc("@action:inmenu menubar:view","&Camera position");
         MenuItem { action: Cura.Actions.view3DCamera; }
@@ -22,8 +19,7 @@ Menu
         MenuItem { action: Cura.Actions.viewTopCamera; }
         MenuItem { action: Cura.Actions.viewLeftSideCamera; }
         MenuItem { action: Cura.Actions.viewRightSideCamera; }
-    }
-
+    }*/
     MenuSeparator
     {
         visible: UM.Preferences.getValue("cura/use_multi_build_plate")

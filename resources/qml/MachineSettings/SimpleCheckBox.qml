@@ -33,7 +33,7 @@ UM.TooltipArea
     property alias labelWidth: fieldLabel.width
 
     property string tooltip: propertyProvider.properties.description
-
+     property var editable:true
     // callback functions
     property var forceUpdateOnChangeFunction: dummy_func
 
@@ -64,6 +64,7 @@ UM.TooltipArea
         checked: String(propertyProvider.properties.value).toLowerCase() != 'false'
         height: simpleCheckBox.controlHeight
         text: ""
+        enabled:editable
         onClicked:
         {
             propertyProvider.setPropertyValue("value", checked)

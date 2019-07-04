@@ -39,6 +39,7 @@ UM.PreferencesPage
         */
         radius: 5 * screenScaleFactor // TODO: Theme!
     }
+    
     Column
     {
         id:items
@@ -87,7 +88,7 @@ UM.PreferencesPage
             }
             anchors.topMargin:10
         }
-        Cura.ConfigurationMenu
+        Cura.ConfigurationMenuBigN
         {
             anchors
             {
@@ -98,7 +99,7 @@ UM.PreferencesPage
             id: printerSetup
             width:parent.width
         }
-        Cura.CustomPrintSetupEasy
+        Cura.CustomPrintSetupEasyM
         {
             anchors.topMargin:10
             id: machineProfile

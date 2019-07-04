@@ -14,6 +14,11 @@ UM.PreferencesPage
     //: General configuration page title
     title: catalog.i18nc("@title:tab","General")
     id: generalPreferencesPage
+    property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
+    property var editable1:settingVisibilityPresetsModel.items[1].presetId == settingVisibilityPresetsModel.activePreset
+    property var editable2:settingVisibilityPresetsModel.items[2].presetId == settingVisibilityPresetsModel.activePreset
+    property var editable3:settingVisibilityPresetsModel.items[3].presetId == settingVisibilityPresetsModel.activePreset
+
 
     function setDefaultLanguage(languageCode)
     {
@@ -308,13 +313,14 @@ UM.PreferencesPage
             {
                 font.bold: true
                 text: catalog.i18nc("@label", "Viewport behavior")
+                visible:editable3
             }
 
             UM.TooltipArea
             {
                 width: childrenRect.width;
                 height: childrenRect.height;
-
+                visible:editable3
                 text: catalog.i18nc("@info:tooltip", "Highlight unsupported areas of the model in red. Without support these areas will not print properly.")
 
                 CheckBox
@@ -332,7 +338,7 @@ UM.PreferencesPage
                 width: childrenRect.width;
                 height: childrenRect.height;
                 text: catalog.i18nc("@info:tooltip", "Moves the camera so the model is in the center of the view when a model is selected")
-
+                visible:editable3
                 CheckBox
                 {
                     id: centerOnSelectCheckbox
@@ -346,7 +352,7 @@ UM.PreferencesPage
                 width: childrenRect.width;
                 height: childrenRect.height;
                 text: catalog.i18nc("@info:tooltip", "Should the default zoom behavior of cura be inverted?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: invertZoomCheckbox
@@ -361,7 +367,7 @@ UM.PreferencesPage
                 width: childrenRect.width;
                 height: childrenRect.height;
                 text: catalog.i18nc("@info:tooltip", "Should zooming move in the direction of the mouse?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: zoomToMouseCheckbox
@@ -376,7 +382,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip", "Should models on the platform be moved so that they no longer intersect?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: pushFreeCheckbox
@@ -390,7 +396,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip", "Should models on the platform be moved down to touch the build plate?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: dropDownCheckbox
@@ -405,7 +411,7 @@ UM.PreferencesPage
             {
                 width: childrenRect.width;
                 height: childrenRect.height;
-
+                visible:editable3
                 text: catalog.i18nc("@info:tooltip","Show caution message in g-code reader.")
 
                 CheckBox
@@ -424,7 +430,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip", "Should layer be forced into compatibility mode?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: forceLayerViewCompatibilityModeCheckbox
@@ -436,6 +442,7 @@ UM.PreferencesPage
 
             Item
             {
+                visible:editable3
                 //: Spacer
                 height: UM.Theme.getSize("default_margin").height
                 width: UM.Theme.getSize("default_margin").height
@@ -443,6 +450,7 @@ UM.PreferencesPage
 
             Label
             {
+                visible:editable3
                 font.bold: true
                 text: catalog.i18nc("@label","Opening and saving files")
             }
@@ -452,7 +460,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip","Should models be scaled to the build volume if they are too large?")
-
+                visible:editable3                
                 CheckBox
                 {
                     id: scaleToFitCheckbox
@@ -467,7 +475,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip","An model may appear extremely small if its unit is for example in meters rather than millimeters. Should these models be scaled up?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: scaleTinyCheckbox
@@ -481,7 +489,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip","Should models be selected after they are loaded?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: selectModelsOnLoadCheckbox
@@ -496,7 +504,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip", "Should a prefix based on the printer name be added to the print job name automatically?")
-
+                visible:editable3
                 CheckBox
                 {
                     id: prefixJobNameCheckbox
@@ -511,7 +519,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip", "Should a summary be shown when saving a project file?")
-
+                visible:editable3
                 CheckBox
                 {
                     text: catalog.i18nc("@option:check", "Show summary dialog when saving project")
@@ -525,7 +533,7 @@ UM.PreferencesPage
                 width: childrenRect.width
                 height: childrenRect.height
                 text: catalog.i18nc("@info:tooltip", "Default behavior when opening a project file")
-
+                visible:editable3
                 Column
                 {
                     spacing: 4 * screenScaleFactor
@@ -571,7 +579,6 @@ UM.PreferencesPage
                     }
                 }
             }
-
             Item
             {
                 //: Spacer
@@ -583,7 +590,7 @@ UM.PreferencesPage
             {
                 width: childrenRect.width;
                 height: childrenRect.height;
-
+                visible:editable3
                 text: catalog.i18nc("@info:tooltip", "When you have made changes to a profile and switched to a different one, a dialog will be shown asking whether you want to keep your modifications or not, or you can choose a default behaviour and never show that dialog again.")
 
                 Column
@@ -595,12 +602,10 @@ UM.PreferencesPage
                         font.bold: true
                         text: catalog.i18nc("@label", "Profiles")
                     }
-
                     Label
                     {
                         text: catalog.i18nc("@window:text", "Default behavior for changed setting values when switching to a different profile: ")
                     }
-
                     ComboBox
                     {
                         id: choiceOnProfileOverrideDropDownButton

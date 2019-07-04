@@ -5,25 +5,19 @@ import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
-
 import UM 1.2 as UM
 import Cura 1.0 as Cura
-
 
 Item
 {
     id: base
-
     property QtObject qualityManager: CuraApplication.getQualityManager()
     property var resetEnabled: false  // Keep PreferencesDialog happy
     property var extrudersModel: CuraApplication.getExtrudersModel()
-
     UM.I18nCatalog { id: catalog; name: "cura"; }
-
     Cura.QualityManagementModel {
         id: qualitiesModel
     }
-
     Label {
         id: titleLabel
         anchors {
@@ -64,7 +58,7 @@ Item
         {
             text: catalog.i18nc("@action:button", "Activate")
             iconName: "list-activate"
-            enabled: !isCurrentItemActivated
+            enabled: !isCurrentItemActivated&& base.currentItem.type!=2
             onClicked: {
                 if (base.currentItem.is_read_only) {
                     Cura.MachineManager.setQualityGroup(base.currentItem.quality_group);
@@ -104,7 +98,7 @@ Item
         {
             text: catalog.i18nc("@action:button", "Remove")
             iconName: "list-remove"
-            enabled: base.hasCurrentItem && !base.currentItem.is_read_only && !base.isCurrentItemActivated
+            enabled: base.hasCurrentItem && !base.currentItem.is_read_only && !base.isCurrentItemActivated 
             onClicked: {
                 forceActiveFocus();
                 confirmRemoveQualityDialog.open();
@@ -115,7 +109,7 @@ Item
         {
             text: catalog.i18nc("@action:button", "Rename")
             iconName: "edit-rename"
-            enabled: base.hasCurrentItem && !base.currentItem.is_read_only
+            enabled: base.hasCurrentItem && !base.currentItem.is_read_only&& !base.isCurrentItemActivated && base.currentItem.type!=2
             onClicked: {
                 renameQualityDialog.object = base.currentItem.name;
                 renameQualityDialog.open();
@@ -131,7 +125,6 @@ Item
                 importDialog.open();
             }
         }
-
         // Export button
         Button
         {
@@ -143,7 +136,6 @@ Item
             }
         }
     }
-
     // Click create profile from ... in Profile context menu
     signal createProfile()
     onCreateProfile:
@@ -152,7 +144,18 @@ Item
         createQualityDialog.open();
         createQualityDialog.selectText();
     }
-
+    // Click create profile from ... in Profile context menu
+    signal createProfile2()
+    onCreateProfile2:
+    {
+        /*createQualityDialog.object = Cura.ContainerManager.makeUniqueName(Cura.MachineManager.activeQualityOrQualityChangesName);
+        createQualityDialog.open();
+        createQualityDialog.selectText();
+        */
+         base.newQualityNameToSelect = Cura.ContainerManager.makeUniqueName(Cura.MachineManager.activeQualityOrQualityChangesName);  // We want to switch to the new profile once it's created
+         base.toActivateNewQuality = true;
+         base.qualityManager.createQualityChanges(Cura.ContainerManager.makeUniqueName(Cura.MachineManager.activeQualityOrQualityChangesName));
+    }
     // Dialog to request a name when creating a new profile
     UM.RenameDialog
     {
@@ -167,7 +170,6 @@ Item
             base.qualityManager.createQualityChanges(newName);
         }
     }
-
     property string newQualityNameToSelect: ""
     property bool toActivateNewQuality: false
     // This connection makes sure that we will switch to the correct quality after the model gets updated
@@ -181,7 +183,6 @@ Item
             {
                 toSelectItemName = newQualityNameToSelect;
             }
-
             var newIdx = -1;  // Default to nothing if nothing can be found
             if (toSelectItemName != "")
             {
@@ -203,13 +204,11 @@ Item
                 }
             }
             qualityListView.currentIndex = newIdx;
-
             // Reset states
             base.newQualityNameToSelect = "";
             base.toActivateNewQuality = false;
         }
     }
-
     // Dialog to request a name when duplicating a new profile
     UM.RenameDialog
     {
@@ -221,18 +220,15 @@ Item
             base.qualityManager.duplicateQualityChanges(newName, base.currentItem);
         }
     }
-
     // Confirmation dialog for removing a profile
     MessageDialog
     {
         id: confirmRemoveQualityDialog
-
         icon: StandardIcon.Question;
         title: catalog.i18nc("@title:window", "Confirm Remove")
         text: catalog.i18nc("@label (%1 is object name)", "Are you sure you wish to remove %1? This cannot be undone!").arg(base.currentItemName)
         standardButtons: StandardButton.Yes | StandardButton.No
         modality: Qt.ApplicationModal
-
         onYes:
         {
             base.qualityManager.removeQualityChangesGroup(base.currentItem.quality_changes_group);
@@ -240,7 +236,6 @@ Item
             qualityListView.currentIndex = -1;  // Reset selection.
         }
     }
-
     // Dialog to rename a quality profile
     UM.RenameDialog
     {
@@ -253,7 +248,6 @@ Item
             base.newQualityNameToSelect = actualNewName;  // Select the new name after the model gets updated
         }
     }
-
     // Dialog for importing a quality profile
     FileDialog
     {
@@ -279,7 +273,6 @@ Item
             CuraApplication.setDefaultPath("dialog_profile_path", folder);
         }
     }
-
     // Dialog for exporting a quality profile
     FileDialog
     {
@@ -292,21 +285,17 @@ Item
         {
             var result = Cura.ContainerManager.exportQualityChangesGroup(base.currentItem.quality_changes_group,
                                                                          fileUrl, selectedNameFilter);
-
             if (result && result.status == "error") {
                 messageDialog.icon = StandardIcon.Critical;
                 messageDialog.text = result.message;
                 messageDialog.open();
             }
-
             // else pop-up Message thing from python code
             CuraApplication.setDefaultPath("dialog_profile_path", folder);
         }
     }
-
     Item {
         id: contentsItem
-
         anchors {
             top: titleLabel.bottom
             left: parent.left
@@ -315,10 +304,8 @@ Item
             margins: 5 * screenScaleFactor
             bottomMargin: 0
         }
-
         clip: true
     }
-
     Item
     {
         anchors {
@@ -328,9 +315,7 @@ Item
             right: parent.right
             bottom: parent.bottom
         }
-
         SystemPalette { id: palette }
-
         Label
         {
             id: captionLabel
@@ -343,7 +328,6 @@ Item
             width: profileScrollView.width
             elide: Text.ElideRight
         }
-
         ScrollView
         {
             id: profileScrollView
@@ -353,28 +337,21 @@ Item
                 bottom: parent.bottom
                 left: parent.left
             }
-
             Rectangle {
                 parent: viewport
                 anchors.fill: parent
                 color: palette.light
             }
-
             width: true ? (parent.width * 0.4) | 0 : parent.width
             frameVisible: true
             clip: true
-
             ListView
             {
                 id: qualityListView
-
                 model: qualitiesModel
-
                 Component.onCompleted:
                 {
                     var selectedItemName = Cura.MachineManager.activeQualityOrQualityChangesName;
-
-                    // Select the required quality name if given
                     for (var idx = 0; idx < qualitiesModel.count; idx++)
                     {
                         var item = qualitiesModel.getItem(idx);
@@ -385,7 +362,7 @@ Item
                         }
                     }
                 }
-                section.property: "is_read_only"
+                section.property:"type"
                 section.delegate: Rectangle
                 {
                     height: childrenRect.height
@@ -393,7 +370,7 @@ Item
                     {
                         anchors.left: parent.left
                         anchors.leftMargin: UM.Theme.getSize("default_lining").width
-                        text: section == "true" ? catalog.i18nc("@label", "Default profiles") : catalog.i18nc("@label", "Custom profiles")
+                        text:section == "0" ? catalog.i18nc("@label","Default profiles") : section==1?catalog.i18nc("@label","Custom profiles"):catalog.i18nc("@label","Autosaved profiles")
                         font.bold: true
                     }
                 }
@@ -424,12 +401,10 @@ Item
                 }
             }
         }
-
         // details panel on the right
         Item
         {
             id: detailsPanel
-
             anchors {
                 left: profileScrollView.right
                 leftMargin: UM.Theme.getSize("default_margin").width
@@ -437,16 +412,13 @@ Item
                 bottom: parent.bottom
                 right: parent.right
             }
-
             Item
             {
                 anchors.fill: parent
                 visible: base.currentItem != null
-
                 Item    // Profile title Label
                 {
                     id: profileName
-
                     width: parent.width
                     height: childrenRect.height
 
@@ -455,7 +427,6 @@ Item
                         font: UM.Theme.getFont("large_bold")
                     }
                 }
-
                 Flow {
                     id: currentSettingsActions
                     visible: base.hasCurrentItem && base.currentItem.name == Cura.MachineManager.activeQualityOrQualityChangesName
@@ -463,7 +434,6 @@ Item
                     anchors.right: parent.right
                     anchors.top: profileName.bottom
                     anchors.topMargin: UM.Theme.getSize("default_margin").height
-
                   Button
                     {
                         text: catalog.i18nc("@action:button", "Update profile with current settings/overrides")
@@ -522,7 +492,6 @@ Item
                     Repeater
                     {
                         model: base.extrudersModel
-
                         ProfileTab
                         {
                             title: model.name

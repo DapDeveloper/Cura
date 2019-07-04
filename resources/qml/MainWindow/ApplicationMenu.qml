@@ -75,7 +75,7 @@ Item
             id: preferencesMenu
             title: catalog.i18nc("@title:menu menubar:toplevel", "P&references")
             MenuItem { action: Cura.Actions.preferences }
-            MenuItem { action: Cura.Actions.sliceWizard }
+            //MenuItem { action: Cura.Actions.sliceWizard }
         }
         Menu
         {

@@ -15,8 +15,8 @@ Item
     UM.I18nCatalog { id: catalog; name: "cura" }
     id: dialog
     anchors.centerIn: parent
-    width: 800 * screenScaleFactor
-    height: 600 * screenScaleFactor
+    width: 1380 * screenScaleFactor
+    height: 800 * screenScaleFactor
     property int shadowOffset: 1 * screenScaleFactor
     property alias progressBarVisible: wizardPanel.progressBarVisible
     property var model: CuraApplication.getWelcomePagesModel()

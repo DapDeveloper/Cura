@@ -127,7 +127,7 @@ Item
             }
             anchors.topMargin:10
         }*/
-           Cura.SettingViewViewerWizardWelcome
+       Cura.SettingViewViewerWizardWelcome
         {
             id:choosePrinterID
             width:200
@@ -147,7 +147,6 @@ Item
             width:300
             //anchors.horizontalCenter: parent.horizontalCenter
             //horizontalAlignment: Text.AlignHCenter
-
             anchors
             {
                 left:parent.left
@@ -162,7 +161,7 @@ Item
         }
         Cura.SettingViewViewerWizardWelcomeMat
         {
-            width:300
+            width:parent.width/2
             height:50
             anchors
             {
@@ -193,7 +192,7 @@ Item
         }
         Cura.SettingViewViewerWizardWelcomeProfile
         {
-            width:300
+            width:parent.width/4
             height:50
             anchors
             {

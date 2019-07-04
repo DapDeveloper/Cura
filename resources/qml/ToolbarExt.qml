@@ -4,6 +4,7 @@ import QtQuick 2.2
 import QtQuick.Controls 2.3
 import UM 1.2 as UM
 import Cura 1.0 as Cura
+
 Item
 {
     id: base
@@ -43,7 +44,7 @@ Item
             }
             radius: UM.Theme.getSize("default_radius").width
             color: UM.Theme.getColor("lining")
-            visible: extrudersModel.items.length > 1
+            visible: false//extrudersModel.items.length > 1
         }//Print Selected Model With:
         Column
         {
@@ -51,14 +52,14 @@ Item
             anchors.topMargin: UM.Theme.getSize("default_margin").height
             anchors.top: toolButtons.bottom
             anchors.right: parent.right
-            spacing: UM.Theme.getSize("default_lining").height
+            spacing:0// UM.Theme.getSize("default_lining").height
             Repeater
             {
                 id: extruders
                 width: childrenRect.width
                 height: childrenRect.height
                 model: extrudersModel.items.length > 1 ? extrudersModel : 0
-                delegate: ExtruderButton
+                delegate: ExtruderButton2
                 {
                     extruder: model
                     isTopElement: extrudersModel.getItem(0).id == model.id

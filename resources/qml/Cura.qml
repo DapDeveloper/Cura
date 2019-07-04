@@ -38,9 +38,9 @@ UM.MainWindow
     {
         id: greyOutBackground
         anchors.fill: parent
-        visible: welcomeDialogItem.visible
+        visible: false//welcomeDialogItem.visible
         color: UM.Theme.getColor("window_disabled_background")
-        opacity: 0.7
+        opacity: 0.1
         z: stageMenu.z + 1
         MouseArea
         {
@@ -61,7 +61,7 @@ UM.MainWindow
     {
         id: welcomeDialogWizardItem
         visible: true  // True, so if somehow no preferences are found/loaded, it's shown anyway.
-        z: greyOutBackground.z + 1
+        //z: greyOutBackground.z + 1
     }
     
     Connections
@@ -143,6 +143,7 @@ UM.MainWindow
         Item
         {
             id: headerBackground
+            visible:welcomeDialogWizardItem.visible==false && welcomeDialogItem.visible==false
             anchors
             {
                 top: applicationMenu.bottom
@@ -194,6 +195,7 @@ UM.MainWindow
                 horizontalCenter: parent.horizontalCenter
             }
            anchors.bottomMargin:5
+           visible:welcomeDialogWizardItem.visible==false && welcomeDialogItem.visible==false
         }
         JobSpecs
         {
@@ -217,7 +219,8 @@ UM.MainWindow
                 top:parent.top
             }
             anchors.topMargin:20
-            Cura.ConfigurationMenuSimple
+            visible:welcomeDialogWizardItem.visible==false && welcomeDialogItem.visible==false
+            /*Cura.ConfigurationMenuSimple
             {
                 id: materialsViewer
                 height:50
@@ -230,19 +233,20 @@ UM.MainWindow
                //verticalCenter:parent.verticalCenter
                 top:parent.top    
                 }
-            }
+            }*/
             Cura.GlobalProfileSelectorMW
             {
                 id:gPPs
                 visible:true
                 //width:100
                 width:200
+                height:100
                 anchors
                 {
                     //left:parent.left
                     //horizontalCenter:materialsViewer.horizontalCenter
                     right:parent.right
-                    top:materialsViewer.bottom
+                    top:parent.top
                 }
             }
 
@@ -289,20 +293,22 @@ UM.MainWindow
                 height:50
             }
         }*/
-
-        MainWindowHeader
+    MainWindowHeader
+    {
+        id: mainWindowHeader
+        
+        visible:welcomeDialogWizardItem.visible==false && welcomeDialogItem.visible==false
+        anchors
         {
-            id: mainWindowHeader
-            anchors
-            {
-                left: parent.left
-                right: parent.right
-                top: applicationMenu.bottom
-            }
+            left: parent.left
+            right: parent.right
+            top: applicationMenu.bottom
         }
-       Item
+    }
+    Item
     {
         id: contentItem
+        visible:welcomeDialogWizardItem.visible==false && welcomeDialogItem.visible==false
         anchors
         {
             top:mainWindowHeader.bottom
@@ -383,6 +389,7 @@ UM.MainWindow
                 //verticalCenter: parent.verticalCenter
                 bottom:parent.bottom
                 right: parent.right
+                bottomMargin:0
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
@@ -391,10 +398,14 @@ UM.MainWindow
             id:toolbarInformations
             anchors{
                 right:parent.right
-                verticalCenter:parent.verticalCenter
+                //verticalCenter:parent.verticalCenter
                 //top:gPPs.bottom
+                top:parent.top
+                //bottom:parent.bottom
+                topMargin:100
             }
-            anchors.topMargin:100
+            //anchors.topMargin:15
+            visible:welcomeDialogWizardItem.visible==false && welcomeDialogItem.visible==false
         }
        /* Item
         {
@@ -513,6 +524,42 @@ UM.MainWindow
             }
             source: UM.Controller.activeStage != null ? UM.Controller.activeStage.mainComponent : ""
         }
+        WorkspaceSummaryDialog
+    {
+        id: saveWorkspaceDialog
+        property var args
+        onYes: UM.OutputDeviceManager.requestWriteToDevice("local_file", PrintInformation.jobName, args)
+    }
+
+        Cura.PrimaryButton
+        {
+            id:btnSaveProject
+            text:"Save project"
+            anchors
+            {
+                left:parent.left
+                top:parent.top
+            }
+            onClicked:
+            {
+             /*         var args = { "filter_by_machine": false, "file_type": "workspace", "preferred_mimetypes": "application/vnd.ms-package.3dmanufacturing-3dmodel+xml" };
+                    if(UM.Preferences.getValue("cura/dialog_on_project_save"))
+                    {
+                        saveWorkspaceDialog.args = args
+                        saveWorkspaceDialog.open()
+                    }
+                    else
+                    {
+                        UM.OutputDeviceManager.requestWriteToDevice("local_file", PrintInformation.jobName, args)
+                    }*/
+                    //UM.OutputDeviceManager.requestWriteToDevice("local_file", PrintInformation.jobName, args)
+
+                var args = { "filter_by_machine": false, "file_type": "workspace", "preferred_mimetypes": "application/vnd.ms-package.3dmanufacturing-3dmodel+xml" };
+                saveWorkspaceDialog.args = args
+                saveWorkspaceDialog.open()
+            }
+         anchors.topMargin:10
+        }
         Loader//open file btn
         {
             // The stage menu is, as the name implies, a menu that is defined by the active stage.
@@ -523,7 +570,7 @@ UM.MainWindow
             {
                 left: parent.left
                 //bottom:parent.bottom
-                top:parent.top
+                top:btnSaveProject.bottom
             }
             anchors.topMargin:10
             anchors.leftMargin:55
@@ -583,10 +630,10 @@ UM.MainWindow
             }
         }
     }
-        PrintSetupTooltip
-        {
-            id: tooltip
-        }
+    PrintSetupTooltip
+    {
+        id: tooltip
+    }
     }
     UM.PreferencesDialog
     {
@@ -616,8 +663,6 @@ UM.MainWindow
         target: Cura.Actions.preferences
         onTriggered: preferences.visible = true
     }
-
-    
     Connections
     {
         target: CuraApplication
@@ -626,7 +671,6 @@ UM.MainWindow
     UM.SettingPropertyProvider
     {
         id: machineExtruderCount
-
         containerStackId: Cura.MachineManager.activeMachineId
         key: "machine_extruder_count"
         watchedProperties: [ "value" ]
@@ -641,20 +685,20 @@ UM.MainWindow
         property var pages:5
         Component.onCompleted:
         {//:update()
-            removePage(0);
-            removePage(1);
-            removePage(2);
-            removePage(3);
-            removePage(4);
-            removePage(5);
-            insertPage(0, catalog.i18nc("@title:label","Printer Settings"), Qt.resolvedUrl("Preferences/wizard/wizardInitialPage.qml"));
-            insertPage(1, catalog.i18nc("@title:label","Quality"), Qt.resolvedUrl("Preferences/wizard/QualityPage.qml"));
-            insertPage(2, catalog.i18nc("@title:label","Structure"), Qt.resolvedUrl("Preferences/wizard/StructurePage.qml"));
-            insertPage(3, catalog.i18nc("@title:label","Adhesion"), Qt.resolvedUrl("Preferences/wizard/AdhesionPage.qml"));
-            insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
-            insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
-            pages=5;
-            setPage(0);
+        removePage(0);
+        removePage(1);
+        removePage(2);
+        removePage(3);
+        removePage(4);
+        removePage(5);
+        insertPage(0, catalog.i18nc("@title:label","Printer Settings"), Qt.resolvedUrl("Preferences/wizard/wizardInitialPage.qml"));
+        insertPage(1, catalog.i18nc("@title:label","Quality"), Qt.resolvedUrl("Preferences/wizard/QualityPage.qml"));
+        insertPage(2, catalog.i18nc("@title:label","Structure"), Qt.resolvedUrl("Preferences/wizard/StructurePage.qml"));
+        insertPage(3, catalog.i18nc("@title:label","Adhesion"), Qt.resolvedUrl("Preferences/wizard/AdhesionPage.qml"));
+        insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
+        insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
+        pages=5;
+        setPage(0);
         }
         function update()
         {
@@ -801,6 +845,21 @@ UM.MainWindow
             createProfileTimer.start();
         }
     }
+      Connections
+    {
+        target: Cura.Actions.autoSaveProfile
+        property QtObject qualityManager: CuraApplication.getQualityManager()
+        onTriggered:
+        {
+            /*
+            preferences.show();
+            preferences.setPage(4);
+            // Create a new profile after a very short delay so the preference page has time to initiate
+            createProfileTimer2.start();
+    */
+         qualityManager.createQualityChanges(Cura.ContainerManager.makeUniqueNameM("*AUTOSAVE"+PrintInformation.jobName+"_"+PrintInformation.materialNames/*Cura.MachineManager.activeQualityOrQualityChangesName*/));
+        }
+    }
     Connections
     {
         target: Cura.Actions.configureMachines
@@ -847,6 +906,16 @@ UM.MainWindow
         repeat: false
         interval: 1
         onTriggered: preferences.getCurrentItem().createProfile()
+    }
+    Timer
+    {
+        id: createProfileTimer2
+        repeat: false
+        interval: 1
+        onTriggered: {
+            preferences.getCurrentItem().createProfile2();
+            preferences.hide();
+            }
     }
     // BlurSettings is a way to force the focus away from any of the setting items.
     // We need to do this in order to keep the bindings intact.

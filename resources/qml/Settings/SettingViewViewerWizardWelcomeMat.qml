@@ -19,10 +19,11 @@ Item
           Cura.ConfigurationMenu
         {
             height:50
-            width:300
+            width:parent.width
             anchors
             {
-                horizontalCenter:parent.horizontalCenter
+                //horizontalCenter:parent.horizontalCenter
+                left:parent.left
                 top:parent.top
 
             }

@@ -45,17 +45,14 @@ UM.TooltipArea
     property var afterOnEditingFinishedFunction: dummy_func
     property var forceUpdateOnChangeFunction: dummy_func
     property var setValueFunction: null
-
+    property var editable:true
     // a dummy function for default property values
     function dummy_func() {}
-
-
     UM.SettingPropertyProvider
     {
         id: propertyProvider
         watchedProperties: [ "value", "description" ]
     }
-
     Label
     {
         id: fieldLabel
@@ -65,7 +62,6 @@ UM.TooltipArea
         font: UM.Theme.getFont("medium")
         renderType: Text.NativeRendering
     }
-
     TextField
     {
         id: textFieldWithUnit
@@ -73,6 +69,7 @@ UM.TooltipArea
         anchors.leftMargin: UM.Theme.getSize("default_margin").width
         width: numericTextFieldWithUnit.controlWidth
         height: numericTextFieldWithUnit.controlHeight
+        readOnly:!editable
         // Background is a rounded-cornered box with filled color as state indication (normal, warning, error, etc.)
         background: Rectangle
         {

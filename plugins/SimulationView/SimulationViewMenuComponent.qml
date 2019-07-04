@@ -7,7 +7,6 @@ import QtQuick.Controls.Styles 1.1
 import QtGraphicalEffects 1.0
 import UM 1.0 as UM
 import Cura 1.0 as Cura
-
 Cura.ExpandableComponent
 {
     id: base
@@ -87,25 +86,25 @@ Cura.ExpandableComponent
         }
         Component.onCompleted:
         {
-            layerViewTypes.append({
+            /*layerViewTypes.append({
                 text: catalog.i18nc("@label:listbox", "Material Color"),
+                type_id: 0
+            })*/
+            layerViewTypes.append({
+                text: catalog.i18nc("@label:listbox", "Line Type"),
                 type_id: 0
             })
             layerViewTypes.append({
-                text: catalog.i18nc("@label:listbox", "Line Type"),
+                text: catalog.i18nc("@label:listbox", "Feedrate"),
                 type_id: 1
             })
             layerViewTypes.append({
-                text: catalog.i18nc("@label:listbox", "Feedrate"),
-                type_id: 2
-            })
-            layerViewTypes.append({
                 text: catalog.i18nc("@label:listbox", "Layer thickness"),
-                type_id: 3  // these ids match the switching in the shader
+                type_id: 2  // these ids match the switching in the shader
             })
             layerViewTypes.append({
                 text: catalog.i18nc("@label:listbox", "Extruders Colors"),
-                type_id: 4  // these ids match the switching in the shader
+                type_id: 3  // these ids match the switching in the shader
             })
         }
         ComboBox
@@ -132,7 +131,6 @@ Cura.ExpandableComponent
                 viewSettings.show_feedrate_gradient = viewSettings.show_gradient && (type_id == 2);
                 viewSettings.show_thickness_gradient = viewSettings.show_gradient && (type_id == 3);
                 viewSettings.show_extruders_gradient = viewSettings.show_gradient && (type_id == 4);
-                
             }
         }
         Label
@@ -237,9 +235,7 @@ Cura.ExpandableComponent
                 onClicked: UM.Preferences.setValue(model.preference, checked)
                 height: UM.Theme.getSize("layerview_row").height + UM.Theme.getSize("default_lining").height
                 width: parent.width
-
                 style: UM.Theme.styles.checkbox
-
                 Rectangle
                 {
                     anchors.verticalCenter: parent.verticalCenter
@@ -515,7 +511,6 @@ Cura.ExpandableComponent
                 }
             }
         }
-
           Rectangle
         {
             id: extrudersGradient

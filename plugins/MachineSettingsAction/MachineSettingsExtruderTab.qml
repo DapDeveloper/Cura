@@ -1,12 +1,10 @@
 // Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
-
-import QtQuick 2.10
-import QtQuick.Controls 2.3
-
+import QtQuick 2.7
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import UM 1.3 as UM
 import Cura 1.1 as Cura
-
 
 //
 // This component contains the content for the "Welcome" page of the welcome on-boarding process.
@@ -15,7 +13,6 @@ Item
 {
     id: base
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.top: parent.top
@@ -30,11 +27,17 @@ Item
     property var forceUpdateFunction: manager.forceUpdate
     property var forceUpdateQuality: Cura.MachineManager.updateQualityChanges()
     property var forceUpdateAllSetings:manager.forceUpdateAllSetings
-    
+
+    property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
+    property var editable1:settingVisibilityPresetsModel.items[1].presetId == settingVisibilityPresetsModel.activePreset
+    property var editable2:settingVisibilityPresetsModel.items[2].presetId == settingVisibilityPresetsModel.activePreset
+    property var editable3:settingVisibilityPresetsModel.items[3].presetId == settingVisibilityPresetsModel.activePreset
+
     function updateMaterialDiameter()
     {
         manager.updateMaterialForDiameter(extruderPosition)
     }
+
     Item
     {
         id: upperBlock
@@ -137,10 +140,11 @@ Item
                 settingStoreIndex: propertyStoreIndex
                 labelText: catalog.i18nc("@label", "Line width")
                 labelFont: base.labelFont
-                 labelWidth: base.labelWidth/1.2
+                labelWidth: base.labelWidth/1.2
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "wall Line WIDTH"
             {
@@ -154,6 +158,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "wall Line WIDTH 0"
             {
@@ -167,6 +172,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "wall Line WIDTH X"
             {
@@ -176,10 +182,11 @@ Item
                 settingStoreIndex: propertyStoreIndex
                 labelText: catalog.i18nc("@label", "Wall line width X")
                 labelFont: base.labelFont
-                   labelWidth: base.labelWidth/1.2
+                labelWidth: base.labelWidth/1.2
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "skin Line WIDTH"
             {
@@ -193,6 +200,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "Support Line WIDTH"
             {
@@ -206,6 +214,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "Inteface Line WIDTH"
             {
@@ -219,6 +228,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "Roof Line WIDTH"
             {
@@ -232,6 +242,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                 editable:editable3
             }
             Cura.NumericTextFieldWithUnit  // "Bottom Line WIDTH"
             {
@@ -245,6 +256,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                 editable:editable3
             }
               Cura.NumericTextFieldWithUnit  // "Prime tower Line WIDTH"
             {
@@ -258,16 +270,59 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                 editable:editable3
             }
-        
+            Cura.NumericTextFieldWithUnit  // "Initial layer Line WIDTH"
+            {
+                id: extruderInitialLineWidth
+                containerStackId: base.extruderStackId
+                settingKey: "machine_initial_line_width"
+                settingStoreIndex: propertyStoreIndex
+                labelText: catalog.i18nc("@label", "Initial line width")
+                labelFont: base.labelFont
+                labelWidth: base.labelWidth/1.2
+                controlWidth: base.controlWidth/1.5
+                unitText: catalog.i18nc("@label", "%")
+                forceUpdateOnChangeFunction: forceUpdateFunction
+                 editable:editable3
+            }
+            Cura.NumericTextFieldWithUnit  // "infill Line WIDTH"
+            {
+                id: extruderInfillLineWidth
+                containerStackId: base.extruderStackId
+                settingKey: "machine_infill_line_width"
+                settingStoreIndex: propertyStoreIndex
+                labelText: catalog.i18nc("@label", "Infill line width")
+                labelFont: base.labelFont
+                labelWidth: base.labelWidth/1.2
+                controlWidth: base.controlWidth/1.5
+                unitText: catalog.i18nc("@label", "mm")
+                forceUpdateOnChangeFunction: forceUpdateFunction
+                 editable:editable3
+                 
+            }
+              Cura.NumericTextFieldWithUnit  // "prime tower flow"
+            { 
+                id: extruderPrimeTowerFlow
+                containerStackId: base.extruderStackId
+                settingKey: "machine_prime_tower_flow"
+                settingStoreIndex: propertyStoreIndex
+                labelText: catalog.i18nc("@label", "Prime tower flow")
+                labelFont: base.labelFont
+                labelWidth: base.labelWidth/1.2
+                controlWidth: base.controlWidth/1.5
+                unitText: catalog.i18nc("@label", "%")
+                forceUpdateOnChangeFunction: forceUpdateFunction
+                 editable:editable3
+            }
         }
-         Column
+        /* Column
         {
             anchors.top: parent.top
             anchors.left: column1.right
             width: parent.width /2
             spacing: base.columnSpacing
-                Cura.NumericTextFieldWithUnit  // "Initial layer Line WIDTH"
+            /*    Cura.NumericTextFieldWithUnit  // "Initial layer Line WIDTH"
             {
                 id: extruderInitialLineWidth
                 containerStackId: base.extruderStackId
@@ -293,7 +348,21 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
-            Cura.NumericTextFieldWithUnit  // "infill extruder nr"
+              Cura.NumericTextFieldWithUnit  // "prime tower flow"
+            { 
+                id: extruderPrimeTowerFlow
+                containerStackId: base.extruderStackId
+                settingKey: "machine_prime_tower_flow"
+                settingStoreIndex: propertyStoreIndex
+                labelText: catalog.i18nc("@label", "Prime tower flow")
+                labelFont: base.labelFont
+                labelWidth: base.labelWidth/1.2
+                controlWidth: base.controlWidth/1.5
+                unitText: catalog.i18nc("@label", "%")
+                forceUpdateOnChangeFunction: forceUpdateFunction
+            }*/
+
+           /* Cura.NumericTextFieldWithUnit  // "infill extruder nr"
             {
                 id: extruderInfillNumber
                 containerStackId: base.extruderStackId
@@ -397,7 +466,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "")
                 forceUpdateOnChangeFunction: forceUpdateQuality
-            }
+            }*/
            /*   Cura.ComboBoxWithOptions
             {
                 id: machineAdhesionExtruder
@@ -409,7 +478,7 @@ Item
                 labelWidth: base.labelWidth/1.2
                 forceUpdateOnChangeFunction: forceUpdateQuality
             }*/
-             Cura.NumericTextFieldWithUnit  // "prime tower flow"
+            /* Cura.NumericTextFieldWithUnit  // "prime tower flow"
             { 
                 id: extruderPrimeTowerFlow
                 containerStackId: base.extruderStackId
@@ -421,8 +490,8 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "%")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-            }
-        }
+            }*/
+        //}
     }
 /*
     Item  // Extruder Start and End G-code

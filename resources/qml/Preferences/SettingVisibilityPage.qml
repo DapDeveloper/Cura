@@ -1,6 +1,5 @@
 // Copyright (c) 2016 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
-
 import QtQuick 2.1
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
@@ -12,6 +11,8 @@ UM.PreferencesPage
     title: catalog.i18nc("@title:tab", "Setting Visibility");
     property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
     property int scrollToIndex: 0
+    property int clicksNumber: 0
+    
     signal scrollToSection( string key )
     onScrollToSection:
     {
@@ -22,6 +23,39 @@ UM.PreferencesPage
         settingVisibilityPresetsModel.setActivePreset("basic")
     }
     resetEnabled: true;
+    TextField {
+        id: cmdLineField
+        objectName: "userType"
+        focus: true
+        //validator: RegExpValidator {regExp: /^[1-9]\d{0,2}([\,|\.]\d*)?$/}
+        width: 180 * screenScaleFactor
+        //onTextChanged: { manager.onWidthChanged(text) }
+        visible:false
+        anchors
+        {
+            left:parent.left
+            bottom:parent.bottom
+        }
+    }
+
+    Button
+    {
+        id:btnEnter
+        text: catalog.i18nc("@action:button", ">")
+        height:cmdLineField.height
+        width:50
+        iconName: "list-activate"
+        anchors.left:cmdLineField.right
+        anchors.bottom:cmdLineField.bottom
+        visible:cmdLineField.visible
+        onClicked: {
+
+                if(cmdLineField.text=="555")
+                {
+                    settingVisibilityPresetsModel.setActivePreset( settingVisibilityPresetsModel.items[3].presetId)
+                }
+        }
+    }
     Label
     {
         id:lblSubtitle
@@ -71,7 +105,7 @@ UM.PreferencesPage
                   settingVisibilityPresetsModel.setActivePreset( settingVisibilityPresetsModel.items[1].presetId)
             }
         }
-         Button
+        Button
         {
             id:btnTecAdv1
             height:50
@@ -82,10 +116,10 @@ UM.PreferencesPage
             iconName: "list-activate"
             enabled: true
             opacity:0
-            onClicked: {
+            /*onClicked: {
                 //btnTecAdv2.opacity=0.1
                 btnTecAdv2.enabled=true
-            }
+            }*/
         }
          Button
         {
@@ -99,11 +133,11 @@ UM.PreferencesPage
             iconName: "list-activate"
             enabled: false
             opacity:0
-            onClicked: {
+          /*  onClicked: {
                 
                 //btnTecAdv3.opacity=0.3
                 btnTecAdv3.enabled=true
-            }
+            }*/
         }
          Button
         {
@@ -117,10 +151,10 @@ UM.PreferencesPage
             iconName: "list-activate"
             enabled: false
             opacity:0
-            onClicked: {
+           /* onClicked: {
               btnTecAdv4.opacity=0.4
               btnTecAdv4.enabled=true
-            }
+            }*/
         }
          Button
         {
@@ -134,7 +168,7 @@ UM.PreferencesPage
             iconName: "list-activate"
             enabled: false
             opacity:0
-            onClicked: {
+            /*onClicked: {
                 if(btnTecnical.visible)
                 {
                       btnTecnical.visible=false
@@ -142,7 +176,7 @@ UM.PreferencesPage
                 {
                       btnTecnical.visible=true
                 }
-            }
+            }*/
         }
         Button
         {
@@ -176,7 +210,10 @@ UM.PreferencesPage
             iconName: "list-activate"
             enabled: true
             onClicked: {
-                  settingVisibilityPresetsModel.setActivePreset( settingVisibilityPresetsModel.items[2].presetId)
+                clicksNumber++
+                if(clicksNumber>5)
+                cmdLineField.visible=true
+                settingVisibilityPresetsModel.setActivePreset( settingVisibilityPresetsModel.items[2].presetId)
             }
         }
          Button

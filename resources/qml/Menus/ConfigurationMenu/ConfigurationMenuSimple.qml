@@ -44,7 +44,7 @@ Cura.ExpandablePopup2
                 height: parent.height
                 width: Math.round(ListView.view.width / extrudersModel.count)
                 // Extruder icon. Shows extruder index and has the same color as the active material.
-                Cura.ExtruderIcon
+                Cura.ExtruderIconBig
                 {
                     id: extruderIcon
                     //materialColor: UM.Theme.getColor("red_extruder")//model.color

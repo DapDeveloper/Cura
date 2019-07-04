@@ -26,6 +26,7 @@ Column
     {
         if (widget.backendState == UM.Backend.NotStarted)
         {
+            Cura.Actions.autoSaveProfile.trigger()
             CuraApplication.backend.forceSlice()
         }
         else

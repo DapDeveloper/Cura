@@ -211,10 +211,8 @@ class WelcomePagesModel(ListModel):
                            },
                         
                           ]
-
         self._pages = all_pages_list
         self.setItems(self._pages)
-
     # For convenience, inject the default "next" button text to each item if it's not present.
     def setItems(self, items: List[Dict[str, Any]]) -> None:
         for item in items:

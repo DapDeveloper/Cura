@@ -444,10 +444,8 @@ class CuraApplication(QtApplication):
     # Runs preparations that needs to be done before the starting process.
     def startSplashWindowPhase(self) -> None:
         super().startSplashWindowPhase()
-
         if not self.getIsHeadLess():
             self.setWindowIcon(QIcon(Resources.getPath(Resources.Images, "mtc-icon.png")))
-
         self.setRequiredPlugins([
             # Misc.:
             "ConsoleLogger", #You want to be able to read the log if something goes wrong.
@@ -467,7 +465,6 @@ class CuraApplication(QtApplication):
             "GCodeWriter", #Cura is useless if it can't write its output.
             "STLReader", #Most common model format, so disabling this makes Cura 90% useless.
             "3MFWriter", #Required for writing project files.
-
             # Tools:
             "CameraTool", #Needed to see the scene. Cura is useless without it.
             "SelectionTool", #Dependency of the rest of the tools.

@@ -16,8 +16,8 @@ Window
     id: dialog
     flags: Qt.Dialog
     modality: Qt.ApplicationModal
-    minimumWidth: 800 * screenScaleFactor
-    minimumHeight: 600 * screenScaleFactor
+    minimumWidth: 1380 * screenScaleFactor
+    minimumHeight: 800 * screenScaleFactor
     color: UM.Theme.getColor("main_background")
     property var model: null  // Needs to be set by whoever is using this dialog.
     property alias progressBarVisible: wizardPanel.progressBarVisible

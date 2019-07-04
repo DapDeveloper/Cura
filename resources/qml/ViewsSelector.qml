@@ -11,6 +11,7 @@ Cura.ExpandablePopup
     id: viewSelector
     contentPadding: UM.Theme.getSize("default_lining").width
     contentAlignment: Cura.ExpandablePopup.ContentAlignment.AlignLeft
+    visible:false
     property var viewModel: UM.ViewModel
     {
         onDataChanged: updateActiveView()
@@ -36,7 +37,7 @@ Cura.ExpandablePopup
         }
     }
     headerItem: Item
-    {
+    { visible:false
         Label
         {
             id: title
@@ -67,6 +68,7 @@ Cura.ExpandablePopup
     }
   contentItem: Column
     {
+        visible:false
         id: viewSelectorPopup
         width: viewSelector.width - 2 * viewSelector.contentPadding
         // For some reason the height/width of the column gets set to 0 if this is not set...

@@ -25,13 +25,24 @@ class CustomQualityProfilesDropDownMenuModel(QualityProfilesDropDownMenuModel):
         item_list = []
         for key in sorted(quality_changes_group_dict, key = lambda name: name.upper()):
             quality_changes_group = quality_changes_group_dict[key]
+            toShow=True
+            name=quality_changes_group.name
+            if(len(quality_changes_group.name)>10):
+                #print("LUNGHEZZA:"+str(len(quality_changes_group.name)))            
+                #print("QUALITY:"+quality_changes_group.name[0:8])
+                if(quality_changes_group.name[0:9]=='*AUTOSAVE'):
+                    name=quality_changes_group.name[9:]
+                    toShow=False
 
-            item = {"name": quality_changes_group.name,
+            item = {"name": name,
                     "layer_height": "",
                     "layer_height_without_unit": "",
                     "available": quality_changes_group.is_available,
                     "quality_changes_group": quality_changes_group}
-
-            item_list.append(item)
+            if(toShow):
+                item_list.append(item)
 
         self.setItems(item_list)
+
+
+

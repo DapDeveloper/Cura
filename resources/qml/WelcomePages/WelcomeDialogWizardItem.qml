@@ -14,8 +14,9 @@ Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
     id: dialog
+    //color: UM.Theme.getColor("first_run_shadow")
     anchors.centerIn: parent
-    width: 800 * screenScaleFactor
+    width: parent.width/1.7//1200 * screenScaleFactor
     height: 500 * screenScaleFactor
     property int shadowOffset: 1 * screenScaleFactor
     property alias progressBarVisible: wizardPanel.progressBarVisible
@@ -44,6 +45,7 @@ Item
         verticalOffset: shadowOffset
         color: UM.Theme.getColor("first_run_shadow")
         transparentBorder: true
+        visible:false
     }
     // Close this dialog when there's no more page to show
     Connections

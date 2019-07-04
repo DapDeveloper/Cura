@@ -17,7 +17,7 @@
             "0": "RED_EXTRUDER",
             "1": "BLUE_EXTRUDER"
         },
-		"platform": "PIA_LEOREVO.stl",
+        "platform": "PIA_LEOREVO.stl",
 		"platform_offset": [-299,0, 250],
         "first_start_actions": ["MachineSettingsAction"]
     },

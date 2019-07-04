@@ -44,7 +44,7 @@ Item
         id: panelBackground
         anchors.fill: parent
         radius: UM.Theme.getSize("default_radius").width
-        color: UM.Theme.getColor("main_background")
+        color: UM.Theme.getColor("background_welcome_page")
 
         UM.ProgressBar
         {

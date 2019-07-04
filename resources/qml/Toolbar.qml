@@ -20,6 +20,7 @@ Item
     {
         if (backendState == UM.Backend.NotStarted)
         {
+            Cura.Actions.autoSaveProfile.trigger()
             CuraApplication.backend.forceSlice()
         }
         else
@@ -220,8 +221,6 @@ Item
             }
         }
     }
-
-
     property var extrudersModel: CuraApplication.getExtrudersModel()
     UM.PointingRectangle
     {
@@ -245,7 +244,6 @@ Item
             }
         }
         height: panel.item ? panel.height + 2 * UM.Theme.getSize("default_margin").height : 0
-
         opacity: panel.item && panel.width > 0 ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 100 } }
         color: UM.Theme.getColor("tool_panel_background")

@@ -5,6 +5,7 @@ import os
 import urllib.parse
 import uuid
 from typing import Dict, Union, Any, TYPE_CHECKING, List
+from datetime import datetime
 
 from PyQt5.QtCore import QObject, QUrl
 from PyQt5.QtWidgets import QMessageBox
@@ -103,34 +104,32 @@ class ContainerManager(QObject):
 
         entries = entry_name.split("/")
         entry_name = entries.pop()
-
         sub_item_changed = False
         if entries:
             root_name = entries.pop(0)
             root = material_group.root_material_node.getMetaDataEntry(root_name)
-
             item = root
             for _ in range(len(entries)):
                 item = item.get(entries.pop(0), {})
-
             if item[entry_name] != entry_value:
                 sub_item_changed = True
             item[entry_name] = entry_value
-
             entry_name = root_name
             entry_value = root
-
         container = material_group.root_material_node.getContainer()
         if container is not None:
             container.setMetaDataEntry(entry_name, entry_value)
             if sub_item_changed: #If it was only a sub-item that has changed then the setMetaDataEntry won't correctly notice that something changed, and we must manually signal that the metadata changed.
                 container.metaDataChanged.emit(container)
         return True
-
     @pyqtSlot(str, result = str)
     def makeUniqueName(self, original_name: str) -> str:
         return self._container_registry.uniqueName(original_name)
-
+    @pyqtSlot(str, result = str)
+    def makeUniqueNameM(self, original_name: str) -> str:
+        now = datetime.now()
+        dt_string = now.strftime("_%d/%m/%Y_%H:%M:%S")
+        return original_name+dt_string#self._container_registry.uniqueName(original_name)
     ##  Get a list of string that can be used as name filters for a Qt File Dialog
     #
     #   This will go through the list of available container types and generate a list of strings
@@ -145,12 +144,10 @@ class ContainerManager(QObject):
     def getContainerNameFilters(self, type_name: str) -> List[str]:
         if not self._container_name_filters:
             self._updateContainerNameFilters()
-
         filters = []
         for filter_string, entry in self._container_name_filters.items():
             if not type_name or entry["type"] == type_name:
                 filters.append(filter_string)
-
         filters.append("All Files (*)")
         return filters
 
@@ -279,9 +276,7 @@ class ContainerManager(QObject):
         global_stack = self._machine_manager.activeMachine
         if not global_stack:
             return False
-
         self._machine_manager.blurSettings.emit()
-
         current_quality_changes_name = global_stack.qualityChanges.getName()
         current_quality_type = global_stack.quality.getMetaDataEntry("quality_type")
         extruder_stacks = list(global_stack.extruders.values())
@@ -294,24 +289,18 @@ class ContainerManager(QObject):
                                                                               global_stack, stack)
                 self._container_registry.addContainer(quality_changes)
                 stack.qualityChanges = quality_changes
-
             if not quality_changes or self._container_registry.isReadOnly(quality_changes.getId()):
                 Logger.log("e", "Could not update quality of a nonexistant or read only quality profile in stack %s", stack.getId())
                 continue
-
             self._performMerge(quality_changes, stack.getTop())
-
         self._machine_manager.activeQualityChangesGroupChanged.emit()
-
         return True
 
     ##  Clear the top-most (user) containers of the active stacks.
     @pyqtSlot()
     def clearUserContainers(self) -> None:
         self._machine_manager.blurSettings.emit()
-
         send_emits_containers = []
-
         # Go through global and extruder stacks and clear their topmost container (the user settings).
         global_stack = self._machine_manager.activeMachine
         extruder_stacks = list(global_stack.extruders.values())
@@ -319,13 +308,11 @@ class ContainerManager(QObject):
             container = stack.userChanges
             container.clear()
             send_emits_containers.append(container)
-
         # user changes are possibly added to make the current setup match the current enabled extruders
         self._machine_manager.correctExtruderSettings()
 
         for container in send_emits_containers:
             container.sendPostponedEmits()
-
     ##  Get a list of materials that have the same GUID as the reference material
     #
     #   \param material_id \type{str} the id of the material for which to get the linked materials.

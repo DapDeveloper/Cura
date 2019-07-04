@@ -47,13 +47,13 @@ catalog = i18nCatalog("cura")
 ## View used to display g-code paths.
 class SimulationView(CuraView):
     # Must match SimulationViewMenuComponent.qml
-    LAYER_VIEW_TYPE_MATERIAL_TYPE = 0
-    LAYER_VIEW_TYPE_LINE_TYPE = 1
-    LAYER_VIEW_TYPE_FEEDRATE = 2
-    LAYER_VIEW_TYPE_THICKNESS = 3
+    #LAYER_VIEW_TYPE_MATERIAL_TYPE = 0
+    LAYER_VIEW_TYPE_LINE_TYPE = 0
+    LAYER_VIEW_TYPE_FEEDRATE = 1
+    LAYER_VIEW_TYPE_THICKNESS = 2
     def __init__(self, parent = None) -> None:
         super().__init__(parent)
-
+        self._simulationSpeed = 129
         self._max_layers = 0
         self._current_layer_num = 0
         self._minimum_layer_num = 0
@@ -62,31 +62,25 @@ class SimulationView(CuraView):
         self._top_layers_job = None  # type: Optional["_CreateTopLayersJob"]
         self._activity = False
         self._old_max_layers = 0
-
         self._max_paths = 0
         self._current_path_num = 0
         self._minimum_path_num = 0
         self.currentLayerNumChanged.connect(self._onCurrentLayerNumChanged)
-
         self._busy = False
         self._simulation_running = False
-
         self._ghost_shader = None  # type: Optional["ShaderProgram"]
         self._layer_pass = None  # type: Optional[SimulationPass]
         self._composite_pass = None  # type: Optional[CompositePass]
         self._old_layer_bindings = None  # type: Optional[List[str]]
         self._simulationview_composite_shader = None  # type: Optional["ShaderProgram"]
         self._old_composite_shader = None  # type: Optional["ShaderProgram"]
-
         self._global_container_stack = None  # type: Optional[ContainerStack]
         self._proxy = SimulationViewProxy()
         self._controller.getScene().getRoot().childrenChanged.connect(self._onSceneChanged)
-
         self._resetSettings()
         self._legend_items = None
         self._show_travel_moves = False
         self._nozzle_node = None  # type: Optional[NozzleNode]
-
         Application.getInstance().getPreferences().addPreference("view/top_layer_count", 5)
         Application.getInstance().getPreferences().addPreference("view/only_show_top_layers", False)
         Application.getInstance().getPreferences().addPreference("view/force_layer_view_compatibility_mode", False)
@@ -98,7 +92,6 @@ class SimulationView(CuraView):
         Application.getInstance().getPreferences().addPreference("layerview/show_infill", True)
         Application.getInstance().getPreferences().preferenceChanged.connect(self._onPreferencesChanged)
         self._updateWithPreferences()
-
         self._solid_layers = int(Application.getInstance().getPreferences().getValue("view/top_layer_count"))
         self._only_show_top_layers = bool(Application.getInstance().getPreferences().getValue("view/only_show_top_layers"))
         self._compatibility_mode = self._evaluateCompatibilityMode()
@@ -108,8 +101,8 @@ class SimulationView(CuraView):
     def _onEngineCreated(self) -> None:
         plugin_path = PluginRegistry.getInstance().getPluginPath(self.getPluginId())
         if plugin_path:
-            self.addDisplayComponent("main", os.path.join(plugin_path, "SimulationViewMainComponent.qml"))
-            self.addDisplayComponent("menu", os.path.join(plugin_path, "SimulationViewMenuComponent.qml"))
+            self.addDisplayComponent("main", os.path.join(plugin_path, "SimulationViewMainComponentCustom.qml"))
+            self.addDisplayComponent("menu", os.path.join(plugin_path, "SimulationViewMenuComponentCustom.qml"))
         else:
             Logger.log("e", "Unable to find the path for %s", self.getPluginId())
     def _evaluateCompatibilityMode(self) -> bool:
@@ -150,6 +143,8 @@ class SimulationView(CuraView):
         return self._minimum_path_num
     def getMaxPaths(self) -> int:
         return self._max_paths
+    def getSimulationSpeed(self) -> int:
+        return self._simulationSpeed
     def getNozzleNode(self) -> NozzleNode:
         if not self._nozzle_node:
             self._nozzle_node = NozzleNode()
@@ -204,6 +199,8 @@ class SimulationView(CuraView):
                 self._minimum_layer_num = self._current_layer_num
             self._startUpdateTopLayers()
             self.currentLayerNumChanged.emit()
+    def setSimulationSpeed(self, value: int) -> None:
+        self._simulationSpeed=value
     def setMinimumLayer(self, value: int) -> None:
         if self._minimum_layer_num != value:
             self._minimum_layer_num = value
@@ -278,10 +275,8 @@ class SimulationView(CuraView):
     def setShowInfill(self, show: bool) -> None:
         self._show_infill = show
         self.currentLayerNumChanged.emit()
-
     def getShowInfill(self) -> bool:
         return self._show_infill
-
     def getCompatibilityMode(self) -> bool:
         return self._compatibility_mode
 
@@ -337,13 +332,10 @@ class SimulationView(CuraView):
                 if min_layer_number > layer_id:
                     min_layer_number = layer_id
             layer_count = max_layer_number - min_layer_number
-
             if new_max_layers < layer_count:
                 new_max_layers = layer_count
-
         if new_max_layers >= 0 and new_max_layers != self._old_max_layers:
             self._max_layers = new_max_layers
-
             # The qt slider has a bit of weird behavior that if the maxvalue needs to be changed first
             # if it's the largest value. If we don't do this, we can have a slider block outside of the
             # slider.
@@ -354,7 +346,6 @@ class SimulationView(CuraView):
                 self.setLayer(int(self._max_layers))
                 self.maxLayersChanged.emit()
         self._startUpdateTopLayers()
-
     def calculateMaxPathsOnLayer(self, layer_num: int) -> None:
         # Update the currentPath
         scene = self.getController().getScene()
@@ -362,7 +353,6 @@ class SimulationView(CuraView):
             layer_data = node.callDecoration("getLayerData")
             if not layer_data:
                 continue
-
             layer = layer_data.getLayer(layer_num)
             if layer is None:
                 return
@@ -370,9 +360,9 @@ class SimulationView(CuraView):
             if new_max_paths >= 0 and new_max_paths != self._max_paths:
                 self._max_paths = new_max_paths
                 self.maxPathsChanged.emit()
-
             self.setPath(int(new_max_paths))
     maxLayersChanged = Signal()
+    simSpeedChanged=Signal()
     maxPathsChanged = Signal()
     currentLayerNumChanged = Signal()
     currentPathNumChanged = Signal()
@@ -385,10 +375,8 @@ class SimulationView(CuraView):
     #   as this caused some issues.
     def getProxy(self, engine, script_engine):
         return self._proxy
-
     def endRendering(self) -> None:
         pass
-
     def event(self, event) -> bool:
         modifiers = QApplication.keyboardModifiers()
         ctrl_is_active = modifiers & Qt.ControlModifier
@@ -401,7 +389,6 @@ class SimulationView(CuraView):
             if event.key == KeyEvent.DownKey:
                 self.setLayer(self._current_layer_num - amount)
                 return True
-
         if event.type == Event.ViewActivateEvent:
             # FIX: on Max OS X, somehow QOpenGLContext.currentContext() can become None during View switching.
             # This can happen when you do the following steps:
@@ -419,19 +406,15 @@ class SimulationView(CuraView):
                     Logger.log("d", "current context of OpenGL is empty on Mac OS X, will try to create shaders later")
                     CuraApplication.getInstance().callLater(lambda e=event: self.event(e))
                     return False
-
             # Make sure the SimulationPass is created
             layer_pass = self.getSimulationPass()
             self.getRenderer().addRenderPass(layer_pass)
-
             # Make sure the NozzleNode is add to the root
             nozzle = self.getNozzleNode()
             nozzle.setParent(self.getController().getScene().getRoot())
             nozzle.setVisible(False)
-
             Application.getInstance().globalContainerStackChanged.connect(self._onGlobalStackChanged)
             self._onGlobalStackChanged()
-
             if not self._simulationview_composite_shader:
                 plugin_path = cast(str, PluginRegistry.getInstance().getPluginPath("SimulationView"))
                 self._simulationview_composite_shader = OpenGL.getInstance().createShaderProgram(os.path.join(plugin_path, "simulationview_composite.shader"))
@@ -439,15 +422,12 @@ class SimulationView(CuraView):
                 if theme is not None:
                     self._simulationview_composite_shader.setUniformValue("u_background_color", Color(*theme.getColor("viewport_background").getRgb()))
                     self._simulationview_composite_shader.setUniformValue("u_outline_color", Color(*theme.getColor("model_selection_outline").getRgb()))
-
             if not self._composite_pass:
                 self._composite_pass = cast(CompositePass, self.getRenderer().getRenderPass("composite"))
-
             self._old_layer_bindings = self._composite_pass.getLayerBindings()[:]  # make a copy so we can restore to it later
             self._composite_pass.getLayerBindings().append("simulationview")
             self._old_composite_shader = self._composite_pass.getCompositeShader()
             self._composite_pass.setCompositeShader(self._simulationview_composite_shader)
-
         elif event.type == Event.ViewDeactivateEvent:
             self._wireprint_warning_message.hide()
             Application.getInstance().globalContainerStackChanged.disconnect(self._onGlobalStackChanged)

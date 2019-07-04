@@ -55,13 +55,11 @@ class MachineSettingsAction(MachineAction):
         # Disable auto-slicing while the MachineAction is showing
         if self._backend:  # This sometimes triggers before backend is loaded.
             self._backend.disableTimer()
-
     def _onFinished(self):
         # Restore auto-slicing when the machine action is dismissed
         if self._backend and self._backend.determineAutoSlicing():
             self._backend.enableTimer()
             self._backend.tickle()
-
     @pyqtSlot(int)
     def setMachineExtruderCount(self, extruder_count: int) -> None:
         # Note: this method was in this class before, but since it's quite generic and other plugins also need it
