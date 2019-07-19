@@ -51,20 +51,21 @@ Item
             controlWidth: 100
             forceUpdateOnChangeFunction: forceUpdateFunction
         } 
-            /*
-                    Cura.ComboBoxWithOptions  // "Build plate shape"
-                        {
-                            id: buildPlateShapeComboBox
-                            containerStackId: machineStackId
-                            settingKey: "infill_pattern"
-                            settingStoreIndex: propertyStoreIndex
-                            labelText: catalog.i18nc("@label", "Build plate shape")
-                            labelFont: base.labelFont
-                            labelWidth: base.labelWidth
-                            controlWidth: base.controlWidth
-                            forceUpdateOnChangeFunction: forceUpdateFunction
-                        }
-            */
+        /*
+                Cura.ComboBoxWithOptions  // "Build plate shape"
+                    {
+                        id: buildPlateShapeComboBox
+                        containerStackId: machineStackId
+                        settingKey: "infill_pattern"
+                        settingStoreIndex: propertyStoreIndex
+                        labelText: catalog.i18nc("@label", "Build plate shape")
+                        labelFont: base.labelFont
+                        labelWidth: base.labelWidth
+                        controlWidth: base.controlWidth
+                        forceUpdateOnChangeFunction: forceUpdateFunction
+                    }
+        */
+
         Label   // Title Label
             {
                 id:lblPrinterSettings
@@ -91,7 +92,6 @@ Item
             id:column1
             spacing: base.columnSpacing
             padding:10
-            
             Cura.NumericTextFieldWithUnit  // "Print Speed"
             {
                 id: machinePrintSpeed

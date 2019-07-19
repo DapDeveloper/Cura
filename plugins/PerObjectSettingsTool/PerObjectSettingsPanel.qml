@@ -515,7 +515,6 @@ Item {
     UM.SettingPropertyProvider
     {
         id: machineExtruderCount
-
         containerStack: Cura.MachineManager.activeMachine
         key: "machine_extruder_count"
         watchedProperties: [ "value" ]
@@ -525,7 +524,6 @@ Item {
     UM.SettingPropertyProvider
     {
         id: printSequencePropertyProvider
-
         containerStack: Cura.MachineManager.activeMachine
         key: "print_sequence"
         watchedProperties: [ "value" ]

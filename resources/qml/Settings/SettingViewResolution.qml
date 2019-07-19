@@ -14,12 +14,12 @@ Item
     property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
     property Action configureSettings
     property bool findingSettings
+
     Rectangle
     {
         id: filterContainer
         visible: false
         radius: UM.Theme.getSize("setting_control_radius").width
-      
     }
 
     ToolButton
@@ -33,9 +33,7 @@ Item
             right: parent.right
             rightMargin: UM.Theme.getSize("wide_margin").width
         }
-
     }
-
     // Mouse area that gathers the scroll events to not propagate it to the main view.
     MouseArea
     {
@@ -43,7 +41,6 @@ Item
         acceptedButtons: Qt.AllButtons
         onWheel: wheel.accepted = true
     }
-
     ScrollView
     {
         id: scrollView
@@ -55,7 +52,6 @@ Item
             right: parent.right
             left: parent.left
         }
-
         style: UM.Theme.styles.scrollview
         flickableItem.flickableDirection: Flickable.VerticalFlick
         __wheelAreaScrollSpeed: 75  // Scroll three lines in one scroll event
@@ -70,14 +66,15 @@ Item
                 containerId: Cura.MachineManager.activeDefinitionId
                 visibilityHandler: UM.SettingPreferenceVisibilityHandler { }
                 /*
-                  exclude: ["machine_settings", "command_line_settings",
-                 "infill_mesh", "infill_mesh_order", "cutting_mesh", 
-                 "support_mesh", "anti_overhang_mesh",
-                 "resolution","shell","infill","speed","travel",
-                 "cooling","support","platform_adhesion","dual",
-                 "meshfix","blackmagic","experimental","material"
-                 ,] 
+                    exclude: ["machine_settings", "command_line_settings",
+                    "infill_mesh", "infill_mesh_order", "cutting_mesh", 
+                    "support_mesh", "anti_overhang_mesh",
+                    "resolution","shell","infill","speed","travel",
+                    "cooling","support","platform_adhesion","dual",
+                    "meshfix","blackmagic","experimental","material"
+                    ,] 
                 */
+
                  exclude: ["machine_settings", "command_line_settings",
                  "infill_mesh", "infill_mesh_order", "cutting_mesh", 
                  "support_mesh", "anti_overhang_mesh",
@@ -124,7 +121,6 @@ Item
                 property var propertyProvider: provider
                 property var globalPropertyProvider: inheritStackProvider
                 property var externalResetHandler: false
-
                 //Qt5.4.2 and earlier has a bug where this causes a crash: https://bugreports.qt.io/browse/QTBUG-35989
                 //In addition, while it works for 5.5 and higher, the ordering of the actual combo box drop down changes,
                 //causing nasty issues when selecting different options. So disable asynchronous loading of enum type completely.

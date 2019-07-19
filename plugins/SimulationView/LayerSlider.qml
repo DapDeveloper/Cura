@@ -275,19 +275,18 @@ Item
         SimulationSliderLabel
         {
             id: upperHandleLabel
-
             height: sliderRoot.handleSize + UM.Theme.getSize("default_margin").height
             x: parent.x - parent.width - width
             anchors.verticalCenter: parent.verticalCenter
             target: Qt.point(sliderRoot.width, y + height / 2)
             visible: sliderRoot.activeHandle == parent
-
             // custom properties
             maximumValue: sliderRoot.maximumValue
             value: sliderRoot.upperValue
             busy: UM.SimulationView.busy
             setValue: upperHandle.setValueManually // connect callback functions
         }
+        
     }
 
     // Lower handle

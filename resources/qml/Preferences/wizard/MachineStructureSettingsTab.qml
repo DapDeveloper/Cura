@@ -10,6 +10,7 @@ import QtQuick.Controls.Styles 1.4
 //
 // This the content in the "Printer" tab in the Machine Settings dialog.
 //
+
 Item
 {
     id: base
@@ -34,32 +35,32 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: UM.Theme.getSize("default_margin").width
-            /*
-                    Cura.ComboBoxWithOptions  // "Build plate shape"
-                        {
-                            id: buildPlateShapeComboBox
-                            containerStackId: machineStackId
-                            settingKey: "infill_pattern"
-                            settingStoreIndex: propertyStoreIndex
-                            labelText: catalog.i18nc("@label", "Build plate shape")
-                            labelFont: base.labelFont
-                            labelWidth: base.labelWidth
-                            controlWidth: base.controlWidth
-                            forceUpdateOnChangeFunction: forceUpdateFunction
-                        }
-            */
-        Label   // Title Label
+       /*
+        Cura.ComboBoxWithOptions  // "Build plate shape"
             {
-                id:lblPrinterSettings
-                text: catalog.i18nc("@title:label", "Support")
-                font: UM.Theme.getFont("medium_bold")
-                renderType: Text.NativeRendering
-                anchors
-                {
-                    left:parent.left
-                    top:parent.top
-                }
+                id: buildPlateShapeComboBox
+                containerStackId: machineStackId
+                settingKey: "infill_pattern"
+                settingStoreIndex: propertyStoreIndex
+                labelText: catalog.i18nc("@label", "Build plate shape")
+                labelFont: base.labelFont
+                labelWidth: base.labelWidth
+                controlWidth: base.controlWidth
+                forceUpdateOnChangeFunction: forceUpdateFunction
             }
+       */
+        Label   // Title Label
+        {
+            id:lblPrinterSettings
+            text: catalog.i18nc("@title:label", "Support")
+            font: UM.Theme.getFont("medium_bold")
+            renderType: Text.NativeRendering
+            anchors
+            {
+                left:parent.left
+                top:parent.top
+            }
+        }
         ScrollView
             {
                 id: objectListContainer
@@ -74,7 +75,7 @@ Item
             id:column1
             spacing: base.columnSpacing
             padding:10
-            Cura.SimpleCheckBox  // "Print Speed"
+            Cura.SimpleCheckBoxCustom  // "Print Speed"
             {
                 id: machineSupportEnable
                 containerStackId: machineStackId

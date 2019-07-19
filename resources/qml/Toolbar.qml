@@ -15,9 +15,9 @@ Item
     width: buttons.width
     height: buttons.height
     property int activeY
-
     function sliceOrStopSlicing()
     {
+        Cura.ContainerManager.updateQualityChanges();
         if (backendState == UM.Backend.NotStarted)
         {
             Cura.Actions.autoSaveProfile.trigger()

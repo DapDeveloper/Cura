@@ -115,16 +115,13 @@ class MachineErrorChecker(QObject):
             self._need_to_check = True
             self.needToWaitForResultChanged.emit()
             return
-
         self._error_keys_in_progress = set()
         self._need_to_check = False
         self.needToWaitForResultChanged.emit()
-
         global_stack = self._machine_manager.activeMachine
         if global_stack is None:
             Logger.log("i", "No active machine, nothing to check.")
             return
-
         # Populate the (stack, key) tuples to check
         self._stacks_and_keys_to_check = deque()
         for stack in [global_stack] + list(global_stack.extruders.values()):
@@ -172,10 +169,8 @@ class MachineErrorChecker(QObject):
             # Finish
             self._setResult(True)
             return
-
         # Schedule the check for the next key
         self._application.callLater(self._checkStack)
-
     def _setResult(self, result: bool) -> None:
         if result != self._has_errors:
             self._has_errors = result

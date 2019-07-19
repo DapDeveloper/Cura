@@ -19,7 +19,6 @@ Item
         id: filterContainer
         visible: false
         radius: UM.Theme.getSize("setting_control_radius").width
-      
     }
 
     ToolButton
@@ -33,9 +32,7 @@ Item
             right: parent.right
             rightMargin: UM.Theme.getSize("wide_margin").width
         }
-
     }
-
     // Mouse area that gathers the scroll events to not propagate it to the main view.
     MouseArea
     {
@@ -108,9 +105,9 @@ Item
                  "support_interface_enable","support_interface_height","support_use_towers",
                  "support_tower_diameter","support_minimal_diameter","support_tower_roof_angle",
                  "support_offset","support_infill_sparse_thickness","gradual_support_infill_steps",
-                 "minimum_support_area","skin_overlap_mm",
+                 "minimum_support_area","skin_overlap_mm","platform_adhesion",
                  "dual","meshfix","blackmagic","experimental"]  // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
-                  expanded: CuraApplication.expandedCategories
+                 expanded: CuraApplication.expandedCategories
                 onExpandedChanged:
                 {
                     if (!findingSettings)
@@ -126,7 +123,6 @@ Item
             delegate: Loader
             {
                 id: delegate
-
                 width: scrollView.width
                 height: provider.properties.enabled == "True" ? UM.Theme.getSize("section").height : - contents.spacing
                 Behavior on height { NumberAnimation { duration: 100 } }
@@ -141,29 +137,33 @@ Item
                     }
                     return provider.properties.enabled == "True"
                 }
-
                 property var definition: model
                 property var settingDefinitionsModel: definitionsModel
                 property var propertyProvider: provider
                 property var globalPropertyProvider: inheritStackProvider
                 property var externalResetHandler: false
-
+                property real minValueWarning:materialData.properties.minimum_value_warning
+                property real maxValueWarning:materialData.properties.maximum_value_warning
+                property var defaultValue:materialData.properties.default_value
+                property real stepSizeValue:materialData.properties.step_value
+                property int precision:materialData.properties.precision
+                property real sliderMin:materialData.properties.slider_min
+                property real sliderMax:materialData.properties.slider_max
                 //Qt5.4.2 and earlier has a bug where this causes a crash: https://bugreports.qt.io/browse/QTBUG-35989
                 //In addition, while it works for 5.5 and higher, the ordering of the actual combo box drop down changes,
                 //causing nasty issues when selecting different options. So disable asynchronous loading of enum type completely.
                 asynchronous: model.type != "enum" && model.type != "extruder" && model.type != "optional_extruder"
                 active: model.type != undefined
-
                 source:
                 {
                     switch(model.type)
                     {
                         case "int":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSlider.qml"
                         case "[int]":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSlider.qml"
                         case "float":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSlider.qml"
                         case "enum":
                             return "SettingComboBox.qml"
                         case "extruder":
@@ -180,7 +180,6 @@ Item
                             return "SettingUnknown.qml"
                     }
                 }
-
                 // Binding to ensure that the right containerstack ID is set for the provider.
                 // This ensures that if a setting has a limit_to_extruder id (for instance; Support speed points to the
                 // extruder that actually prints the support, as that is the setting we need to use to calculate the value)
@@ -196,7 +195,6 @@ Item
                         // Otherwise, if this value only depends on the extruderIds, it won't get updated when the
                         // machine gets changed.
                         var activeMachineId = Cura.MachineManager.activeMachineId;
-
                         if (!model.settable_per_extruder)
                         {
                             //Not settable per extruder or there only is global, so we must pick global.
@@ -216,7 +214,6 @@ Item
                         return activeMachineId;
                     }
                 }
-
                 // Specialty provider that only watches global_inherits (we cant filter on what property changed we get events
                 // so we bypass that to make a dedicated provider).
                 UM.SettingPropertyProvider
@@ -226,7 +223,6 @@ Item
                     key: model.key
                     watchedProperties: [ "limit_to_extruder" ]
                 }
-
                 UM.SettingPropertyProvider
                 {
                     id: provider
@@ -236,6 +232,16 @@ Item
                     watchedProperties: [ "value", "enabled", "state", "validationState", "settable_per_extruder", "resolve" ]
                     storeIndex: 0
                     removeUnusedValue: model.resolve == undefined
+                }
+
+                UM.SettingPropertyProvider
+                {
+                    id: materialData
+                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
+                    key: model.key
+                    watchedProperties: [ 
+                                        "minimum_value_warning","maximum_value_warning","default_value","step_value","precision","slider_min","slider_max"
+                                        ]
                 }
 
                 Connections
@@ -248,8 +254,8 @@ Item
                         contextMenu.provider = provider
                         contextMenu.popup();
                     }
-                    onShowTooltip: base.showTooltip(delegate, Qt.point(- settingsView.x - UM.Theme.getSize("default_margin").width, 0), text)
-                    onHideTooltip: base.hideTooltip()
+                    //onShowTooltip: base.showTooltip(delegate, Qt.point(- settingsView.x - UM.Theme.getSize("default_margin").width, 0), text)
+                    //onHideTooltip: base.hideTooltip()
                     onShowAllHiddenInheritedSettings:
                     {
                         var children_with_override = Cura.SettingInheritanceManager.getChildrenKeysWithOverride(category_id)

@@ -272,7 +272,6 @@ class ContainerManager(QObject):
     #   \return \type{bool} True if successful, False if not.
     @pyqtSlot(result = bool)
     def updateQualityChanges(self) -> bool:
-        Logger.log("e", "CALLED UPDATE QUALITY")
         global_stack = self._machine_manager.activeMachine
         if not global_stack:
             return False
@@ -358,6 +357,7 @@ class ContainerManager(QObject):
             return
 
         for key in merge.getAllKeys():
+            print("VALUEK:"+key)
             merge_into.setProperty(key, "value", merge.getProperty(key, "value"))
 
         if clear_settings:

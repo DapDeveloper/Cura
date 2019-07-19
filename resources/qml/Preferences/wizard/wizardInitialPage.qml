@@ -39,7 +39,6 @@ UM.PreferencesPage
         */
         radius: 5 * screenScaleFactor // TODO: Theme!
     }
-    
     Column
     {
         id:items
@@ -185,10 +184,6 @@ UM.PreferencesPage
                     id: tabStack
                     anchors.fill: parent
                     currentIndex: tabBar.currentIndex
-                     
-                   
-
-                 
                     Repeater
                     {
                         model: extrudersModel

@@ -18,6 +18,7 @@ Item
 
     function sliceOrStopSlicing()
     {
+          Cura.ContainerManager.updateQualityChanges();
         if (backendState == UM.Backend.NotStarted)
         {
             Cura.Actions.autoSaveProfile.trigger()
@@ -28,7 +29,6 @@ Item
             CuraApplication.backend.stopSlicing()
         }
     }
-    
     Item
     {
         id: buttons
@@ -36,7 +36,6 @@ Item
         height: childrenRect.height
         Behavior on width { NumberAnimation { duration: 100 } }
         // Used to create a rounded rectangle behind the toolButtons
-        
          Column
         {
             id: saveButtons
@@ -51,24 +50,21 @@ Item
                 height: 50  
                 visible: base.backendState==UM.Backend.Done
             }
-              UM.ProgressBar
+            UM.ProgressBar
+            {
+                id: progressBar
+                width: 300
+                height: UM.Theme.getSize("progressbar").height
+                value: base.progress
+                indeterminate: widget.backendState == UM.Backend.NotStarted
+                visible: base.backendState!=UM.Backend.Done && sliceButton.visible==false//true//base.backendState!=UM.Backend.Done && outputDevicesButton.visible==false
+                /*anchors
                 {
-                    id: progressBar
-                    width: 300
-                    height: UM.Theme.getSize("progressbar").height
-                    value: base.progress
-                    indeterminate: widget.backendState == UM.Backend.NotStarted
-                    visible: base.backendState!=UM.Backend.Done && sliceButton.visible==false//true//base.backendState!=UM.Backend.Done && outputDevicesButton.visible==false
-                    /*anchors
-                    {
-                        left:parent.left
-                        bottom:parent.bottom
-                    }*/
-                }
-
+                    left:parent.left
+                    bottom:parent.bottom
+                }*/
+            }
         }
-         
-
     }
     property var extrudersModel: CuraApplication.getExtrudersModel()
     UM.PointingRectangle
@@ -93,7 +89,6 @@ Item
             }
         }
         height: panel.item ? panel.height + 2 * UM.Theme.getSize("default_margin").height : 0
-
         opacity: panel.item && panel.width > 0 ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 100 } }
         color: UM.Theme.getColor("tool_panel_background")

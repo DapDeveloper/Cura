@@ -101,7 +101,6 @@ Item
             delegate: Loader
             {
                 id: delegate
-
                 width: scrollView.width
                 height: provider.properties.enabled == "True" ? UM.Theme.getSize("section").height : - contents.spacing
                 Behavior on height { NumberAnimation { duration: 100 } }
@@ -116,19 +115,16 @@ Item
                     }
                     return provider.properties.enabled == "True"
                 }
-
                 property var definition: model
                 property var settingDefinitionsModel: definitionsModel
                 property var propertyProvider: provider
                 property var globalPropertyProvider: inheritStackProvider
                 property var externalResetHandler: false
-
                 //Qt5.4.2 and earlier has a bug where this causes a crash: https://bugreports.qt.io/browse/QTBUG-35989
                 //In addition, while it works for 5.5 and higher, the ordering of the actual combo box drop down changes,
                 //causing nasty issues when selecting different options. So disable asynchronous loading of enum type completely.
                 asynchronous: model.type != "enum" && model.type != "extruder" && model.type != "optional_extruder"
                 active: model.type != undefined
-
                 source:
                 {
                     switch(model.type)
@@ -155,7 +151,6 @@ Item
                             return "SettingUnknown.qml"
                     }
                 }
-
                 // Binding to ensure that the right containerstack ID is set for the provider.
                 // This ensures that if a setting has a limit_to_extruder id (for instance; Support speed points to the
                 // extruder that actually prints the support, as that is the setting we need to use to calculate the value)

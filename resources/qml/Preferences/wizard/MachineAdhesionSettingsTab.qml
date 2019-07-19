@@ -37,6 +37,7 @@ Item
         target: extrudersModel
         onItemsChanged: tabNameModel.update()
     }
+
     ListModel
     {
         id: tabNameModel
@@ -53,6 +54,7 @@ Item
             }
         }
     }
+    
     Item
     {
         id: upperBlock
@@ -77,12 +79,11 @@ Item
                 }
                 settingKey: "adhesion_type"
                 settingStoreIndex: propertyStoreIndex
-                labelText: settingStoreIndex//catalog.i18nc("@label", "Build Plate Adhesion Type")
+                labelText: catalog.i18nc("@label", "Build Plate Adhesion Type")
                 labelWidth: 200
                 controlWidth: 100
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
-
          /*   Cura.ComboBoxWithOptions
             {
                 id: machineAdhesionExtruder
@@ -118,12 +119,22 @@ Item
                 }
                 forceUpdateOnChangeFunction: forceUpdateQuality
             }**/
+            
+            UM.SettingPropertyProvider
+            {
+                id: adhesionType
+                containerStackId: Cura.MachineManager.activeMachineId
+                key: "adhesion_type"
+                watchedProperties: [ "value" ]
+                storeIndex: 0
+            }
             Label
             {
                 id:lblSkirtSettings
                 text:/* "SELECTED:"+machineAdhesionType.selectedIndex//*/catalog.i18nc("@title:label", "Skirt")
                 font: UM.Theme.getFont("medium_bold")
                 renderType: Text.NativeRendering
+                visible:adhesionType.properties.value=='skirt'
                 anchors
                 {
                     left:machineAdhesionType.left
@@ -138,7 +149,7 @@ Item
                 height:80
                 anchors.left:lblSkirtSettings.left
                 anchors.top:lblSkirtSettings.bottom
-                visible:true//machineAdhesionType.currentIndex==0
+                visible:adhesionType.properties.value=='skirt'//machineAdhesionType.currentIndex==0
                 Column
                 {
                     width: skirtObjectListContainer.width/2
@@ -177,12 +188,14 @@ Item
                 text: catalog.i18nc("@title:label", "Brim")
                 font: UM.Theme.getFont("medium_bold")
                 renderType: Text.NativeRendering
+                visible:adhesionType.properties.value=='brim'
                 anchors
                 {
                     left:skirtObjectListContainer.left
-                    top:skirtObjectListContainer.bottom
+                    top:machineAdhesionType.bottom
                 }
             }
+
             ScrollView
             {
                 id: brimObjectListContainer
@@ -191,6 +204,7 @@ Item
                 height:50
                 anchors.left:lblBrimSettings.left
                 anchors.top:lblBrimSettings.bottom
+                visible:adhesionType.properties.value=='brim'
                 Column
                 {
                     width: BrimObjectListContainer.width/2
@@ -211,16 +225,18 @@ Item
                     }
                 }
             }
+
             Label
             {
                 id:lblRaftSettings
                 text: catalog.i18nc("@title:label", "Raft")
                 font: UM.Theme.getFont("medium_bold")
                 renderType: Text.NativeRendering
+                visible:adhesionType.properties.value=='raft'
                 anchors
                 {
                     left:brimObjectListContainer.left
-                    top:brimObjectListContainer.bottom
+                   top:machineAdhesionType.bottom
                 }
             }
             ScrollView
@@ -231,6 +247,7 @@ Item
                 height:250
                 anchors.left:lblRaftSettings.left
                 anchors.top:lblRaftSettings.bottom
+                visible:adhesionType.properties.value=='raft'
                 Column
                 {
                     width: raftObjectListContainer.width/2

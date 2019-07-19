@@ -113,9 +113,7 @@ Item
                         top:parent.top
                         bottom:parent.bottom
                     }
-                    
                 }
-               
             }
           /*  Cura.CustomPrintSetupResolution
             {

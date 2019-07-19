@@ -26,10 +26,15 @@ Menu
             checkable: true
             checked: Cura.MachineManager.activeQualityOrQualityChangesName == model.name
             exclusiveGroup: group
-            onTriggered: Cura.MachineManager.setQualityGroup(model.quality_group)
+            onTriggered:
+            {
+                Cura.ContainerManager.clearUserContainers();
+                print("CHANGES1");
+                Cura.MachineManager.setQualityGroup(model.quality_group);
+                
+            }
             visible: model.available
         }
-
         onObjectAdded: menu.insertItem(index, object)
         onObjectRemoved: menu.removeItem(object)
     }
@@ -57,7 +62,13 @@ Menu
             checkable: true
             checked: Cura.MachineManager.activeQualityOrQualityChangesName == model.name
             exclusiveGroup: group
-            onTriggered: Cura.MachineManager.setQualityChangesGroup(model.quality_changes_group)
+            onTriggered:
+            { 
+                
+                Cura.ContainerManager.clearUserContainers();
+                Cura.MachineManager.setQualityChangesGroup(model.quality_changes_group);
+                   print("CHANGES2");
+            }
         }
 
         onObjectAdded:

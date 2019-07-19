@@ -14,8 +14,11 @@ UM.PreferencesPage
     property real progress: UM.Backend.progress
     property int backendState: UM.Backend.state
     property bool preSlicedData: PrintInformation.preSliced
+
     function sliceOrStopSlicing()
     {
+        Cura.ContainerManager.updateQualityChanges()
+        
         if (generalPreferencesPage.backendState == UM.Backend.NotStarted)
         {
             Cura.Actions.autoSaveProfile.trigger()

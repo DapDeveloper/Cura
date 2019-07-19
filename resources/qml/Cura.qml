@@ -249,7 +249,6 @@ UM.MainWindow
                     top:parent.top
                 }
             }
-
         }
         /*Item
         {
@@ -685,20 +684,21 @@ UM.MainWindow
         property var pages:5
         Component.onCompleted:
         {//:update()
-        removePage(0);
-        removePage(1);
-        removePage(2);
-        removePage(3);
-        removePage(4);
-        removePage(5);
-        insertPage(0, catalog.i18nc("@title:label","Printer Settings"), Qt.resolvedUrl("Preferences/wizard/wizardInitialPage.qml"));
-        insertPage(1, catalog.i18nc("@title:label","Quality"), Qt.resolvedUrl("Preferences/wizard/QualityPage.qml"));
-        insertPage(2, catalog.i18nc("@title:label","Structure"), Qt.resolvedUrl("Preferences/wizard/StructurePage.qml"));
-        insertPage(3, catalog.i18nc("@title:label","Adhesion"), Qt.resolvedUrl("Preferences/wizard/AdhesionPage.qml"));
-        insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
-        insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
-        pages=5;
-        setPage(0);
+            removePage(0);
+            removePage(1);
+            removePage(2);
+            removePage(3);
+            removePage(4);
+            removePage(5);
+            insertPage(0, catalog.i18nc("@title:label","Printer Settings"), Qt.resolvedUrl("Preferences/wizard/wizardInitialPage.qml"));
+            insertPage(1, catalog.i18nc("@title:label","Quality"), Qt.resolvedUrl("Preferences/wizard/WizardEditResolutionPage.qml"));
+            insertPage(2, catalog.i18nc("@title:label","Structure"), Qt.resolvedUrl("Preferences/wizard/WizardEditSupportPage.qml"));
+            //insertPage(2, catalog.i18nc("@label","Support"), Qt.resolvedUrl("Preferences/AdvancedProfiles/ProfileEditSupportPage.qml"));
+            insertPage(3, catalog.i18nc("@title:label","Adhesion"), Qt.resolvedUrl("Preferences/wizard/WizardEditAdhesionPage.qml"));
+            insertPage(4, catalog.i18nc("@title:label","Dual Extrusion"), Qt.resolvedUrl("Preferences/wizard/wizardDualPage.qml"));
+            insertPage(5, catalog.i18nc("@title:label","Slice"), Qt.resolvedUrl("Preferences/wizard/SlicePage.qml"));
+            pages=5;
+            setPage(0);
         }
         function update()
         {
@@ -743,6 +743,7 @@ UM.MainWindow
             }
     }*/
     }
+
     Connections
     {
         target: CuraApplication.getExtrudersModel()

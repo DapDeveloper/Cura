@@ -6,13 +6,11 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import UM 1.3 as UM
 import Cura 1.1 as Cura
-
 UM.PreferencesPage
 {
     //: General configuration page title
-    title: catalog.i18nc("@label","Dual Extrusion Configuration")
+    title: catalog.i18nc("@label","Platform adhesion")
     id: generalPreferencesPage
-    
     anchors
     {
         left:parent.left
@@ -48,17 +46,17 @@ UM.PreferencesPage
         anchors.leftMargin:10
         anchors.topMargin:10
         anchors.bottomMargin:10
-        Cura.CustomDualPrintWizard
-        {
-            anchors.topMargin:10
-            id: machineProfile
-            width:parent.width
-            anchors
+        Cura.CustomPrintSetupPlatformAdhesionWizard
             {
-                left:parent.left
-                top:parent.top
-                bottom:parent.bottom
+                anchors.topMargin:10
+                id: machineProfile
+                width:parent.width
+                height:parent.height
+                anchors
+                {
+                    left:printerSetup.left
+                    top:printerSetup.bottom
+                }
             }
-        }
     }
 }

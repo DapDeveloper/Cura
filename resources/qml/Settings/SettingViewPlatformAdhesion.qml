@@ -21,7 +21,6 @@ Item
         radius: UM.Theme.getSize("setting_control_radius").width
       
     }
-
     ToolButton
     {
         id: settingVisibilityMenu
@@ -33,9 +32,7 @@ Item
             right: parent.right
             rightMargin: UM.Theme.getSize("wide_margin").width
         }
-
     }
-
     // Mouse area that gathers the scroll events to not propagate it to the main view.
     MouseArea
     {
@@ -54,7 +51,6 @@ Item
             right: parent.right
             left: parent.left
         }
-
         style: UM.Theme.styles.scrollview
         flickableItem.flickableDirection: Flickable.VerticalFlick
         __wheelAreaScrollSpeed: 75  // Scroll three lines in one scroll event
@@ -81,7 +77,7 @@ Item
                  "infill_mesh", "infill_mesh_order", "cutting_mesh", 
                  "support_mesh", "anti_overhang_mesh",
                  "resolution","shell","infill","speed","travel",
-                 "cooling","support","dual",
+                 "cooling","support","dual","skirt_brim_minimal_length",
                  "meshfix","blackmagic","experimental","material"
                  ,] 
                   // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
@@ -120,6 +116,13 @@ Item
                 property var propertyProvider: provider
                 property var globalPropertyProvider: inheritStackProvider
                 property var externalResetHandler: false
+                property real minValueWarning:materialData.properties.minimum_value_warning
+                property real maxValueWarning:materialData.properties.maximum_value_warning
+                property var defaultValue:materialData.properties.default_value
+                property real stepSizeValue:materialData.properties.step_value
+                property int precision:materialData.properties.precision
+                property real sliderMin:materialData.properties.slider_min
+                property real sliderMax:materialData.properties.slider_max
                 //Qt5.4.2 and earlier has a bug where this causes a crash: https://bugreports.qt.io/browse/QTBUG-35989
                 //In addition, while it works for 5.5 and higher, the ordering of the actual combo box drop down changes,
                 //causing nasty issues when selecting different options. So disable asynchronous loading of enum type completely.
@@ -130,11 +133,11 @@ Item
                     switch(model.type)
                     {
                         case "int":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSlider.qml"
                         case "[int]":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSlider.qml"
                         case "float":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSlider.qml"
                         case "enum":
                             return "SettingComboBox.qml"
                         case "extruder":
@@ -185,7 +188,6 @@ Item
                         return activeMachineId;
                     }
                 }
-
                 // Specialty provider that only watches global_inherits (we cant filter on what property changed we get events
                 // so we bypass that to make a dedicated provider).
                 UM.SettingPropertyProvider
@@ -195,11 +197,9 @@ Item
                     key: model.key
                     watchedProperties: [ "limit_to_extruder" ]
                 }
-
                 UM.SettingPropertyProvider
                 {
                     id: provider
-
                     containerStackId: Cura.MachineManager.activeMachineId
                     key: model.key ? model.key : ""
                     watchedProperties: [ "value", "enabled", "state", "validationState", "settable_per_extruder", "resolve" ]
@@ -207,6 +207,15 @@ Item
                     removeUnusedValue: model.resolve == undefined
                 }
 
+               UM.SettingPropertyProvider
+                {
+                    id: materialData
+                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
+                    key: model.key
+                    watchedProperties: [ 
+                                    "minimum_value_warning","maximum_value_warning","default_value","step_value","precision","slider_min","slider_max"
+                                    ]
+                }
                 Connections
                 {
                     target: item
@@ -217,8 +226,8 @@ Item
                         contextMenu.provider = provider
                         contextMenu.popup();
                     }
-                    onShowTooltip: base.showTooltip(delegate, Qt.point(- settingsView.x - UM.Theme.getSize("default_margin").width, 0), text)
-                    onHideTooltip: base.hideTooltip()
+                    //onShowTooltip: base.showTooltip(delegate, Qt.point(- settingsView.x - UM.Theme.getSize("default_margin").width, 0), text)
+                    //onHideTooltip: base.hideTooltip()
                     onShowAllHiddenInheritedSettings:
                     {
                         var children_with_override = Cura.SettingInheritanceManager.getChildrenKeysWithOverride(category_id)
@@ -300,11 +309,9 @@ Item
             Menu
             {
                 id: contextMenu
-
                 property string key
                 property var provider
                 property bool settingVisible
-
                 MenuItem
                 {
                     //: Settings context menu action
@@ -313,7 +320,6 @@ Item
                     enabled: contextMenu.provider != undefined && contextMenu.provider.properties.settable_per_extruder != "False"
                     onTriggered: Cura.MachineManager.copyValueToExtruders(contextMenu.key)
                 }
-
                 MenuItem
                 {
                     //: Settings context menu action
@@ -322,7 +328,6 @@ Item
                     enabled: contextMenu.provider != undefined
                     onTriggered: Cura.MachineManager.copyAllValuesToExtruders()
                 }
-
                 MenuSeparator
                 {
                     visible: machineExtruderCount.properties.value > 1

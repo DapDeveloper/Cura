@@ -24,8 +24,10 @@ Column
     property int backendState: UM.Backend.state
     function sliceOrStopSlicing()
     {
+        Cura.ContainerManager.updateQualityChanges()
         if (widget.backendState == UM.Backend.NotStarted)
         {
+            Cura.ContainerManager.updateQualityChanges();
             Cura.Actions.autoSaveProfile.trigger()
             CuraApplication.backend.forceSlice()
         }

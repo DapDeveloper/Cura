@@ -342,7 +342,7 @@ Item
                 anchors.fill: parent
                 color: palette.light
             }
-            width: true ? (parent.width * 0.4) | 0 : parent.width
+            width: parent.width/2//true ? (parent.width * 0.4) | 0 : parent.width
             frameVisible: true
             clip: true
             ListView
@@ -405,6 +405,7 @@ Item
         Item
         {
             id: detailsPanel
+            width:parent.width/2//true ? (parent.width * 0.4) | 0 : parent.width
             anchors {
                 left: profileScrollView.right
                 leftMargin: UM.Theme.getSize("default_margin").width
@@ -421,7 +422,6 @@ Item
                     id: profileName
                     width: parent.width
                     height: childrenRect.height
-
                     Label {
                         text: base.currentItemName
                         font: UM.Theme.getFont("large_bold")
@@ -440,7 +440,6 @@ Item
                         enabled: Cura.MachineManager.hasUserSettings && !base.currentItem.is_read_only
                         onClicked: Cura.ContainerManager.updateQualityChanges()
                     }
-
                     Button
                     {
                         text: catalog.i18nc("@action:button", "Discard current changes");

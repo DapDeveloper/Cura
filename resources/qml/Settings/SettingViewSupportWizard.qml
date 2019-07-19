@@ -34,6 +34,7 @@ Item
             rightMargin: UM.Theme.getSize("wide_margin").width
         }
     }
+    // Mouse area that gathers the scroll events to not propagate it to the main view.
     MouseArea
     {
         anchors.fill: scrollView
@@ -48,7 +49,7 @@ Item
             top: filterContainer.bottom
             topMargin: UM.Theme.getSize("default_margin").height
             bottom: parent.bottom
-            //right: parent.right
+            right: parent.right
             left: parent.left
         }
         style: UM.Theme.styles.scrollview
@@ -57,201 +58,58 @@ Item
         ListView
         {
             id: contents
-            spacing:UM.Theme.getSize("default_lining").height
+            spacing: UM.Theme.getSize("default_lining").height
             cacheBuffer: 1000000   // Set a large cache to effectively just cache every list item.
             model: UM.SettingDefinitionsModel
             {
                 id: definitionsModel
                 containerId: Cura.MachineManager.activeDefinitionId
                 visibilityHandler: UM.SettingPreferenceVisibilityHandler { }
-                exclude: ["machine_settings", "command_line_settings",
-                "infill_mesh", "infill_mesh_order", "cutting_mesh", 
+                /*
+                  exclude: ["machine_settings", "command_line_settings",
+                 "infill_mesh", "infill_mesh_order", "cutting_mesh", 
                  "support_mesh", "anti_overhang_mesh",
-                 "travel",
+                 "resolution","shell","infill","speed","travel",
                  "cooling","support","platform_adhesion","dual",
-                 "meshfix","blackmagic","experimental"]
-                 expanded: CuraApplication.expandedCategories
-                 onExpandedChanged:
-                 {
+                 "meshfix","blackmagic","experimental","material"
+                 ,] 
+                */
+                exclude: ["machine_settings", "command_line_settings",
+                 "infill_mesh", "infill_mesh_order", "cutting_mesh", 
+                 "support_mesh", "anti_overhang_mesh",
+                 "resolution","shell","infill","speed","travel",
+                 "cooling","platform_adhesion","dual",
+                 "meshfix","blackmagic","experimental","material","support_extruder_nr"
+                 ,"support_wall_count","zig_zaggify_support","support_connect_zigzags",
+                 "support_line_distance","support_initial_layer_line_distance","support_brim_enable",
+                 "support_brim_width","support_infill_sparse_thickness","gradual_support_infill_steps","gradual_support_infill_step_height",
+                 "minimum_support_area","support_interface_enable","support_interface_height","support_interface_skip_height","support_interface_density",
+                 "support_interface_pattern","minimum_interface_area","support_interface_offset","support_fan_enable","support_supported_skin_fan_speed",
+                 "support_use_towers","support_tower_diameter","support_minimal_diameter","support_tower_roof_angle","support_mesh_drop_down",
+                 "support_top_distance","support_bottom_distance"
+                 ,] 
+                  // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
+                    expanded: CuraApplication.expandedCategories
+                onExpandedChanged:
+                {
                     if (!findingSettings)
                     {
-                       CuraApplication.setExpandedCategories(expanded)
+                        // Do not change expandedCategories preference while filtering settings
+                        // because all categories are expanded while filtering
+                        CuraApplication.setExpandedCategories(expanded)
                     }
-                 }
+                }
                 onVisibilityChanged: Cura.SettingInheritanceManager.forceUpdate()
             }
-             /* Label
-            {
-                id:lblExtruderName
-                text:"Extruder name:"+Cura.ExtruderManager.getExtruderName(Cura.ExtruderManager.activeExtruderIndex)
-                anchors
-                {
-                    left:definitionsModel.left
-                    top:definitionsModel.bottom
-                }
-            }*/
-          /*   UM.SettingPropertyProvider
-            {
-                id: machineExtruderCount
-                containerStack: Cura.MachineManager.activeMachine
-                key: "machine_extruder_count"
-                watchedProperties: [ "value" ]
-                storeIndex: 0
-            }*/
-            Item
-            {
-                id:itemExtTemp
-                anchors
-                {
-                    left:definitionsModel.left
-                    top:definitionsModel.bottom
-                }
-                UM.SettingPropertyProvider
-                {
-                    id: materialTemp
-                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
-                    key: "material_print_temperature"
-                    watchedProperties: [ "value" ]
-                }
-                UM.SettingPropertyProvider
-                {
-                    id: bedTemperature
-                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
-                    key: "material_bed_temperature"
-                    watchedProperties: [ "value" ]
-                }
-                 UM.SettingPropertyProvider
-                {
-                  id: firstLayerTemperature
-                  containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
-                  key: "material_print_temperature_layer_0"
-                  watchedProperties: [ "value" ]
-                }
-              /*UM.SettingPropertyProvider
-                {
-                    id: layerHeight
-                    containerStackId: Cura.MachineManager.activeMachineId
-                    key: "layer_height"
-                    watchedProperties: [ "value", "enabled", "state", "validationState", "settable_per_extruder", "resolve" ]
-                    storeIndex: 0
-                    removeUnusedValue: model.resolve == undefined
-                }
-                */
-        UM.SettingPropertyProvider
-        {
-            id: layerHeight
-            containerStack: Cura.MachineManager.activeStack
-            key: "layer_height"
-            watchedProperties: ["value"]
-        }
-           UM.SettingPropertyProvider
-                {
-                    id: nozzleSize
-                  containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
-                    key: "machine_nozzle_size"
-                  watchedProperties: [ "value" ]
-                }
-       UM.SettingPropertyProvider
-                {
-                    id: filamentDiameter
-                  containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
-                    key: "material_diameter"
-                  watchedProperties: [ "value" ]
-                }
-
-                Label
-                {
-                    id:lblTemperatureExtruder
-                    text:catalog.i18nc("@title:label", "Printing Temperature")+":"+materialTemp.properties.value
-                    anchors
-                    {
-                        left:definitionsModel.left
-                        top:definitionsModel.bottom
-                    }
-                }
-                Label
-                {
-                    id:lblTemperatureFirstLayer
-                    text:catalog.i18nc("@title:label", "Printing Temperature Initial Layer")+":"+firstLayerTemperature.properties.value
-                    anchors
-                    {
-                        left:definitionsModel.left
-                        top:lblTemperatureExtruder.bottom
-                    }
-                }
-                Label
-                {
-                    id:lblTemperatureBed
-                    text:catalog.i18nc("@title:label", "Bed Temperature")+":"+bedTemperature.properties.value
-                    anchors
-                    {
-                        left:definitionsModel.left
-                        top:lblTemperatureFirstLayer.bottom
-                    }
-                }
-                Label
-                {
-                    id:lblLayerHeight
-                    text:catalog.i18nc("@title:label", "Layer Height")+":"+layerHeight.properties.value
-                    anchors
-                    {
-                        left:definitionsModel.left
-                        top:lblTemperatureBed.bottom
-                    }
-                }
-                Label
-                {
-                    id:lblNozzleSize
-                    text:catalog.i18nc("@title:label", "Nozzle Size")+":"+nozzleSize.properties.value
-                    anchors
-                    {
-                        left:definitionsModel.left
-                        top:lblLayerHeight.bottom
-                    }
-                }
-                Label
-                {
-                    id:lblFilamentDiameter
-                    text:catalog.i18nc("@title:label", "Filament diameter")+":"+filamentDiameter.properties.value
-                    anchors
-                    {
-                        left:definitionsModel.left
-                        top:lblNozzleSize.bottom
-                    }
-                }
-               
-            }
-
-            /*
-            UM.SettingPropertyProvider
-            {
-                id: extruderTemperature
-                containerStackId: Cura.ExtruderManager.extruderIds[position]
-                key: "material_print_temperature"
-                watchedProperties: ["value", "minimum_value", "maximum_value", "resolve"]
-                storeIndex: 0
-                property var resolve: Cura.MachineManager.activeStack != Cura.MachineManager.activeMachine ? properties.resolve : "None"
-                 anchors
-                {
-                    left:definitionsModel.left
-                    top:lblExtruderName.bottom
-                }
-            }*/
-
             property var indexWithFocus: -1
-           /* delegate: Loader
+            delegate: Loader
             {
                 id: delegate
-                width: scrollView.width
-                height: provider.properties.enabled == "True" ? UM.Theme.getSize("section").height : - contents.spacing
+                width: scrollView.width-20
+                height: 30//provider.properties.enabled == "True" ? UM.Theme.getSize("section").height : - contents.spacing
                 Behavior on height { NumberAnimation { duration: 100 } }
                 opacity: provider.properties.enabled == "True" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 100 } }
-                anchors
-                {
-                    left:definitionsModel.left
-                    top:lblTemp.bottom
-                }
                 enabled:
                 {
                     if (!Cura.ExtruderManager.activeExtruderStackId && machineExtruderCount.properties.value > 1)
@@ -261,29 +119,42 @@ Item
                     }
                     return provider.properties.enabled == "True"
                 }
+
                 property var definition: model
                 property var settingDefinitionsModel: definitionsModel
                 property var propertyProvider: provider
                 property var globalPropertyProvider: inheritStackProvider
                 property var externalResetHandler: false
+                property real minValueWarning:materialData.properties.minimum_value_warning
+                property real maxValueWarning:materialData.properties.maximum_value_warning
+                property var defaultValue:materialData.properties.default_value
+                property real stepSizeValue:materialData.properties.step_value
+                property int precision:materialData.properties.precision
+                property real sliderMin:materialData.properties.slider_min
+                property real sliderMax:materialData.properties.slider_max
+
+                //Qt5.4.2 and earlier has a bug where this causes a crash: https://bugreports.qt.io/browse/QTBUG-35989
+                //In addition, while it works for 5.5 and higher, the ordering of the actual combo box drop down changes,
+                //causing nasty issues when selecting different options. So disable asynchronous loading of enum type completely.
                 asynchronous: model.type != "enum" && model.type != "extruder" && model.type != "optional_extruder"
                 active: model.type != undefined
+
                 source:
                 {
                     switch(model.type)
                     {
                         case "int":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality.qml"
                         case "[int]":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality.qml"
                         case "float":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality.qml"
                         case "enum":
                             return "SettingComboBox.qml"
                         case "extruder":
                             return "SettingExtruder.qml"
                         case "bool":
-                            return "SettingCheckBox.qml"
+                            return "SettingCheckBoxCustom.qml"
                         case "str":
                             return "SettingTextField.qml"
                         case "category":
@@ -301,7 +172,7 @@ Item
                 {
                     target: provider
                     property: "containerStackId"
-                    when: model.settable_per_extruder||(inheritStackProvider.properties.limit_to_extruder != null && inheritStackProvider.properties.limit_to_extruder >= 0);
+                    when: model.settable_per_extruder || (inheritStackProvider.properties.limit_to_extruder != null && inheritStackProvider.properties.limit_to_extruder >= 0);
                     value:
                     {
                         // associate this binding with Cura.MachineManager.activeMachineId in the beginning so this
@@ -309,6 +180,7 @@ Item
                         // Otherwise, if this value only depends on the extruderIds, it won't get updated when the
                         // machine gets changed.
                         var activeMachineId = Cura.MachineManager.activeMachineId;
+
                         if (!model.settable_per_extruder)
                         {
                             //Not settable per extruder or there only is global, so we must pick global.
@@ -328,6 +200,7 @@ Item
                         return activeMachineId;
                     }
                 }
+
                 // Specialty provider that only watches global_inherits (we cant filter on what property changed we get events
                 // so we bypass that to make a dedicated provider).
                 UM.SettingPropertyProvider
@@ -337,14 +210,23 @@ Item
                     key: model.key
                     watchedProperties: [ "limit_to_extruder" ]
                 }
+
                 UM.SettingPropertyProvider
                 {
                     id: provider
+
                     containerStackId: Cura.MachineManager.activeMachineId
                     key: model.key ? model.key : ""
                     watchedProperties: [ "value", "enabled", "state", "validationState", "settable_per_extruder", "resolve" ]
                     storeIndex: 0
                     removeUnusedValue: model.resolve == undefined
+                }
+             UM.SettingPropertyProvider
+                {
+                    id: materialData
+                    containerStackId: Cura.MachineManager.activeMachineId
+                    key: model.key
+                   watchedProperties: ["value","minimum_value_warning","maximum_value_warning","default_value","step_value","precision","slider_min","slider_max"]
                 }
                 Connections
                 {
@@ -357,7 +239,7 @@ Item
                         contextMenu.popup();
                     }
                     onShowTooltip: base.showTooltip(delegate, Qt.point(- settingsView.x - UM.Theme.getSize("default_margin").width, 0), text)
-                    onHideTooltip: base.hideTooltip()
+                    //onHideTooltip: base.hideTooltip()
                     onShowAllHiddenInheritedSettings:
                     {
                         var children_with_override = Cura.SettingInheritanceManager.getChildrenKeysWithOverride(category_id)
@@ -403,7 +285,7 @@ Item
                         }
                     }
                 }
-            }*/
+            }
             UM.I18nCatalog { id: catalog; name: "cura"; }
             NumberAnimation {
                 id: animateContentY
@@ -440,22 +322,27 @@ Item
                 property bool settingVisible
                 MenuItem
                 {
+                    //: Settings context menu action
                     text: catalog.i18nc("@action:menu", "Copy value to all extruders")
                     visible: machineExtruderCount.properties.value > 1
                     enabled: contextMenu.provider != undefined && contextMenu.provider.properties.settable_per_extruder != "False"
                     onTriggered: Cura.MachineManager.copyValueToExtruders(contextMenu.key)
                 }
+
                 MenuItem
                 {
+                    //: Settings context menu action
                     text: catalog.i18nc("@action:menu", "Copy all changed values to all extruders")
                     visible: machineExtruderCount.properties.value > 1
                     enabled: contextMenu.provider != undefined
                     onTriggered: Cura.MachineManager.copyAllValuesToExtruders()
                 }
+
                 MenuSeparator
                 {
                     visible: machineExtruderCount.properties.value > 1
                 }
+
                 Instantiator
                 {
                     id: customMenuItems
@@ -472,17 +359,21 @@ Item
                    onObjectAdded: contextMenu.insertItem(index, object)
                    onObjectRemoved: contextMenu.removeItem(object)
                 }
+
                 MenuSeparator
                 {
                     visible: customMenuItems.count > 0
                 }
+
                 MenuItem
                 {
+                    //: Settings context menu action
                     visible: !findingSettings
                     text: catalog.i18nc("@action:menu", "Hide this setting");
                     onTriggered:
                     {
                         definitionsModel.hide(contextMenu.key);
+                        // visible settings have changed, so we're no longer showing a preset
                         if (settingVisibilityPresetsModel.activePreset != "")
                         {
                             settingVisibilityPresetsModel.setActivePreset("custom");
@@ -491,6 +382,7 @@ Item
                 }
                 MenuItem
                 {
+                    //: Settings context menu action
                     text:
                     {
                         if (contextMenu.settingVisible)
@@ -513,6 +405,7 @@ Item
                         {
                             definitionsModel.show(contextMenu.key);
                         }
+                        // visible settings have changed, so we're no longer showing a preset
                         if (settingVisibilityPresetsModel.activePreset != "")
                         {
                             settingVisibilityPresetsModel.setActivePreset("custom");
@@ -521,6 +414,7 @@ Item
                 }
                 MenuItem
                 {
+                    //: Settings context menu action
                     text: catalog.i18nc("@action:menu", "Configure setting visibility...");
                     onTriggered: Cura.Actions.configureSettingVisibility.trigger(contextMenu);
                 }

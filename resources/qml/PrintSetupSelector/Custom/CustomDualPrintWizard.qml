@@ -11,7 +11,7 @@ Item
     property bool multipleExtruders: extrudersModel.count > 1
     property var extrudersModel: CuraApplication.getExtrudersModel()
     // Profile selector row
-  /*
+
     UM.TabRow
     {
         id: tabBar
@@ -68,12 +68,12 @@ Item
                 tabBar.setCurrentIndex(Cura.ExtruderManager.activeExtruderIndex)
             }
         }
-    }*/
+    }
     Rectangle
     {
         anchors
         {
-            top: parent.top//tabBar.visible ? tabBar.bottom : globalProfileRow.bottom
+            top: tabBar.visible ? tabBar.bottom : globalProfileRow.bottom
             topMargin: -UM.Theme.getSize("default_lining").width
             left: parent.left
             leftMargin: parent.padding
@@ -83,7 +83,7 @@ Item
         }
         z: tabBar.z - 1
         // Don't show the border when only one extruder
-        border.color: /*tabBar.visible ?*/ UM.Theme.getColor("lining") /*: "transparent"*/
+        border.color:tabBar.visible ? UM.Theme.getColor("lining") : "transparent"
         border.width: UM.Theme.getSize("default_lining").width
         color: UM.Theme.getColor("main_background")
        Cura.SettingViewDualWizard

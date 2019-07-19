@@ -34,11 +34,13 @@ UM.TooltipArea
     property var setValueFunction: null
     // a dummy function for default property values
     function dummy_func() {}
+
     UM.SettingPropertyProvider
     {
         id: propertyProvider
         watchedProperties: [ "value", "options", "description" ]
     }
+
     Label
     {
         id: fieldLabel

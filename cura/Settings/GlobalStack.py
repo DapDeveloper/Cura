@@ -264,6 +264,21 @@ class GlobalStack(CuraContainerStack):
         return self.getProperty("machine_heated_bed","value")    
     def getMachineExtruderCount(self):
         return self.getProperty("machine_extruder_count", "value")
+    def getMachineEncoderSensor(self):
+        return self.getProperty("machine_has_encoder", "value")
+    def getMachineEncoderControl(self):
+        return self.getProperty("machine_encoder_control", "value")
+    def getMachineEncoderErrorPercentage(self):
+        return self.getProperty("machine_encoder_percentage", "value")
+    def getMachineDoorSensor(self):
+        return self.getProperty("machine_has_door_sensor", "value")         
+    def getMachineDoorSecurity(self):
+        return self.getProperty("machine_door_security", "value")         
+    def getMachineAdhesionControl(self):
+        return self.getProperty("machine_has_adhesion_control", "value")         
+    def getMachineLayersNoFan(self):
+        return self.getProperty("machine_layers_no_fan", "value")         
+      
     ##  Get default firmware file name if one is specified in the firmware
     @pyqtSlot(result = str)
     def getDefaultFirmwareName(self) -> str:

@@ -220,21 +220,7 @@
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
-                "machine_support_extruder_nr":
-                {
-                    "label": "Support Extruder",
-                    "description": "The extruder train to use for printing the support. This is used in multi-extrusion.",
-                    "type": "optional_extruder",
-                    "default_value": "0",
-                    "minimum_value": "0",
-                    "maximum_value_warning": "10",
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": true
-                },
-
-             
-
-
+              
                 "machine_support_infill_extruder_nr":
                 {
                     "label": "Support Infill Extruder",
@@ -246,17 +232,7 @@
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
-                "machine_support_infill_extruder_nr_layer0":
-                {
-                    "label": "First Layer Support Extruder",
-                    "description": "The extruder train to use for printing the first layer of support infill. This is used in multi-extrusion.",
-                    "type": "optional_extruder",
-                    "default_value": "0",
-                    "minimum_value": "0",
-                    "maximum_value_warning": "10",
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": true
-                },
+       
                 "machine_support_interface_extruder_nr":
                 {
                     "label": "Support Interface Extruder",
@@ -290,18 +266,7 @@
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
-                "machine_adhesion_extruder_nr":
-                {
-                    "label": "Build Plate Adhesion Extruder",
-                    "description": "The extruder train to use for printing the skirt/brim/raft. This is used in multi-extrusion.",
-                    "type": "extruder",
-                    "default_value": "0",
-                    "minimum_value": "0",
-                    "maximum_value_warning": "10",
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": true,
-                    "settable_per_meshgroup":false
-                },
+           
                 "machine_prime_tower_flow":
                 {
                     "label": "Prime Tower Flow",

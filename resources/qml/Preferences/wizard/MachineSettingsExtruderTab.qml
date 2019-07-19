@@ -28,6 +28,7 @@ Item
     property string extruderStackId: ""
     property int extruderPosition: 0
     property var forceUpdateFunction: manager.forceUpdate
+
     function updateMaterialDiameter()
     {
         manager.updateMaterialForDiameter(extruderPosition)
@@ -256,8 +257,6 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
-
-        
         }
          Column
         {
@@ -330,7 +329,7 @@ Item
                 unitText: catalog.i18nc("@label", "")
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
-            Cura.NumericTextFieldWithUnit  // "support extruder nr layer 0"
+            /*Cura.NumericTextFieldWithUnit  // "support extruder nr layer 0"
             {
                 id: extruderSupportInfillNumberLayer0
                 containerStackId: base.extruderStackId
@@ -342,7 +341,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-            }
+            }*/
             Cura.NumericTextFieldWithUnit  // "support interface extruder nr"
             {
                 id: extruderSupportInterfaceExtruderNr

@@ -48,7 +48,6 @@ Item
             top: header.bottom
             topMargin: visible ? UM.Theme.getSize("default_margin").height : 0
         }
-
         Label
         {
             text: catalog.i18nc("@label", "Printer")

@@ -62,7 +62,7 @@ Item
                 font: UM.Theme.getFont("medium_bold")
                 renderType: Text.NativeRendering
             }
-            Cura.NumericTextFieldWithUnit  // "Nozzle size"
+            Cura.NumericSliderWithUnit  // "Nozzle size"
             {
                 id: extruderNozzleSizeField
                 visible: !Cura.MachineManager.hasVariants
@@ -75,8 +75,14 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
+                sliderMin:0
+                sliderMax:2
+                precision:1
+                minValueWarning:0.4
+                maxValueWarning:0.8
+                step_value:0.1
             }
-            Cura.NumericTextFieldWithUnit  // "Compatible material diameter"
+            Cura.NumericSliderWithUnit  // "Compatible material diameter"
             {
                 id: extruderCompatibleMaterialDiameterField
                 containerStackId: base.extruderStackId
@@ -90,6 +96,12 @@ Item
                 forceUpdateOnChangeFunction: forceUpdateFunction
                 // Other modules won't automatically respond after the user changes the value, so we need to force it.
                 afterOnEditingFinishedFunction: updateMaterialDiameter
+                sliderMin:0
+                sliderMax:5
+                precision:2
+                minValueWarning:1.75
+                maxValueWarning:3.0
+                step_value:0.01
             }
             /*Cura.NumericTextFieldWithUnit  // "Nozzle offset X"
             {
@@ -132,7 +144,8 @@ Item
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
         */
-            Cura.NumericTextFieldWithUnit  // "Line WIDTH"
+
+            Cura.NumericSliderWithUnit  // "Line WIDTH"
             {
                 id: extruderLineWidth
                 containerStackId: base.extruderStackId
@@ -144,9 +157,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                editable:editable3
+              
+                sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "wall Line WIDTH"
+            Cura.NumericSliderWithUnit  // "wall Line WIDTH"
             {
                 id: extruderWallLineWidth
                 containerStackId: base.extruderStackId
@@ -158,9 +177,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                editable:editable3
+             
+                sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "wall Line WIDTH 0"
+            Cura.NumericSliderWithUnit  // "wall Line WIDTH 0"
             {
                 id: extruderWallLineWidth0
                 containerStackId: base.extruderStackId
@@ -172,9 +197,14 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                editable:editable3
+                  sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "wall Line WIDTH X"
+            Cura.NumericSliderWithUnit  // "wall Line WIDTH X"
             {
                 id: extruderWallLineWidthX
                 containerStackId: base.extruderStackId
@@ -186,9 +216,14 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                editable:editable3
+                sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "skin Line WIDTH"
+            Cura.NumericSliderWithUnit  // "skin Line WIDTH"
             {
                 id: extruderSkinLineWidth
                 containerStackId: base.extruderStackId
@@ -200,9 +235,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                editable:editable3
+              
+                     sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "Support Line WIDTH"
+            Cura.NumericSliderWithUnit  // "Support Line WIDTH"
             {
                 id: extruderSupportLineWidth
                 containerStackId: base.extruderStackId
@@ -214,9 +255,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                editable:editable3
+            
+                     sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "Inteface Line WIDTH"
+            Cura.NumericSliderWithUnit  // "Inteface Line WIDTH"
             {
                 id: extruderInterfaceLineWidth
                 containerStackId: base.extruderStackId
@@ -228,9 +275,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                editable:editable3
+              
+                     sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "Roof Line WIDTH"
+            Cura.NumericSliderWithUnit  // "Roof Line WIDTH"
             {
                 id: extruderRoofLineWidth
                 containerStackId: base.extruderStackId
@@ -242,9 +295,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                 editable:editable3
+      
+                      sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "Bottom Line WIDTH"
+            Cura.NumericSliderWithUnit  // "Bottom Line WIDTH"
             {
                 id: extruderBottomLineWidth
                 containerStackId: base.extruderStackId
@@ -256,9 +315,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                 editable:editable3
+ 
+                      sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-              Cura.NumericTextFieldWithUnit  // "Prime tower Line WIDTH"
+              Cura.NumericSliderWithUnit  // "Prime tower Line WIDTH"
             {
                 id: extruderPrimeTowerLineWidth
                 containerStackId: base.extruderStackId
@@ -270,9 +335,15 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                 editable:editable3
+ 
+                      sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "Initial layer Line WIDTH"
+            Cura.NumericSliderWithUnit  // "Initial layer Line WIDTH"
             {
                 id: extruderInitialLineWidth
                 containerStackId: base.extruderStackId
@@ -282,11 +353,17 @@ Item
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth/1.2
                 controlWidth: base.controlWidth/1.5
-                unitText: catalog.i18nc("@label", "%")
+                unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                 editable:editable3
+    
+                sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-            Cura.NumericTextFieldWithUnit  // "infill Line WIDTH"
+            Cura.NumericSliderWithUnit  // "infill Line WIDTH"
             {
                 id: extruderInfillLineWidth
                 containerStackId: base.extruderStackId
@@ -298,10 +375,14 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                 editable:editable3
-                 
+                sliderMin:0
+                sliderMax:2
+                precision:2
+                minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
+                maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
+                step_value:0.01
             }
-              Cura.NumericTextFieldWithUnit  // "prime tower flow"
+              Cura.NumericSliderWithUnit  // "prime tower flow"
             { 
                 id: extruderPrimeTowerFlow
                 containerStackId: base.extruderStackId
@@ -313,7 +394,12 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "%")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                 editable:editable3
+                sliderMin:0
+                sliderMax:200
+                precision:0
+                minValueWarning:90
+                maxValueWarning:110
+                step_value:1
             }
         }
         /* Column
