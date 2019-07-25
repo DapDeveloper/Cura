@@ -52,11 +52,7 @@ UM.PreferencesPage
                 id: machineProfile
                 width:parent.width
                 height:parent.height
-                anchors
-                {
-                    left:printerSetup.left
-                    top:printerSetup.bottom
-                }
+               
             }
     }
 }

@@ -143,7 +143,7 @@ Item
                         case "extruder":
                             return "SettingExtruder.qml"
                         case "bool":
-                            return "SettingCheckBox.qml"
+                            return "SettingCheckBoxCustom.qml"
                         case "str":
                             return "SettingTextField.qml"
                         case "category":

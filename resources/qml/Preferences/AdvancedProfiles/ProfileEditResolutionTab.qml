@@ -105,6 +105,29 @@ Item
                 unitText: catalog.i18nc("@label", "mm/s")
                 forceUpdateOnChangeFunction: forceUpdateFunction
             } 
+
+            /*
+                 Cura.NumericSliderWithUnit  // "Nozzle size"
+            {
+                id: extruderNozzleSizeField
+                visible: !Cura.MachineManager.hasVariants
+                containerStackId: base.extruderStackId
+                settingKey: "machine_nozzle_size"
+                settingStoreIndex: propertyStoreIndex
+                labelText: catalog.i18nc("@label", "Nozzle size")
+                labelFont: base.labelFont
+                labelWidth: base.labelWidth/1.2
+                controlWidth: base.controlWidth/1.5
+                unitText: catalog.i18nc("@label", "mm")
+                forceUpdateOnChangeFunction: forceUpdateFunction
+                sliderMin:0
+                sliderMax:2
+                precision:1
+                minValueWarning:0.4
+                maxValueWarning:0.8
+                step_value:0.1
+            }
+            */
             Cura.NumericTextFieldWithUnit  // "wall speed"
             {
                 id: machineWallSpeed

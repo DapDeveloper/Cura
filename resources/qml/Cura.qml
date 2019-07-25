@@ -675,7 +675,6 @@ UM.MainWindow
         watchedProperties: [ "value" ]
         storeIndex: 0
     }
-
     UM.SliceWizard
     {
         id: sliceWizard

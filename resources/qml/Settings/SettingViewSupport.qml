@@ -82,7 +82,7 @@ Item
                  "support_mesh", "anti_overhang_mesh",
                  "resolution","shell","infill","speed","travel",
                  "cooling","platform_adhesion","dual",
-                 "meshfix","blackmagic","experimental","material"
+                 "meshfix","blackmagic","experimental","material","support_line_distance","support_initial_layer_line_distance"
                  ,] 
                   // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
                     expanded: CuraApplication.expandedCategories
@@ -115,11 +115,18 @@ Item
                     }
                     return provider.properties.enabled == "True"
                 }
-                property var definition: model
+                              property var definition: model
                 property var settingDefinitionsModel: definitionsModel
                 property var propertyProvider: provider
                 property var globalPropertyProvider: inheritStackProvider
                 property var externalResetHandler: false
+                property real minValueWarning:materialData.properties.minimum_value_warning
+                property real maxValueWarning:materialData.properties.maximum_value_warning
+                property var defaultValue:materialData.properties.default_value
+                property real stepSizeValue:materialData.properties.step_value
+                property int precision:materialData.properties.precision
+                property real sliderMin:materialData.properties.slider_min
+                property real sliderMax:materialData.properties.slider_max
                 //Qt5.4.2 and earlier has a bug where this causes a crash: https://bugreports.qt.io/browse/QTBUG-35989
                 //In addition, while it works for 5.5 and higher, the ordering of the actual combo box drop down changes,
                 //causing nasty issues when selecting different options. So disable asynchronous loading of enum type completely.
@@ -130,17 +137,17 @@ Item
                     switch(model.type)
                     {
                         case "int":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality2.qml"
                         case "[int]":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality2.qml"
                         case "float":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality2.qml"
                         case "enum":
                             return "SettingComboBox.qml"
                         case "extruder":
                             return "SettingExtruder.qml"
                         case "bool":
-                            return "SettingCheckBox.qml"
+                            return "SettingCheckBoxCustom.qml"
                         case "str":
                             return "SettingTextField.qml"
                         case "category":
@@ -207,6 +214,16 @@ Item
                     storeIndex: 0
                     removeUnusedValue: model.resolve == undefined
                 }
+                     UM.SettingPropertyProvider
+                {
+                    id: materialData
+                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
+                    key: model.key
+                    watchedProperties: [ 
+                                    "minimum_value_warning","maximum_value_warning","default_value","step_value","precision","slider_min","slider_max"
+                                    ]
+                }
+
 
                 Connections
                 {

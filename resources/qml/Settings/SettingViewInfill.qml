@@ -82,7 +82,7 @@ Item
                  "support_mesh", "anti_overhang_mesh",
                  "resolution","shell","speed","travel",
                  "cooling","support","platform_adhesion","dual",
-                 "meshfix","blackmagic","experimental","material"
+                 "meshfix","blackmagic","experimental","material","infill_line_distance","infill_angles","infill_overlap_mm"
                  ,] 
                   // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
                     expanded: CuraApplication.expandedCategories
@@ -123,6 +123,13 @@ Item
                 property var propertyProvider: provider
                 property var globalPropertyProvider: inheritStackProvider
                 property var externalResetHandler: false
+                property real minValueWarning:materialData.properties.minimum_value_warning
+                property real maxValueWarning:materialData.properties.maximum_value_warning
+                property var defaultValue:materialData.properties.default_value
+                property real stepSizeValue:materialData.properties.step_value
+                property int precision:materialData.properties.precision
+                property real sliderMin:materialData.properties.slider_min
+                property real sliderMax:materialData.properties.slider_max
 
                 //Qt5.4.2 and earlier has a bug where this causes a crash: https://bugreports.qt.io/browse/QTBUG-35989
                 //In addition, while it works for 5.5 and higher, the ordering of the actual combo box drop down changes,
@@ -135,17 +142,17 @@ Item
                     switch(model.type)
                     {
                         case "int":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality2.qml"
                         case "[int]":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality2.qml"
                         case "float":
-                            return "SettingTextField.qml"
+                            return "SettingTextFieldSliderQuality2.qml"
                         case "enum":
                             return "SettingComboBox.qml"
                         case "extruder":
                             return "SettingExtruder.qml"
                         case "bool":
-                            return "SettingCheckBox.qml"
+                            return "SettingCheckBoxCustom.qml"
                         case "str":
                             return "SettingTextField.qml"
                         case "category":
@@ -202,16 +209,23 @@ Item
                     key: model.key
                     watchedProperties: [ "limit_to_extruder" ]
                 }
-
                 UM.SettingPropertyProvider
                 {
                     id: provider
-
                     containerStackId: Cura.MachineManager.activeMachineId
                     key: model.key ? model.key : ""
                     watchedProperties: [ "value", "enabled", "state", "validationState", "settable_per_extruder", "resolve" ]
                     storeIndex: 0
                     removeUnusedValue: model.resolve == undefined
+                }
+            UM.SettingPropertyProvider
+                {
+                    id: materialData
+                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
+                    key: model.key
+                    watchedProperties: [ 
+                                    "minimum_value_warning","maximum_value_warning","default_value","step_value","precision","slider_min","slider_max"
+                                    ]
                 }
 
                 Connections
@@ -224,8 +238,7 @@ Item
                         contextMenu.provider = provider
                         contextMenu.popup();
                     }
-                    onShowTooltip: base.showTooltip(delegate, Qt.point(- settingsView.x - UM.Theme.getSize("default_margin").width, 0), text)
-                    onHideTooltip: base.hideTooltip()
+                
                     onShowAllHiddenInheritedSettings:
                     {
                         var children_with_override = Cura.SettingInheritanceManager.getChildrenKeysWithOverride(category_id)
