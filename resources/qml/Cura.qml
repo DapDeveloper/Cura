@@ -106,12 +106,12 @@ UM.MainWindow
 
             }
             // Reuse the welcome dialog item to show "What's New" only.
-            if (CuraApplication.shouldShowWhatsNewDialog())
+           /* if (CuraApplication.shouldShowWhatsNewDialog())
             {
                 welcomeDialogItem.model = CuraApplication.getWhatsNewPagesModel()
                 welcomeDialogItem.progressBarVisible = false
                 welcomeDialogItem.visible = true
-           }
+           }*/
         }
     }
 
