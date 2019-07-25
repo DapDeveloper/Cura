@@ -17,12 +17,11 @@ UM.PreferencesPage
 
     function sliceOrStopSlicing()
     {
-        Cura.ContainerManager.updateQualityChanges()
-        
         if (generalPreferencesPage.backendState == UM.Backend.NotStarted)
         {
             Cura.Actions.autoSaveProfile.trigger()
             CuraApplication.backend.forceSlice()
+
         }
         else
         {
@@ -72,6 +71,14 @@ UM.PreferencesPage
         anchors.leftMargin:10
         anchors.topMargin:10
         anchors.bottomMargin:10
+          Timer
+        {
+            id: sliceTimer
+            repeat: false
+            interval: 1
+            onTriggered: sliceOrStopSlicing()
+        }
+
         Cura.PrimaryButton
         {
             id: sliceButton
@@ -85,7 +92,11 @@ UM.PreferencesPage
             tooltip: catalog.i18nc("@label", "Start the slicing process")
             enabled: generalPreferencesPage.backendState != UM.Backend.Error
             visible: generalPreferencesPage.backendState == UM.Backend.NotStarted || generalPreferencesPage.backendState == UM.Backend.Error
-            onClicked: sliceOrStopSlicing()
+            onClicked: 
+            {
+                Cura.ContainerManager.updateQualityChanges()
+                sliceTimer.start()
+            }
         }
          Cura.SecondaryButton
         {
@@ -173,7 +184,11 @@ UM.PreferencesPage
             text: catalog.i18nc("@button", "Cancel")
             enabled: sliceButton.enabled
             visible: !sliceButton.visible //&& generalPreferencesPage.backendState!=UM.Backend.Done
-            onClicked: sliceOrStopSlicing()
+              onClicked: 
+            {
+                Cura.ContainerManager.updateQualityChanges()
+                sliceTimer.start()
+            }
         } 
         Cura.OutputDevicesActionButton
         {

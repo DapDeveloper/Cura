@@ -215,22 +215,21 @@ class CuraEngineBackend(QObject, Backend):
     @pyqtSlot()
     def forceSlice(self) -> None:
         self.markSliceAll()
+        Logger.log("d","CALL SLICE 1")
         self.slice()
+        
      
     ##  Perform a slice of the scene.
     def slice(self) -> None:
-
         self._slice_start_time = time()
         if not self._build_plates_to_be_sliced:
             self.processingProgress.emit(1.0)
             Logger.log("w", "Slice unnecessary, nothing has changed that needs reslicing.")
             self.setState(BackendState.Done)
             return
-
         if self._process_layers_job:
             Logger.log("d", "Process layers job still busy, trying later.")
             return
-
         if not hasattr(self._scene, "gcode_dict"):
             self._scene.gcode_dict = {} #type: ignore #Because we are creating the missing attribute here.
 
@@ -239,10 +238,8 @@ class CuraEngineBackend(QObject, Backend):
         build_plate_to_be_sliced = self._build_plates_to_be_sliced.pop(0)
         Logger.log("d", "Going to slice build plate [%s]!" % build_plate_to_be_sliced)
         num_objects = self._numObjectsPerBuildPlate()
-
         self._stored_layer_data = []
-
-
+        Logger.log("d","LOGGER1")
         if build_plate_to_be_sliced not in num_objects or num_objects[build_plate_to_be_sliced] == 0:
             self._scene.gcode_dict[build_plate_to_be_sliced] = [] #type: ignore #Because we created this attribute above.
             Logger.log("d", "Build plate %s has no objects to be sliced, skipping", build_plate_to_be_sliced)
@@ -252,24 +249,21 @@ class CuraEngineBackend(QObject, Backend):
             #                     progress = 0,
             #                     title = i18n_catalog.i18nc("@info:title", "Finding Location"))
             #status_message.show()
-
             if self._build_plates_to_be_sliced:
+                Logger.log("d","CALL SLICE 2")
                 self.slice()
+                Logger.log("d","HAS TO BE SLICED")
             return
+        Logger.log("d","LOGGER2")
         self._stored_optimized_layer_data[build_plate_to_be_sliced] = []
         if self._application.getPrintInformation() and build_plate_to_be_sliced == active_build_plate:
             self._application.getPrintInformation().setToZeroPrintInformation(build_plate_to_be_sliced)
-
         if self._process is None: # type: ignore
             self._createSocket()
-            self._createSocket()
-
         self.stopSlicing()
         self._engine_is_fresh = False  # Yes we're going to use the engine
-
         self.processingProgress.emit(0.0)
         self.backendStateChange.emit(BackendState.NotStarted)
-
         self._scene.gcode_dict[build_plate_to_be_sliced] = [] #type: ignore #[] indexed by build plate number
         self._slicing = True
         self.slicingStarted.emit()
@@ -280,11 +274,11 @@ class CuraEngineBackend(QObject, Backend):
         self._start_slice_job.setBuildPlate(self._start_slice_job_build_plate)
         self._start_slice_job.start()
         self._start_slice_job.finished.connect(self._onStartSliceCompleted)
+        Logger.log("d","SLICING DONE!")
     ##  Terminate the engine process.
     #   Start the engine process by calling _createSocket()
     def _terminate(self) -> None:
         Logger.log("d","CURA ENGINE IS TIME")
-       
         self._slicing = False
         self._stored_layer_data = []
         if self._start_slice_job_build_plate in self._stored_optimized_layer_data:
@@ -313,18 +307,16 @@ class CuraEngineBackend(QObject, Backend):
     #
     #   \param job The start slice job that was just finished.
     def _onStartSliceCompleted(self, job: StartSliceJob) -> None:
+        Logger.log("d","COMPLETED")
         if self._error_message:
             self._error_message.hide()
-
         # Note that cancelled slice jobs can still call this method.
         if self._start_slice_job is job:
             self._start_slice_job = None
-
         if job.isCancelled() or job.getError() or job.getResult() == StartJobResult.Error:
             self.setState(BackendState.Error)
             self.backendError.emit(job)
             return
-
         if job.getResult() == StartJobResult.MaterialIncompatible:
             if self._application.platformActivity:
                 self._error_message = Message(catalog.i18nc("@info:status",
@@ -335,7 +327,6 @@ class CuraEngineBackend(QObject, Backend):
             else:
                 self.setState(BackendState.NotStarted)
             return
-
         if job.getResult() == StartJobResult.SettingError:
             if self._application.platformActivity:
                 if not self._global_container_stack:

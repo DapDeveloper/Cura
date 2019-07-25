@@ -143,6 +143,7 @@ class MachineErrorChecker(QObject):
 
         # If there is nothing to check any more, it means there is no error.
         if not self._stacks_and_keys_to_check:
+            Logger.log("d","THAT IS CALLED2!!!!!!!!!!!!!!!!!!!")
             # Finish
             self._setResult(False)
             return
@@ -154,8 +155,9 @@ class MachineErrorChecker(QObject):
         if not enabled:
             self._application.callLater(self._checkStack)
             return
-
+        Logger.log("d","KEYTO VALIDATE:"+key)
         validation_state = stack.getProperty(key, "validationState")
+
         if validation_state is None:
             # Setting is not validated. This can happen if there is only a setting definition.
             # We do need to validate it, because a setting definitions value can be set by a function, which could
@@ -165,7 +167,9 @@ class MachineErrorChecker(QObject):
             if validator_type:
                 validator = validator_type(key)
                 validation_state = validator(stack)
-        if validation_state in (ValidatorState.Exception, ValidatorState.MaximumError, ValidatorState.MinimumError):
+        Logger.log("d","VALIDATION:"+str(validation_state))
+        if validation_state in (ValidatorState.Exception, ValidatorState.MaximumError, ValidatorState.MinimumError) and key != "max_feedrate_z_override":
+            Logger.log("d","THAT IS CALLED!!!!!!!!!!!!!!!!!!!")
             # Finish
             self._setResult(True)
             return
@@ -173,9 +177,11 @@ class MachineErrorChecker(QObject):
         self._application.callLater(self._checkStack)
     def _setResult(self, result: bool) -> None:
         if result != self._has_errors:
+            Logger.log("d","NO ERRORS")
             self._has_errors = result
             self.hasErrorUpdated.emit()
             self._machine_manager.stacksValidationChanged.emit()
+        Logger.log("d","has errors")
         self._need_to_check = False
         self._check_in_progress = False
         self.needToWaitForResultChanged.emit()

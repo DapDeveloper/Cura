@@ -24,7 +24,6 @@ Column
     property int backendState: UM.Backend.state
     function sliceOrStopSlicing()
     {
-        Cura.ContainerManager.updateQualityChanges()
         if (widget.backendState == UM.Backend.NotStarted)
         {
             Cura.ContainerManager.updateQualityChanges();
@@ -133,6 +132,14 @@ Column
             }
         }
     }
+    Timer
+        {
+            id: sliceTimer
+            repeat: false
+            interval: 1
+            onTriggered: sliceOrStopSlicing()
+        }
+        
     // Shortcut for "slice/stop"
     Controls1.Action
     {
@@ -141,7 +148,9 @@ Column
         {
             if (sliceButton.enabled)
             {
-                sliceOrStopSlicing()
+            
+               Cura.ContainerManager.updateQualityChanges()
+               sliceTimer.start()
             }
         }
     }

@@ -17,7 +17,7 @@ Item
     property int activeY
     function sliceOrStopSlicing()
     {
-        Cura.ContainerManager.updateQualityChanges();
+        
         if (backendState == UM.Backend.NotStarted)
         {
             Cura.Actions.autoSaveProfile.trigger()
@@ -163,6 +163,14 @@ Item
                 onClicked: Cura.Actions.sliceWizard.trigger()
             }
         }
+           Timer
+            {
+                id: sliceTimer
+                repeat: false
+                interval: 1
+                onTriggered: sliceOrStopSlicing()
+            }
+            
          Column
         {
             id: sliceButtons
@@ -183,7 +191,12 @@ Item
                     //color: UM.Theme.getColor("wizard")
                     //sourceSize: UM.Theme.getSize("button_icon")
                 }
-               onClicked: sliceOrStopSlicing()
+               onClicked:
+               {
+
+                   Cura.ContainerManager.updateQualityChanges();
+                   sliceTimer.start();
+               }
             }
         }
         Column
