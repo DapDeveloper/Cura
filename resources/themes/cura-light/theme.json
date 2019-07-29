@@ -141,6 +141,11 @@
             "size": 0.7,
             "weight": 50,
             "family": "Noto Sans"
+        },
+        "customCoordinates": {
+            "size": 1.1,
+            "weight": 60,
+            "family": "Noto Sans"
         }
     },
     "colors": {
@@ -150,7 +155,6 @@
         "bkColorScheme":[198,198,198,0],
         "bkColorSchemeHeaderActive":[198,198,198,0],
         "bkColorSchemeHeaderHover":[198,198,198,0],
-        
         "colorSchemeColor":[120,120,120,255],
         "headerBKLegend":[198,198,198,0],
         "bkColorSchemeHeader":[198,198,198,0],
