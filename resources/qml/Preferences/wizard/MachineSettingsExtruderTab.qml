@@ -264,7 +264,7 @@ Item
             anchors.left: column1.right
             width: parent.width /2
             spacing: base.columnSpacing
-                Cura.NumericTextFieldWithUnit  // "Initial layer Line WIDTH"
+          /*      Cura.NumericTextFieldWithUnit  // "Initial layer Line WIDTH"
             {
                 id: extruderInitialLineWidth
                 containerStackId: base.extruderStackId
@@ -276,7 +276,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "%")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-            }
+            }*/
             Cura.NumericTextFieldWithUnit  // "infill Line WIDTH"
             {
                 id: extruderInfillLineWidth

@@ -177,7 +177,6 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-             
                 sliderMin:0
                 sliderMax:2
                 precision:2
@@ -197,7 +196,7 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-                  sliderMin:0
+                sliderMin:0
                 sliderMax:2
                 precision:2
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
@@ -236,7 +235,7 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
               
-                     sliderMin:0
+                sliderMin:0
                 sliderMax:2
                 precision:2
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
@@ -256,7 +255,7 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
             
-                     sliderMin:0
+                sliderMin:0
                 sliderMax:2
                 precision:2
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
@@ -276,7 +275,7 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
               
-                     sliderMin:0
+                sliderMin:0
                 sliderMax:2
                 precision:2
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
@@ -296,7 +295,7 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
       
-                      sliderMin:0
+                sliderMin:0
                 sliderMax:2
                 precision:2
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
@@ -316,7 +315,7 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
  
-                      sliderMin:0
+                sliderMin:0
                 sliderMax:2
                 precision:2
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
@@ -336,7 +335,7 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
  
-                      sliderMin:0
+                sliderMin:0
                 sliderMax:2
                 precision:2
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
@@ -402,7 +401,11 @@ Item
                 step_value:1
             }
         }
-        /* Column
+
+        /* 
+        
+        
+        Column
         {
             anchors.top: parent.top
             anchors.left: column1.right

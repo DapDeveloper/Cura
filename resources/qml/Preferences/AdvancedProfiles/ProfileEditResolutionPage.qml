@@ -35,6 +35,7 @@ UM.PreferencesPage
     Column
     {
         id:items
+        
         anchors
         {
             left:parent.left
@@ -42,17 +43,20 @@ UM.PreferencesPage
             top:parent.top
             bottom:parent.bottom
         }
+
         anchors.rightMargin:10
         anchors.leftMargin:10
         anchors.topMargin:10
         anchors.bottomMargin:10
+
         Cura.CustomPrintSetupResolution
-            {
-                anchors.topMargin:10
-                id: machineProfile
-                width:parent.width
-                height:parent.height
-               
-            }
+        {
+            anchors.topMargin:10
+            id: machineProfile
+            width:parent.width
+            height:parent.height
+            
+        }
+
     }
 }

@@ -176,7 +176,7 @@ Item
                 afterOnEditingFinishedFunction: manager.updateHasMaterialsMetadata
                 visible:editable3  
             }
-            Cura.SimpleCheckBoxCustom  // "Acceleration control"
+            /*Cura.SimpleCheckBoxCustom  // "Acceleration control"
                 {
                     id: machineRelativeExtrusion
                     settingStoreIndex: propertyStoreIndex
@@ -186,10 +186,10 @@ Item
                     labelFont: base.labelFont
                     labelWidth: base.labelWidth
                     forceUpdateOnChangeFunction: forceUpdateFunction
-                          editable:editable3   
-                          visible:false 
+                    editable:editable3   
+                    visible:false 
                 }
-
+*/
 
         }
 
@@ -315,9 +315,6 @@ Item
             }
         }*/
     }  
-
-
-
         Label   // Title Label
         {
             id:lblAccelerationsSettings

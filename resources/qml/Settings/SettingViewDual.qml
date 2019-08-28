@@ -142,7 +142,7 @@ Item
                     switch(model.type)
                     {
                         case "int":
-                            return "SettingTextFieldSlider.qml"
+                            return "SettingTextFieldSlider.qml"//SettingTextFieldSlider
                         case "[int]":
                             return "SettingTextFieldSlider.qml"
                         case "float":
