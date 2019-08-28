@@ -342,7 +342,7 @@ Item
                 maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
                 step_value:0.01
             }
-            Cura.NumericSliderWithUnit  // "Initial layer Line WIDTH"
+          /*  Cura.NumericSliderWithUnit  // "Initial layer Line WIDTH"
             {
                 id: extruderInitialLineWidth
                 containerStackId: base.extruderStackId
@@ -361,7 +361,7 @@ Item
                 minValueWarning:extruderNozzleSizeField.sliderValue-extruderNozzleSizeField.sliderValue/100*20
                 maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
                 step_value:0.01
-            }
+            }*/
             Cura.NumericSliderWithUnit  // "infill Line WIDTH"
             {
                 id: extruderInfillLineWidth
