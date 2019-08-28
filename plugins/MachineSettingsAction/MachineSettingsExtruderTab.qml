@@ -27,7 +27,6 @@ Item
     property var forceUpdateFunction: manager.forceUpdate
     property var forceUpdateQuality: Cura.MachineManager.updateQualityChanges()
     property var forceUpdateAllSetings:manager.forceUpdateAllSetings
-
     property QtObject settingVisibilityPresetsModel: CuraApplication.getSettingVisibilityPresetsModel()
     property var editable1:settingVisibilityPresetsModel.items[1].presetId == settingVisibilityPresetsModel.activePreset
     property var editable2:settingVisibilityPresetsModel.items[2].presetId == settingVisibilityPresetsModel.activePreset
@@ -403,8 +402,6 @@ Item
         }
 
         /* 
-        
-        
         Column
         {
             anchors.top: parent.top
