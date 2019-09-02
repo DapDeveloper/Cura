@@ -108,6 +108,13 @@ Item
                 }
                 UM.SettingPropertyProvider
                 {
+                    id: materialDefaultTemp
+                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
+                    key: "default_material_print_temperature"
+                    watchedProperties: [ "value" ]
+                }
+                UM.SettingPropertyProvider
+                {
                     id: materialTemp
                     containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
                     key: "material_print_temperature"
@@ -118,6 +125,13 @@ Item
                     id: bedTemperature
                     containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
                     key: "material_bed_temperature"
+                    watchedProperties: [ "value" ]
+                }
+                UM.SettingPropertyProvider
+                {
+                    id: bedDefaultTemperature
+                    containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
+                    key: "default_material_bed_temperature"
                     watchedProperties: [ "value" ]
                 }
                  UM.SettingPropertyProvider
@@ -151,42 +165,61 @@ Item
                     key: "machine_nozzle_size"
                   watchedProperties: [ "value" ]
                 }
-       UM.SettingPropertyProvider
+              UM.SettingPropertyProvider
                 {
                     id: filamentDiameter
                   containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
                     key: "material_diameter"
                   watchedProperties: [ "value" ]
                 }
-
+                 Label
+                {
+                    id:lblDefaultTemperatureExtruder
+                    text:catalog.i18nc("@title:label", "Default Printing Temperature")+": "+materialDefaultTemp.properties.value+"°C"
+                    anchors
+                    {
+                        left:filamentDiameter.left
+                        top:filamentDiameter.bottom
+                    }
+                }
                 Label
                 {
                     id:lblTemperatureExtruder
-                    text:catalog.i18nc("@title:label", "Printing Temperature")+":"+materialTemp.properties.value
+                    text:catalog.i18nc("@title:label", "Printing Temperature")+": "+materialTemp.properties.value+"°C"
                     anchors
                     {
-                        left:definitionsModel.left
-                        top:definitionsModel.bottom
+                        left:lblDefaultTemperatureExtruder.left
+                        top:lblDefaultTemperatureExtruder.bottom
                     }
                 }
                 Label
                 {
                     id:lblTemperatureFirstLayer
-                    text:catalog.i18nc("@title:label", "Printing Temperature Initial Layer")+":"+firstLayerTemperature.properties.value
+                    text:catalog.i18nc("@title:label", "Printing Temperature Initial Layer")+": "+firstLayerTemperature.properties.value+"°C"
                     anchors
                     {
                         left:definitionsModel.left
                         top:lblTemperatureExtruder.bottom
                     }
                 }
-                Label
+                     Label
                 {
-                    id:lblTemperatureBed
-                    text:catalog.i18nc("@title:label", "Bed Temperature")+":"+bedTemperature.properties.value
+                    id:lblDefaultTemperatureBed
+                    text:catalog.i18nc("@title:label", "Default Bed Temperature")+": "+bedDefaultTemperature.properties.value+"°C"
                     anchors
                     {
                         left:definitionsModel.left
                         top:lblTemperatureFirstLayer.bottom
+                    }
+                }
+                Label
+                {
+                    id:lblTemperatureBed
+                    text:catalog.i18nc("@title:label", "Bed Temperature")+": "+bedTemperature.properties.value+"°C"
+                    anchors
+                    {
+                        left:lblDefaultTemperatureBed.left
+                        top:lblDefaultTemperatureBed.bottom
                     }
                 }
                 Label

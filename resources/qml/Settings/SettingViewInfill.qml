@@ -97,7 +97,6 @@ Item
                 }
                 onVisibilityChanged: Cura.SettingInheritanceManager.forceUpdate()
             }
-
             property var indexWithFocus: -1
             delegate: Loader
             {

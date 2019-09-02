@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import UM 1.3 as UM
 import Cura 1.1 as Cura
+
 UM.PreferencesPage
 {
     //: General configuration page title

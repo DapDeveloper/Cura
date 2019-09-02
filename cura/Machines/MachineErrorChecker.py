@@ -155,7 +155,7 @@ class MachineErrorChecker(QObject):
         if not enabled:
             self._application.callLater(self._checkStack)
             return
-        Logger.log("d","KEYTO VALIDATE:"+key)
+        #Logger.log("d","KEYTO VALIDATE:"+key)
         validation_state = stack.getProperty(key, "validationState")
 
         if validation_state is None:
@@ -167,9 +167,9 @@ class MachineErrorChecker(QObject):
             if validator_type:
                 validator = validator_type(key)
                 validation_state = validator(stack)
-        Logger.log("d","VALIDATION:"+str(validation_state))
+        #Logger.log("d","VALIDATION:"+str(validation_state))
         if validation_state in (ValidatorState.Exception, ValidatorState.MaximumError, ValidatorState.MinimumError) and key != "max_feedrate_z_override":
-            Logger.log("d","THAT IS CALLED!!!!!!!!!!!!!!!!!!!")
+            #Logger.log("d","THAT IS CALLED!!!!!!!!!!!!!!!!!!!")
             # Finish
             self._setResult(True)
             return

@@ -219,7 +219,7 @@ Item
                  "support_mesh", "anti_overhang_mesh",
                  "resolution","shell","infill","speed","travel",
                  "cooling","support","platform_adhesion","dual",
-                 "meshfix","blackmagic","experimental","default_material_print_temperature","default_material_bed_temperature"
+                 "meshfix","blackmagic","experimental"
                  ,] // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
                 expanded: CuraApplication.expandedCategories
                 onExpandedChanged:
