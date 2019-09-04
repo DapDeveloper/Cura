@@ -176,19 +176,15 @@ class ExtruderManager(QObject):
     #   \return \type{List} the list of results
     def getAllExtruderSettings(self, setting_key: str, prop: str) -> List:
         result = []
-
         for extruder_stack in self.getActiveExtruderStacks():
             result.append(extruder_stack.getProperty(setting_key, prop))
-
         return result
-
     def extruderValueWithDefault(self, value: str) -> str:
         machine_manager = self._application.getMachineManager()
         if value == "-1":
             return machine_manager.defaultExtruderPosition
         else:
             return value
-
     ##  Gets the extruder stacks that are actually being used at the moment.
     #
     #   An extruder stack is being used if it is the extruder to print any mesh
@@ -226,14 +222,12 @@ class ExtruderManager(QObject):
             if stack is not None and (stack.getProperty("anti_overhang_mesh", "value") or stack.getProperty("support_mesh", "value")):
                 continue
             mesh_list.append(mesh)
-
         for mesh in mesh_list:
             extruder_stack_id = mesh.callDecoration("getActiveExtruder")
             if not extruder_stack_id:
                 # No per-object settings for this node
                 extruder_stack_id = self.extruderIds["0"]
             used_extruder_stack_ids.add(extruder_stack_id)
-
             # Get whether any of them use support.
             stack_to_use = mesh.callDecoration("getStack")  # if there is a per-mesh stack, we use it
             if not stack_to_use:
@@ -254,7 +248,6 @@ class ExtruderManager(QObject):
                 if extruder_nr == -1:
                     continue
                 used_extruder_stack_ids.add(self.extruderIds[str(extruder_nr)])
-
         # Check support extruders
         if support_enabled:
             used_extruder_stack_ids.add(self.extruderIds[self.extruderValueWithDefault(str(global_stack.getProperty("support_infill_extruder_nr", "value")))])
@@ -263,12 +256,13 @@ class ExtruderManager(QObject):
                 used_extruder_stack_ids.add(self.extruderIds[self.extruderValueWithDefault(str(global_stack.getProperty("support_bottom_extruder_nr", "value")))])
             if support_roof_enabled:
                 used_extruder_stack_ids.add(self.extruderIds[self.extruderValueWithDefault(str(global_stack.getProperty("support_roof_extruder_nr", "value")))])
-
         # The platform adhesion extruder. Not used if using none.
         if global_stack.getProperty("adhesion_type", "value") != "none" or (
                 global_stack.getProperty("prime_tower_brim_enable", "value") and
                 global_stack.getProperty("adhesion_type", "value") != 'raft'):
             extruder_str_nr = str(global_stack.getProperty("adhesion_extruder_nr", "value"))
+            print("EXT167:")
+            print(extruder_str_nr)
             if extruder_str_nr == "-1":
                 extruder_str_nr = self._application.getMachineManager().defaultExtruderPosition
             used_extruder_stack_ids.add(self.extruderIds[extruder_str_nr])

@@ -15,6 +15,7 @@ from cura.Machines.QualityManager import getMachineDefinitionIDForQualitySearch
 from UM.i18n import i18nCatalog
 catalog = i18nCatalog("cura")
 
+
 ##  Writes g-code to a file.
 #
 #   While this poses as a mesh writer, what this really does is take the g-code
@@ -74,7 +75,6 @@ class GCodeWriter(MeshWriter):
             return False
         gcode_dict = getattr(scene, "gcode_dict")
         gcode_list = gcode_dict.get(active_build_plate, None)
-       
         Logger.log("e","GCODE_LIST_INPUT:"+gcode_list[1])
         #Logger.log("e","LOGGER1:%s",gcode_list[0])
         Logger.log("e","LOGGER32:%s",gcode_list[1])
@@ -83,7 +83,6 @@ class GCodeWriter(MeshWriter):
         tmpList=gcode_list
         #Logger.log("e","SPLIT1"+tmpList[1].split("START_USER_GCODE\n")[0])
         #Logger.log("e","SPLIT2"+tmpList[1].split("START_USER_GCODE\n")[1])
-        
         userGcodes=tmpList[1].split("START_USER_GCODE\n")
         #userGcodes=tmpList[1]
         #Logger.log("e","USERG LENGTH:"+str(len(userGcodes))
@@ -91,6 +90,8 @@ class GCodeWriter(MeshWriter):
             Logger.log("e","GCODE USER:"+x+"\n")
         Logger.log("e","LENGTH1:%s",str(len(userGcodes)))
         Logger.log("e","POS0:%s",userGcodes[0])
+        splited=userGcodes[0].split("\n")
+        Logger.log("e","TOOLP:%s",splited[1])
         #tempUserGcode=userGcodes[0].split("\n")
         #for a in tempUserGcode:
         #    Logger.log("d","TMP:%s",a)
@@ -103,6 +104,7 @@ class GCodeWriter(MeshWriter):
         #    Logger.log("e","GCODES[]=%s",a)
         #gcode_list[1]=gcodes[1]+"\n"#to select the first extruder
         gcode_list[2]=gcode_list[2].replace("M107\n","")
+        gcode_list[1]=gcode_list[1].replace("TOOLPOINT",splited[1])
         if gcode_list is not None:
             has_settings = False
             for gcode in gcode_list:
@@ -114,6 +116,7 @@ class GCodeWriter(MeshWriter):
                 settings = self._serialiseSettings(Application.getInstance().getGlobalContainerStack())
                 stream.write(settings)
             stream.write("END GCODE BY MTC")       
+            #stream.write("\nTOOLSEL "+splited[1]+" ")
             gcode_list[1]=bkGcode1
             Logger.log("e","GCODE_LIST:"+gcode_list[1])
             Logger.log("e","END FF2F")
@@ -125,16 +128,12 @@ class GCodeWriter(MeshWriter):
         flat_container = InstanceContainer(instance_container2.getName())
         # The metadata includes id, name and definition
         flat_container.setMetaData(copy.deepcopy(instance_container2.getMetaData()))
-
         if instance_container1.getDefinition():
             flat_container.setDefinition(instance_container1.getDefinition().getId())
-
         for key in instance_container2.getAllKeys():
             flat_container.setProperty(key, "value", instance_container2.getProperty(key, "value"))
-
         for key in instance_container1.getAllKeys():
             flat_container.setProperty(key, "value", instance_container1.getProperty(key, "value"))
-
         return flat_container
 
     ##  Serialises a container stack to prepare it for writing at the end of the

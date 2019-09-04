@@ -7,6 +7,7 @@ import QtQuick.Controls.Styles 1.1
 import QtGraphicalEffects 1.0
 import UM 1.0 as UM
 import Cura 1.0 as Cura
+
 Cura.ExpandableComponent
 {
     id: base

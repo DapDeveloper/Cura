@@ -410,7 +410,6 @@ class StartSliceJob(Job):
             adhesionFeature=CuraApplication.getInstance().getMachineManager().activeMachine.getMachineAdhesionControl()
             layersNoFan=CuraApplication.getInstance().getMachineManager().activeMachine.getMachineLayersNoFan()
             aditional=""
-
             if encoderSensor:
                 if encoderControl:
                     aditional+="M1089 T0 P"+str(encoderErrorPercentage)+"\n"
@@ -429,7 +428,6 @@ class StartSliceJob(Job):
                 chamberGcode="M141 S"+settings["print_chamber_temperature"]+"\n"
             else:
                 chamberGcode=""
-
             globals_stack=CuraApplication.getInstance().getGlobalContainerStack()
             extruders = list(globals_stack.extruders.values())
             extruders = sorted(extruders, key = lambda extruder: extruder.getMetaDataEntry("position"))
@@ -459,8 +457,7 @@ class StartSliceJob(Job):
                 temperatureGcode+="\n"
             if CuraApplication.getInstance().getMachineManager().activeMachine.has_heated_bed():    
                 temperatureGcode+="M190 S"+str(settings["print_bed_temperature_layer_0"])
-
-            machineSettings="T"+str(initial_extruder_nr)+"\n"
+            machineSettings="TOOLPOINT\n"#+str(initial_extruder_nr)+"\n"
             tmpStartGcode="\n;START_USER_GCODE\n"
             if encoderSensor or doorSensor or adhesionFeature:
                 tmpStartGcode+="\n;MACHINE CUSTOM FEATURES\n"
@@ -472,7 +469,7 @@ class StartSliceJob(Job):
             tmpStartGcode+="\n"+settings["machine_start_gcode"]
             tmpStartGcode+="\n"+";MACHINE TOOL SELECT"
             tmpStartGcode+="\n"+machineSettings
-            tmpStartGcode+="\nEND_USER_GCODE\n"
+            tmpStartGcode+="\n;END_USER_GCODE\n"
             settings["machine_start_gcode"]=tmpStartGcode
             #Logger.log("e","MACHINE EXT%s",settings["machine_start_gcode"])
             '''tmpStartCode+=settings["machine_start_gcode"]+"\n;TEMPERATURE SETTINGS\n"
@@ -534,17 +531,15 @@ class StartSliceJob(Job):
         for key in changed_setting_keys:
             setting = message.addRepeatedMessage("settings")
             setting.name = key
+            Logger.log("e","DEB:"+key)
             extruder = int(round(float(stack.getProperty(key, "limit_to_extruder"))))
             # Check if limited to a specific extruder, but not overridden by per-object settings.
             if extruder >= 0 and key not in changed_setting_keys:
                 limited_stack = ExtruderManager.getInstance().getActiveExtruderStacks()[extruder]
             else:
                 limited_stack = stack
-
             setting.value = str(limited_stack.getProperty(key, "value")).encode("utf-8")
-
             Job.yieldThread()
-
     ##  Recursive function to put all settings that require each other for value changes in a list
     #   \param relations_set Set of keys of settings that are influenced
     #   \param relations list of relation objects that need to be checked.
@@ -552,7 +547,6 @@ class StartSliceJob(Job):
         for relation in filter(lambda r: r.role == "value" or r.role == "limit_to_extruder", relations):
             if relation.type == RelationType.RequiresTarget:
                 continue
-
             relations_set.add(relation.target.key)
             self._addRelations(relations_set, relation.target.relations)
 

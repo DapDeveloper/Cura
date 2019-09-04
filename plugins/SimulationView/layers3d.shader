@@ -63,6 +63,7 @@ vertex41core =
         float blue = 0.75-abs(0.25-value);
         return vec4(red, green, blue, 1.0);
     }
+
     vec4 extruderGradientColor(float abs_value, float min_value, float max_value)
     {
         float value = (abs_value - min_value)/(max_value - min_value);
@@ -75,71 +76,62 @@ vertex41core =
         float blue = 0.75-abs(0.25-value);
         if(a_extruder==0)
         {
-        red=1;
-        blue=0;
-        green=0;
+            red=1;
+            blue=0;
+            green=0;
         }else if(a_extruder==1)
         {
-        red=0;
-        blue=1;
-        green=0;
+            red=0;
+            blue=1;
+            green=0;
         }
         return vec4(red, green, blue, 1.0);
     }
-
     void main()
     {
         vec4 v1_vertex = a_vertex;
         v1_vertex.y -= a_line_dim.y / 2;  // half layer down
-
         vec4 world_space_vert = u_modelMatrix * v1_vertex;
         gl_Position = world_space_vert;
         // shade the color depending on the extruder index stored in the alpha component of the color
-
-        switch (u_layer_view_type) {
-            //case 0:  // "Material color"
-            //    v_color = a_material_color;
-            //    break;
-            case 0:  // "Line type"
-                v_color = a_color;
-                break;
-            case 1:  // "Feedrate"
-                v_color = feedrateGradientColor(a_feedrate, u_min_feedrate, u_max_feedrate);
-                break;
-            case 2:  // "Layer thickness"
-                v_color = layerThicknessGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
-                break;
-            case 3:  // "Extruder color"
-               v_color = extruderGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
-                break;
-                
-        }
-
+        switch (u_layer_view_type) 
+            {
+                //case 0:  // "Material color"
+                //    v_color = a_material_color;
+                //    break;
+                case 0:  // "Line type"
+                    v_color = a_color;
+                    break;
+                case 1:  // "Feedrate"
+                    v_color = feedrateGradientColor(a_feedrate, u_min_feedrate, u_max_feedrate);
+                    break;
+                case 2:  // "Layer thickness"
+                    v_color = layerThicknessGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
+                    break;
+                case 3:  // "Extruder color"
+                v_color = extruderGradientColor(a_line_dim.y, u_min_thickness, u_max_thickness);
+                    break;
+            }
         v_vertex = world_space_vert.xyz;
         v_normal = (u_normalMatrix * normalize(a_normal)).xyz;
         v_line_dim = a_line_dim;
         v_extruder = int(a_extruder);
         v_line_type = a_line_type;
         v_extruder_opacity = u_extruder_opacity;
-
         // for testing without geometry shader
         f_color = v_color;
         f_vertex = v_vertex;
         f_normal = v_normal;
     }
-
 geometry41core =
     #version 410
-
     uniform highp mat4 u_viewProjectionMatrix;
     uniform int u_show_travel_moves;
     uniform int u_show_helpers;
     uniform int u_show_skin;
     uniform int u_show_infill;
-
     layout(lines) in;
     layout(triangle_strip, max_vertices = 26) out;
-
     in vec4 v_color[];
     in vec3 v_vertex[];
     in vec3 v_normal[];

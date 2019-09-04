@@ -355,11 +355,9 @@ class ContainerManager(QObject):
     def _performMerge(self, merge_into: InstanceContainer, merge: InstanceContainer, clear_settings: bool = True) -> None:
         if merge == merge_into:
             return
-
         for key in merge.getAllKeys():
-            print("VALUEK:"+key)
+            print("VALUEK:"+key+"->")
             merge_into.setProperty(key, "value", merge.getProperty(key, "value"))
-
         if clear_settings:
             merge.clear()
 
