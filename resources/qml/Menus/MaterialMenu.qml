@@ -92,7 +92,6 @@ Menu
             title: brandName
             property string brandName: model.name
             property var brandMaterials: model.material_types
-
             Instantiator
             {
                 model: brandMaterials
@@ -102,7 +101,6 @@ Menu
                     title: materialName
                     property string materialName: model.name
                     property var brandMaterialColors: model.colors
-
                     Instantiator
                     {
                         model: brandMaterialColors
@@ -125,7 +123,6 @@ Menu
         onObjectAdded: menu.insertItem(index, object)
         onObjectRemoved: menu.removeItem(object)
     }
-
     ExclusiveGroup {
         id: group
     }

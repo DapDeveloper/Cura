@@ -282,7 +282,6 @@ class ContainerManager(QObject):
         for stack in [global_stack] + extruder_stacks:
             # Find the quality_changes container for this stack and merge the contents of the top container into it.
             quality_changes = stack.qualityChanges
-
             if quality_changes.getId() == "empty_quality_changes":
                 quality_changes = self._quality_manager._createQualityChanges(current_quality_type, current_quality_changes_name,
                                                                               global_stack, stack)

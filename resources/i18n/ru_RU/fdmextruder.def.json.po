@@ -1224,11 +1224,11 @@ msgstr "Укажите диаметр используемой нити."
 #~ msgid "The diameter of a special tower."
 #~ msgstr "Диаметр специальных башен."
 
-#~ msgctxt "support_minimal_diameter label"
+#~ msgctxt "support_tower_maximum_supported_diameter label"
 #~ msgid "Minimum Diameter"
 #~ msgstr "Минимальный диаметр."
 
-#~ msgctxt "support_minimal_diameter description"
+#~ msgctxt "support_tower_maximum_supported_diameter description"
 #~ msgid "Minimum diameter in the X/Y directions of a small area which is to be supported by a specialized support tower."
 #~ msgstr "Минимальный диаметр по осям X/Y небольшой области, которая будет поддерживаться с помощью специальных башен."
 

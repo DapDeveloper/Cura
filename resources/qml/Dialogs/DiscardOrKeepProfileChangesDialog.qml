@@ -159,7 +159,6 @@ UM.Dialog
                     append({ text: catalog.i18nc("@option:discardOrKeep", "Keep and never ask again"), code: "always_keep" })
                 }
             }
-
             onActivated:
             {
                 var code = model.get(index).code;

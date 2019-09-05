@@ -3260,12 +3260,12 @@ msgid "Distance between the printed initial layer support structure lines. This 
 msgstr "Odległość między drukowanymi liniami struktury podpory w początkowej warstwie. To ustawienie jest obliczane na podstawie gęstości podpory."
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle label"
+msgctxt "support_infill_angles label"
 msgid "Support Infill Line Direction"
 msgstr "Kierunek Linii Wypełnienia Podpory"
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle description"
+msgctxt "support_infill_angles description"
 msgid "Orientation of the infill pattern for supports. The support infill pattern is rotated in the horizontal plane."
 msgstr "Orientacja wzoru wypełnienia dla podpór. Wzór podpory jest obracany w płaszczyźnie poziomej."
 
@@ -3775,12 +3775,12 @@ msgid "The diameter of a special tower."
 msgstr "Średnica wieży specjalnej."
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter label"
+msgctxt "support_tower_maximum_supported_diameter label"
 msgid "Minimum Diameter"
 msgstr "Minimalna Średnica"
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter description"
+msgctxt "support_tower_maximum_supported_diameter description"
 msgid "Minimum diameter in the X/Y directions of a small area which is to be supported by a specialized support tower."
 msgstr "Minimalna średnica w kierunkach X/Y o małej powierzchni, który jest wspierana przez specjalną wieżę wspierającą."
 

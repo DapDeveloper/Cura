@@ -3261,12 +3261,12 @@ msgid "Distance between the printed initial layer support structure lines. This 
 msgstr "Distância entre os filetes da camada inicial da camada de suporte. Este ajuste é calculado pela densidade de suporte."
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle label"
+msgctxt "support_infill_angles label"
 msgid "Support Infill Line Direction"
 msgstr "Direção de Filete do Preenchimento de Suporte"
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle description"
+msgctxt "support_infill_angles description"
 msgid "Orientation of the infill pattern for supports. The support infill pattern is rotated in the horizontal plane."
 msgstr "Orientação do padrão de preenchimento para suportes. O padrão de preenchimento do suporte é rotacionado no plano horizontal."
 
@@ -3776,12 +3776,12 @@ msgid "The diameter of a special tower."
 msgstr "O diâmetro da torre especial."
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter label"
+msgctxt "support_tower_maximum_supported_diameter label"
 msgid "Minimum Diameter"
 msgstr "Diâmetro mínimo"
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter description"
+msgctxt "support_tower_maximum_supported_diameter description"
 msgid "Minimum diameter in the X/Y directions of a small area which is to be supported by a specialized support tower."
 msgstr "Diâmeto mínimo nas direções X/Y de uma área pequena que deverá ser suportada por uma torre de suporte especial."
 

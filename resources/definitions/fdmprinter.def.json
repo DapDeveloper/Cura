@@ -203,6 +203,16 @@
                     "settable_per_extruder": false,
                     "settable_per_meshgroup": false
                 },
+                "machine_heated_build_volume":
+                {
+                    "label": "Has Build Volume Temperature Stabilization",
+                    "description": "Whether the machine is able to stabilize the build volume temperature.",
+                    "default_value": false,
+                    "type": "bool",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_per_meshgroup": false
+                },
                 "machine_heated_chamber":
                 {
                     "label": "Has Heated Chamber",
@@ -2951,6 +2961,17 @@
                     "limit_to_extruder": "infill_extruder_nr",
                     "settable_per_mesh": true
                 },
+                "infill_randomize_start_location":
+                {
+                    "label": "Randomize Infill Start",
+                    "description": "Randomize which infill line is printed first. This prevents one segment becoming the strongest, but it does so at the cost of an additional travel move.",
+                    "type": "bool",
+                    "default_value": false,
+                    "warning_value": "True if infill_pattern not in ('grid', 'triangles', 'trihexagon', 'cubic', 'cubicsubdiv', 'tetrahedral', 'quarter_cubic') else None",
+                    "enabled": "not ((infill_pattern == 'cross' and connect_infill_polygons) or infill_pattern == 'concentric')",
+                    "limit_to_extruder": "infill_extruder_nr",
+                    "settable_per_mesh": true
+                },
                 "infill_multiplier":
                 {
                     "label": "Infill Line Multiplier",
@@ -3544,9 +3565,196 @@
                     "slider_max": "300",
                     "step_value": "1",
                     "precision":"0",
-
                     "enabled": false,
-                    "settable_per_mesh": true
+                    "settable_per_mesh": true,
+                    "children":
+                    {
+                        "wall_material_flow":
+                        {
+                            "label": "Wall Flow",
+                            "description": "Flow compensation on wall lines.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "limit_to_extruder": "wall_0_extruder_nr if wall_x_extruder_nr == wall_0_extruder_nr else -1",
+                            "settable_per_mesh": true,
+                            "children":
+                            {
+                                "wall_0_material_flow":
+                                {
+                                    "label": "Outer Wall Flow",
+                                    "description": "Flow compensation on the outermost wall line.",
+                                    "unit": "%",
+                                    "type": "float",
+                                    "default_value": 100,
+                                    "value": "wall_material_flow",
+                                    "minimum_value": "5",
+                                    "minimum_value_warning": "50",
+                                    "maximum_value_warning": "150",
+                                    "limit_to_extruder": "wall_0_extruder_nr",
+                                    "settable_per_mesh": true
+                                },
+                                "wall_x_material_flow":
+                                {
+                                    "label": "Inner Wall(s) Flow",
+                                    "description": "Flow compensation on wall lines for all wall lines except the outermost one.",
+                                    "unit": "%",
+                                    "type": "float",
+                                    "default_value": 100,
+                                    "value": "wall_material_flow",
+                                    "minimum_value": "5",
+                                    "minimum_value_warning": "50",
+                                    "maximum_value_warning": "150",
+                                    "limit_to_extruder": "wall_x_extruder_nr",
+                                    "settable_per_mesh": true
+                                }
+                            }
+                        },
+                        "skin_material_flow":
+                        {
+                            "label": "Top/Bottom Flow",
+                            "description": "Flow compensation on top/bottom lines.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "enabled": "top_layers > 0 or bottom_layers > 0",
+                            "limit_to_extruder": "top_bottom_extruder_nr",
+                            "settable_per_mesh": true
+                        },
+                        "roofing_material_flow":
+                        {
+                            "label": "Top Surface Skin Flow",
+                            "description": "Flow compensation on lines of the areas at the top of the print.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "skin_material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "limit_to_extruder": "roofing_extruder_nr",
+                            "settable_per_mesh": true,
+                            "enabled": "roofing_layer_count > 0 and top_layers > 0"
+                        },
+                        "infill_material_flow":
+                        {
+                            "label": "Infill Flow",
+                            "description": "Flow compensation on infill lines.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "enabled": "infill_sparse_density > 0",
+                            "limit_to_extruder": "infill_extruder_nr",
+                            "settable_per_mesh": true
+                        },
+                        "skirt_brim_material_flow":
+                        {
+                            "label": "Skirt/Brim Flow",
+                            "description": "Flow compensation on skirt or brim lines.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "enabled": "resolveOrValue('adhesion_type') == 'skirt' or resolveOrValue('adhesion_type') == 'brim'",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": true
+                        },
+                        "support_material_flow":
+                        {
+                            "label": "Support Flow",
+                            "description": "Flow compensation on support structure lines.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "limit_to_extruder": "support_infill_extruder_nr",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": true
+                        },
+                        "support_interface_material_flow":
+                        {
+                            "label": "Support Interface Flow",
+                            "description": "Flow compensation on lines of support roof or floor.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "enabled": "support_enable and support_interface_enable",
+                            "limit_to_extruder": "support_interface_extruder_nr",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": true,
+                            "children":
+                            {
+                                "support_roof_material_flow":
+                                {
+                                    "label": "Support Roof Flow",
+                                    "description": "Flow compensation on support roof lines.",
+                                    "unit": "%",
+                                    "type": "float",
+                                    "default_value": 100,
+                                    "value": "extruderValue(support_roof_extruder_nr, 'support_interface_material_flow')",
+                                    "minimum_value": "5",
+                                    "minimum_value_warning": "50",
+                                    "maximum_value_warning": "150",
+                                    "enabled": "support_enable and support_roof_enable",
+                                    "limit_to_extruder": "support_roof_extruder_nr",
+                                    "settable_per_mesh": false,
+                                    "settable_per_extruder": true
+                                },
+                                "support_bottom_material_flow":
+                                {
+                                    "label": "Support Floor Flow",
+                                    "description": "Flow compensation on support floor lines.",
+                                    "unit": "%",
+                                    "type": "float",
+                                    "default_value": 100,
+                                    "value": "extruderValue(support_bottom_extruder_nr, 'support_interface_material_flow')",
+                                    "minimum_value": "5",
+                                    "minimum_value_warning": "50",
+                                    "maximum_value_warning": "150",
+                                    "enabled": "support_enable and support_bottom_enable",
+                                    "limit_to_extruder": "support_bottom_extruder_nr",
+                                    "settable_per_mesh": false,
+                                    "settable_per_extruder": true
+                                }
+                            }
+                        },
+                        "prime_tower_flow":
+                        {
+                            "label": "Prime Tower Flow",
+                            "description": "Flow compensation on prime tower lines.",
+                            "unit": "%",
+                            "type": "float",
+                            "default_value": 100,
+                            "value": "material_flow",
+                            "minimum_value": "5",
+                            "minimum_value_warning": "50",
+                            "maximum_value_warning": "150",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": true
+                        }
+                    }
                 },
                 "material_flow_layer_0":
                 {
@@ -3793,6 +4001,20 @@
                         }
                     }
                 }
+                ,
+                    "switch_extruder_extra_prime_amount": 
+                    {
+                        "label": "Nozzle Switch Extra Prime Amount",
+                        "description": "Extra material to prime after nozzle switching.",
+                        "type": "float",
+                        "unit": "mm³",
+                        "default_value": 0,
+                        "minimum_value_warning": "0",
+                        "maximum_value_warning": "100",
+                        "enabled": "retraction_enable",
+                        "settable_per_mesh": false,
+                        "settable_per_extruder": true
+                    }
             }
         },
         "speed":
@@ -4147,6 +4369,19 @@
                     "precision":"0",
                     "value": "speed_layer_0",
                     "enabled": "resolveOrValue('adhesion_type') == 'skirt' or resolveOrValue('adhesion_type') == 'brim' or resolveOrValue('draft_shield_enabled') or resolveOrValue('ooze_shield_enabled')",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+                "speed_z_hop":
+                {
+                    "label": "Z Hop Speed",
+                    "description": "The speed at which the vertical Z movement is made for Z Hops. This is typically lower than the print speed since the build plate or machine's gantry is harder to move.",
+                    "unit": "mm/s",
+                    "type": "float",
+                    "default_value": 10,
+                    "minimum_value": "0",
+                    "maximum_value": "machine_max_feedrate_z",
+                    "enabled": "retraction_enable and retraction_hop_enabled",
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
@@ -5430,7 +5665,7 @@
                     }
                 },
 
-                "support_infill_angle":
+                "support_infill_angles":
                 {
                     "label": "Support Infill Line Direction",
                     "description": "Orientation of the infill pattern for supports. The support infill pattern is rotated in the horizontal plane.",
@@ -6120,6 +6355,42 @@
                         }
                     }
                 },
+                "support_interface_angles":
+                {
+                    "label": "Support Interface Line Directions",
+                    "description": "A list of integer line directions to use. Elements from the list are used sequentially as the layers progress and when the end of the list is reached, it starts at the beginning again. The list items are separated by commas and the whole list is contained in square brackets. Default is an empty list which means use the default angles (alternates between 45 and 135 degrees if interfaces are quite thick or 90 degrees).",
+                    "type": "[int]",
+                    "default_value": "[ ]",
+                    "limit_to_extruder": "support_interface_extruder_nr",
+                    "enabled": "support_interface_enable and support_interface_pattern != 'concentric'",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true,
+                    "children":
+                    {
+                        "support_roof_angles":
+                        {
+                            "label": "Support Roof Line Directions",
+                            "description": "A list of integer line directions to use. Elements from the list are used sequentially as the layers progress and when the end of the list is reached, it starts at the beginning again. The list items are separated by commas and the whole list is contained in square brackets. Default is an empty list which means use the default angles (alternates between 45 and 135 degrees if interfaces are quite thick or 90 degrees).",
+                            "type": "[int]",
+                            "default_value": "[ ]",
+                            "limit_to_extruder": "support_roof_extruder_nr",
+                            "enabled": "support_roof_enable and support_roof_pattern != 'concentric'",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": true
+                        },
+                        "support_bottom_angles":
+                        {
+                            "label": "Support Floor Line Directions",
+                            "description": "A list of integer line directions to use. Elements from the list are used sequentially as the layers progress and when the end of the list is reached, it starts at the beginning again. The list items are separated by commas and the whole list is contained in square brackets. Default is an empty list which means use the default angles (alternates between 45 and 135 degrees if interfaces are quite thick or 90 degrees).",
+                            "type": "[int]",
+                            "default_value": "[ ]",
+                            "limit_to_extruder": "support_bottom_extruder_nr",
+                            "enabled": "support_bottom_enable and support_bottom_pattern != 'concentric'",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": true
+                        }
+                    }
+                },
                 "support_fan_enable":
                 {
                     "label": "Fan Speed Override",
@@ -6175,23 +6446,22 @@
                     "settable_globally":true,
                     "settable_per_meshgroup":false
                 },
-                "support_minimal_diameter":
+                "support_tower_maximum_supported_diameter":
                 {
-                    "label": "Minimum Diameter",
-                    "description": "Minimum diameter in the X/Y directions of a small area which is to be supported by a specialized support tower.",
+                    "label": "Maximum Tower-Supported Diameter",
+                    "description": "Maximum diameter in the X/Y directions of a small area which is to be supported by a specialized support tower.",
                     "unit": "mm",
                     "type": "float",
                     "default_value": 3.0,
+                    "limit_to_extruder": "support_infill_extruder_nr",
                     "minimum_value": "0",
                     "minimum_value_warning": "2 * machine_nozzle_size",
                     "maximum_value_warning": "20",
                     "maximum_value": "support_tower_diameter",
                     "enabled": "support_enable and support_use_towers",
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": false,
-                    "settable_globally":true,
-                    "settable_per_meshgroup":false
+                    "settable_per_mesh": true
                 },
+            
                 "support_tower_roof_angle":
                 {
                     "label": "Tower Roof Angle",
@@ -8903,6 +9173,52 @@
                     "settable_per_mesh": false,
                     "settable_per_extruder": true,
                     "settable_per_meshgroup": false
+                },
+                "small_hole_max_size":
+                {
+                    "label": "Small Hole Max Size",
+                    "description": "Holes and part outlines with a diameter smaller than this will be printed using Small Feature Speed.",
+                    "unit": "mm",
+                    "type": "float",
+                    "minimum_value": "0",
+                    "default_value": 0,
+                    "settable_per_mesh": true
+                },
+                "small_feature_max_length":
+                {
+                    "label": "Small Feature Max Length",
+                    "description": "Feature outlines that are shorter than this length will be printed using Small Feature Speed.",
+                    "unit": "mm",
+                    "type": "float",
+                    "minimum_value": "0",
+                    "default_value": 0,
+                    "value": "small_hole_max_size * math.pi",
+                    "settable_per_mesh": true
+                },
+                "small_feature_speed_factor":
+                {
+                    "label": "Small Feature Speed",
+                    "description": "Small features will be printed at this percentage of their normal print speed. Slower printing can help with adhestion and accuracy.",
+                    "unit": "%",
+                    "type": "float",
+                    "default_value": 50,
+                    "minimum_value": "1",
+                    "minimum_value_warning": "25",
+                    "maximum_value": "100",
+                    "settable_per_mesh": true
+                },
+                "small_feature_speed_factor_0":
+                {
+                    "label": "First Layer Speed",
+                    "description": "Small features on the first layer will be printed at this percentage of their normal print speed. Slower printing can help with adhestion and accuracy.",
+                    "unit": "%",
+                    "type": "float",
+                    "default_value": 50,
+                    "value": "small_feature_speed_factor",
+                    "minimum_value": "1",
+                    "minimum_value_warning": "25",
+                    "maximum_value": "100",
+                    "settable_per_mesh": true
                 }
             }
         },

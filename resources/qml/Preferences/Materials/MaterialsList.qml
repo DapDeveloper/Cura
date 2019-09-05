@@ -113,7 +113,9 @@ Item
             if (base.toActivateNewMaterial)
             {
                 var position = Cura.ExtruderManager.activeExtruderIndex
+               
                 Cura.MachineManager.setMaterial(position, base.currentItem.container_node)
+      
             }
             base.newRootMaterialIdToSwitchTo = ""
             base.toActivateNewMaterial = false

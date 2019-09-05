@@ -3255,12 +3255,12 @@ msgid "Distance between the printed initial layer support structure lines. This 
 msgstr "已打印起始层支撑结构走线之间的距离。该设置通过支撑密度计算。"
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle label"
+msgctxt "support_infill_angles label"
 msgid "Support Infill Line Direction"
 msgstr "支撑填充走线方向"
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle description"
+msgctxt "support_infill_angles description"
 msgid "Orientation of the infill pattern for supports. The support infill pattern is rotated in the horizontal plane."
 msgstr "用于支撑的填充图案的方向。支撑填充图案在水平面中旋转。"
 
@@ -3770,12 +3770,12 @@ msgid "The diameter of a special tower."
 msgstr "特殊塔的直径。"
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter label"
+msgctxt "support_tower_maximum_supported_diameter label"
 msgid "Minimum Diameter"
 msgstr "最小直径"
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter description"
+msgctxt "support_tower_maximum_supported_diameter description"
 msgid "Minimum diameter in the X/Y directions of a small area which is to be supported by a specialized support tower."
 msgstr "将由专门的支撑塔支撑的小区域 X/Y 轴方向的最小直径。"
 

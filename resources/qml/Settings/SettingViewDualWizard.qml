@@ -103,7 +103,7 @@ Item
                  "support_xy_distance_overhang","support_bottom_stair_step_height",
                  "support_bottom_stair_step_width","support_join_distance",
                  "support_interface_enable","support_interface_height","support_use_towers",
-                 "support_tower_diameter","support_minimal_diameter","support_tower_roof_angle",
+                 "support_tower_diameter","support_tower_maximum_supported_diameter","support_tower_roof_angle",
                  "support_offset","support_infill_sparse_thickness","gradual_support_infill_steps",
                  "minimum_support_area","skin_overlap_mm","platform_adhesion",
                  "dual","meshfix","blackmagic","experimental"]  // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.

@@ -483,7 +483,6 @@ class StartSliceJob(Job):
             Logger.log("e","MACHINE EXT%s",settings["machine_start_gcode"])
             '''
             # Add all sub-messages for each individual setting.
-        
             for key, value in settings.items():
                 setting_message = self._slice_message.getMessage("global_settings").addRepeatedMessage("settings")
                 setting_message.name = key
@@ -519,7 +518,6 @@ class StartSliceJob(Job):
         # Check all settings for relations, so we can also calculate the correct values for dependent settings.
         top_of_stack = stack.getTop()  # Cache for efficiency.
         changed_setting_keys = top_of_stack.getAllKeys()
-
         # Add all relations to changed settings as well.
         for key in top_of_stack.getAllKeys():
             instance = top_of_stack.getInstance(key)

@@ -82,7 +82,11 @@ Item
                 // Set the current material as the one to be activated (needed to force the UI update)
                 base.newRootMaterialIdToSwitchTo = base.currentItem.root_material_id
                 const extruder_position = Cura.ExtruderManager.activeExtruderIndex
+                //Cura.ContainerManager.updateQualityChanges();
+                //CuraApplication.discardOrKeepProfileChangesClosed("keep")
                 Cura.MachineManager.setMaterial(extruder_position, base.currentItem.container_node)
+                //Cura.MachineManager.updateQualityWithMaterial()
+                //CuraApplication.discardOrKeepProfileChangesClosed("discard")
             }
         }
 

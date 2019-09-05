@@ -3254,12 +3254,12 @@ msgid "Distance between the printed initial layer support structure lines. This 
 msgstr "Afstand tussen de lijnen van de supportstructuur voor de eerste laag. Deze wordt berekend op basis van de dichtheid van de supportstructuur."
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle label"
+msgctxt "support_infill_angles label"
 msgid "Support Infill Line Direction"
 msgstr "Lijnrichting Vulling Supportstructuur"
 
 #: fdmprinter.def.json
-msgctxt "support_infill_angle description"
+msgctxt "support_infill_angles description"
 msgid "Orientation of the infill pattern for supports. The support infill pattern is rotated in the horizontal plane."
 msgstr "Richting van het vulpatroon voor supportstructuren. Het vulpatroon voor de supportstructuur wordt in het horizontale vlak gedraaid."
 
@@ -3769,12 +3769,12 @@ msgid "The diameter of a special tower."
 msgstr "De diameter van een speciale pijler."
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter label"
+msgctxt "support_tower_maximum_supported_diameter label"
 msgid "Minimum Diameter"
 msgstr "Minimale Diameter"
 
 #: fdmprinter.def.json
-msgctxt "support_minimal_diameter description"
+msgctxt "support_tower_maximum_supported_diameter description"
 msgid "Minimum diameter in the X/Y directions of a small area which is to be supported by a specialized support tower."
 msgstr "De minimale diameter in de X- en Y-richting van een kleiner gebied dat moet worden ondersteund door een speciale steunpijler."
 
