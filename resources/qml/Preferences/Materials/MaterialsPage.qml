@@ -68,7 +68,6 @@ Item
             top: titleLabel.bottom
         }
         height: childrenRect.height
-
         // Activate button
         Button
         {
@@ -78,7 +77,6 @@ Item
             onClicked:
             {
                 forceActiveFocus()
-
                 // Set the current material as the one to be activated (needed to force the UI update)
                 base.newRootMaterialIdToSwitchTo = base.currentItem.root_material_id
                 const extruder_position = Cura.ExtruderManager.activeExtruderIndex
@@ -89,7 +87,6 @@ Item
                 //CuraApplication.discardOrKeepProfileChangesClosed("discard")
             }
         }
-
         // Create button
         Button
         {
@@ -102,7 +99,6 @@ Item
                 base.toActivateNewMaterial = true;
             }
         }
-
         // Duplicate button
         Button
         {
@@ -116,7 +112,6 @@ Item
                 base.toActivateNewMaterial = true;
             }
         }
-
         // Remove button
         Button
         {
@@ -129,7 +124,6 @@ Item
                 confirmRemoveMaterialDialog.open();
             }
         }
-
         // Import button
         Button
         {
@@ -142,7 +136,6 @@ Item
             }
             visible: true
         }
-
         // Export button
         Button
         {

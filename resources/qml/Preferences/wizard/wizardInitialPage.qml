@@ -108,10 +108,23 @@ UM.PreferencesPage
             anchors
             {
                 left:printerSetup.left
-                top:printerSetup.bottom
+                top:btnDiscard.bottom
                 bottom:parent.bottom
             }
         }
+        Button
+        {
+            id:btnDiscard
+            text: catalog.i18nc("@action:button", "Discard current changes");
+            enabled: Cura.MachineManager.hasUserSettings
+            anchors
+            {
+                left:printerSetup.left
+                top:printerSetup.bottom
+            }
+            onClicked: Cura.ContainerManager.clearUserContainers();
+        }
+
 
        /* Label
         {

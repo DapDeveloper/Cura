@@ -9,8 +9,8 @@ class MaterialSettingsVisibilityHandler(UM.Settings.Models.SettingVisibilityHand
         material_settings = {
             "default_material_print_temperature",
             "material_print_temperature",
-            #"material_initial_print_temperature",
-            #"material_final_print_temperature",
+            "material_initial_print_temperature",
+            "material_final_print_temperature",
             "material_extrusion_cool_down_speed",
             "default_material_bed_temperature",
             "default_material_chamber_temperature",
@@ -50,5 +50,13 @@ class MaterialSettingsVisibilityHandler(UM.Settings.Models.SettingVisibilityHand
             "raft_surface_fan_speed",
             "raft_interface_fan_speed",
             "raft_base_fan_speed",
+
+            '''"default_material_print_temperature",
+            "default_material_bed_temperature",
+            "material_standby_temperature",
+            #"material_flow_temp_graph",
+            "cool_fan_speed",
+            "retraction_amount",
+            "retraction_speed",'''
         }
         self.setVisible(material_settings)

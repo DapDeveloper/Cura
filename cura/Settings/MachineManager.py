@@ -1177,6 +1177,7 @@ class MachineManager(QObject):
         quality_changes_group.quality_type = "not_supported"
 
     def _setQualityChangesGroup(self, quality_changes_group: "QualityChangesGroup") -> None:
+        print("CALL1")
         if self._global_container_stack is None:
             return  # Can't change that.
         quality_type = quality_changes_group.quality_type
@@ -1255,7 +1256,7 @@ class MachineManager(QObject):
                     if extruder.isEnabled and not extruder.material.getMetaDataEntry("compatible"):
                         return False
                     if not extruder.material.getMetaDataEntry("compatible"):
-                        return Falsec
+                        return False
         return True
 
     ## Update current quality type and machine after setting material
@@ -1441,7 +1442,6 @@ class MachineManager(QObject):
 
             if need_to_show_message:
                 msg_str = "{extruders} is disabled because there is no material loaded. Please load a material or use custom configurations."
-
                 # Show human-readable extruder names such as "Extruder Left", "Extruder Front" instead of "Extruder 1, 2, 3".
                 extruder_names = []
                 for extruder_position in sorted(disabled_used_extruder_position_set):
@@ -1454,8 +1454,8 @@ class MachineManager(QObject):
                                   title = catalog.i18nc("@info:title", "Extruder(s) Disabled"))
                 message.show()
 
-        # See if we need to show the Discard or Keep changes screen
-        if self.hasUserSettings and self._application.getPreferences().getValue("cura/active_mode") == 1:
+        # See if we need to show the Discard or Keep changes screen and self._application.getPreferences().getValue("cura/active_mode") == 1
+        if self.hasUserSettings :
             self._application.discardOrKeepProfileChanges()
 
     @pyqtSlot("QVariant")
@@ -1496,8 +1496,8 @@ class MachineManager(QObject):
             self._setMaterial(position, container_node)
             self._updateQualityWithMaterial()
 
-        # See if we need to show the Discard or Keep changes screen
-        if self.hasUserSettings and self._application.getPreferences().getValue("cura/active_mode") == 1:
+        # See if we need to show the Discard or Keep changes screen and self._application.getPreferences().getValue("cura/active_mode") == 1
+        if self.hasUserSettings :
             self._application.discardOrKeepProfileChanges()
 
     @pyqtSlot(str, str)
@@ -1517,8 +1517,8 @@ class MachineManager(QObject):
             self.updateMaterialWithVariant(position)
             self._updateQualityWithMaterial()
 
-        # See if we need to show the Discard or Keep changes screen
-        if self.hasUserSettings and self._application.getPreferences().getValue("cura/active_mode") == 1:
+        # See if we need to show the Discard or Keep changes screen and self._application.getPreferences().getValue("cura/active_mode") == 1
+        if self.hasUserSettings :
             self._application.discardOrKeepProfileChanges()
 
     @pyqtSlot(str)
@@ -1555,8 +1555,8 @@ class MachineManager(QObject):
         with postponeSignals(*self._getContainerChangedSignals(), compress = CompressTechnique.CompressPerParameterValue):
             self._setQualityGroup(quality_group)
 
-        # See if we need to show the Discard or Keep changes screen
-        if not no_dialog and self.hasUserSettings and self._application.getPreferences().getValue("cura/active_mode") == 1:
+        # See if we need to show the Discard or Keep changes screen and self._application.getPreferences().getValue("cura/active_mode") == 1
+        if not no_dialog and self.hasUserSettings :
             self._application.discardOrKeepProfileChanges()
 
     @pyqtProperty(QObject, fset = setQualityGroup, notify = activeQualityGroupChanged)
@@ -1565,13 +1565,17 @@ class MachineManager(QObject):
 
     @pyqtSlot(QObject)
     def setQualityChangesGroup(self, quality_changes_group: "QualityChangesGroup", no_dialog: bool = False) -> None:
+        print("CALL 2")
         self.blurSettings.emit()
         with postponeSignals(*self._getContainerChangedSignals(), compress = CompressTechnique.CompressPerParameterValue):
             self._setQualityChangesGroup(quality_changes_group)
 
-        # See if we need to show the Discard or Keep changes screen
-        if not no_dialog and self.hasUserSettings and self._application.getPreferences().getValue("cura/active_mode") == 1:
-            self._application.discardOrKeepProfileChanges()
+        print(no_dialog)
+        print(self.hasUserSettings)
+        print(self._application.getPreferences().getValue("cura/active_mode") == 1)
+        # See if we need to show the Discard or Keep changes screen and self._application.getPreferences().getValue("cura/active_mode") == 1
+        if not no_dialog and self.hasUserSettings :
+           self._application.discardOrKeepProfileChanges()
 
     @pyqtSlot()
     def resetToUseDefaultQuality(self) -> None:

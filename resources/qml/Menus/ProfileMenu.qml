@@ -28,8 +28,8 @@ Menu
             exclusiveGroup: group
             onTriggered:
             {
-                Cura.ContainerManager.clearUserContainers();
-                print("CHANGES1");
+                /*Cura.ContainerManager.clearUserContainers();
+                print("CHANGES1");*/
                 Cura.MachineManager.setQualityGroup(model.quality_group);
                 
             }
@@ -38,7 +38,6 @@ Menu
         onObjectAdded: menu.insertItem(index, object)
         onObjectRemoved: menu.removeItem(object)
     }
-
     MenuSeparator
     {
         id: customSeparator
@@ -55,7 +54,6 @@ Menu
             target: Cura.CustomQualityProfilesDropDownMenuModel
             onModelReset: customSeparator.visible = Cura.CustomQualityProfilesDropDownMenuModel.count > 0
         }
-
         MenuItem
         {
             text: model.name
@@ -64,13 +62,11 @@ Menu
             exclusiveGroup: group
             onTriggered:
             { 
-                
-                Cura.ContainerManager.clearUserContainers();
+                /*Cura.ContainerManager.clearUserContainers();*/
                 Cura.MachineManager.setQualityChangesGroup(model.quality_changes_group);
-                   print("CHANGES2");
+                print("CHANGES2");
             }
         }
-
         onObjectAdded:
         {
             customSeparator.visible = model.count > 0;
@@ -84,9 +80,7 @@ Menu
     }
 
     ExclusiveGroup { id: group; }
-
     MenuSeparator { id: profileMenuSeparator }
-
     MenuItem { action: Cura.Actions.addProfile }
     MenuItem { action: Cura.Actions.updateProfile }
     MenuItem { action: Cura.Actions.resetProfile }

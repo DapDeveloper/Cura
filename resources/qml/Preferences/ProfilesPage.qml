@@ -61,9 +61,11 @@ Item
             enabled: !isCurrentItemActivated&& base.currentItem.type!=2
             onClicked: {
                 if (base.currentItem.is_read_only) {
+                    print("ACTIVATEX");
                     Cura.MachineManager.setQualityGroup(base.currentItem.quality_group);
                 } else {
-                    Cura.MachineManager.setQualityChangesGroup(base.currentItem.quality_changes_group);
+                      print("ACTIVATEY");
+                      Cura.MachineManager.setQualityChangesGroup(base.currentItem.quality_changes_group);
                 }
             }
         }

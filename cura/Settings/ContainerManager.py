@@ -272,6 +272,7 @@ class ContainerManager(QObject):
     #   \return \type{bool} True if successful, False if not.
     @pyqtSlot(result = bool)
     def updateQualityChanges(self) -> bool:
+        print("UPDATE QUALITY CALLED")
         global_stack = self._machine_manager.activeMachine
         if not global_stack:
             return False
@@ -297,6 +298,7 @@ class ContainerManager(QObject):
     ##  Clear the top-most (user) containers of the active stacks.
     @pyqtSlot()
     def clearUserContainers(self) -> None:
+        print("CLEAR CALLED")
         self._machine_manager.blurSettings.emit()
         send_emits_containers = []
         # Go through global and extruder stacks and clear their topmost container (the user settings).

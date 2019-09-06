@@ -5,7 +5,6 @@ import QtQuick 2.1
 import QtQuick.Controls 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.1
-
 import UM 1.2 as UM
 import Cura 1.0 as Cura
 
@@ -13,7 +12,6 @@ UM.Dialog
 {
     id: base
     title: catalog.i18nc("@title:window", "Discard or Keep changes")
-
     width: 800 * screenScaleFactor
     height: 400 * screenScaleFactor
     property var changesModel: Cura.UserChangesModel{ id: userChangesModel}
@@ -22,7 +20,6 @@ UM.Dialog
         if(visible)
         {
             changesModel.forceUpdate()
-
             discardOrKeepProfileChangesDropDownButton.currentIndex = 0;
             for (var i = 0; i < discardOrKeepProfileChangesDropDownButton.model.count; ++i)
             {
@@ -35,7 +32,6 @@ UM.Dialog
             }
         }
     }
-
     Row
     {
         id: infoTextRow
@@ -45,13 +41,11 @@ UM.Dialog
         anchors.right: parent.right
         anchors.top: parent.top
         spacing: UM.Theme.getSize("default_margin").width
-
         UM.I18nCatalog
         {
             id: catalog;
             name: "cura"
         }
-
         Label
         {
             text: catalog.i18nc("@text:window", "You have customized some profile settings.\nWould you like to keep or discard those settings?")
@@ -59,7 +53,6 @@ UM.Dialog
             wrapMode: Text.WordWrap
         }
     }
-
     Item
     {
         anchors.margins: UM.Theme.getSize("default_margin").width
@@ -92,7 +85,6 @@ UM.Dialog
                     }
                 }
             }
-
             Component
             {
                 id: defaultDelegate
@@ -103,7 +95,6 @@ UM.Dialog
                     color: UM.Theme.getColor("setting_control_disabled_text")
                 }
             }
-
             TableViewColumn
             {
                 role: "label"
@@ -130,11 +121,9 @@ UM.Dialog
                 text: section
                 font.bold: true
             }
-
             model: base.changesModel
         }
     }
-
     Item
     {
         id: optionRow
@@ -143,16 +132,13 @@ UM.Dialog
         anchors.left: parent.left
         anchors.margins: UM.Theme.getSize("default_margin").width
         height: childrenRect.height
-
         ComboBox
         {
             id: discardOrKeepProfileChangesDropDownButton
             width: 300
-
             model: ListModel
             {
                 id: discardOrKeepProfileListModel
-
                 Component.onCompleted: {
                     append({ text: catalog.i18nc("@option:discardOrKeep", "Always ask me this"), code: "always_ask" })
                     append({ text: catalog.i18nc("@option:discardOrKeep", "Discard and never ask again"), code: "always_discard" })
@@ -163,7 +149,6 @@ UM.Dialog
             {
                 var code = model.get(index).code;
                 UM.Preferences.setValue("cura/choice_on_profile_override", code);
-
                 if (code == "always_keep") {
                     keepButton.enabled = true;
                     discardButton.enabled = false;
@@ -179,7 +164,6 @@ UM.Dialog
             }
         }
     }
-
     Item
     {
         id: buttonsRow
@@ -188,7 +172,6 @@ UM.Dialog
         anchors.left: parent.left
         anchors.margins: UM.Theme.getSize("default_margin").width
         height: childrenRect.height
-
         Button
         {
             id: discardButton
@@ -201,7 +184,6 @@ UM.Dialog
             }
             isDefault: true
         }
-
         Button
         {
             id: keepButton
@@ -214,7 +196,6 @@ UM.Dialog
                 base.hide()
             }
         }
-
         Button
         {
             id: createNewProfileButton

@@ -92,7 +92,6 @@ class QualityProfilesDropDownMenuModel(ListModel):
 
         # Sort items based on layer_height
         item_list = sorted(item_list, key = lambda x: x["layer_height"])
-
         self.setItems(item_list)
 
     def _fetchLayerHeight(self, quality_group: "QualityGroup") -> float:

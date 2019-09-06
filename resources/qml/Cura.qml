@@ -1173,6 +1173,7 @@ UM.MainWindow
             discardOrKeepProfileChangesDialog.show()
         }
     }
+    
     Cura.WizardDialog
     {
         id: addMachineDialog

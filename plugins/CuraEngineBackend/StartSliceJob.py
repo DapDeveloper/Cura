@@ -490,7 +490,6 @@ class StartSliceJob(Job):
                 Job.yieldThread()
         except:
             Logger.log("e","ERRORE1")
-
     ##  Sends for some settings which extruder they should fallback to if not
     #   set.
     #

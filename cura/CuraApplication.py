@@ -305,9 +305,7 @@ class CuraApplication(QtApplication):
 
     def initialize(self) -> None:
         self.__addExpectedResourceDirsAndSearchPaths()  # Must be added before init of super
-
         super().initialize()
-
         self.__sendCommandToSingleInstance()
         self._initializeSettingDefinitions()
         self._initializeSettingFunctions()
@@ -440,7 +438,6 @@ class CuraApplication(QtApplication):
                 ("variant", InstanceContainer.Version * 1000000 + self.SettingVersion):            (self.ResourceTypes.VariantInstanceContainer, "application/x-uranium-instancecontainer"),
             }
         )
-
     # Runs preparations that needs to be done before the starting process.
     def startSplashWindowPhase(self) -> None:
         super().startSplashWindowPhase()
@@ -486,14 +483,11 @@ class CuraApplication(QtApplication):
 
         with self._container_registry.lockFile():
             self._container_registry.loadAllMetadata()
-
         # set the setting version for Preferences
         preferences = self.getPreferences()
         preferences.addPreference("metadata/setting_version", 0)
         preferences.setValue("metadata/setting_version", self.SettingVersion) #Don't make it equal to the default so that the setting version always gets written to the file.
-
         preferences.addPreference("cura/active_mode", "simple")
-
         preferences.addPreference("cura/categories_expanded", "")
         preferences.addPreference("cura/jobname_prefix", True)
         preferences.addPreference("cura/select_models_on_load", False)
@@ -509,31 +503,22 @@ class CuraApplication(QtApplication):
         preferences.addPreference("view/settings_visible", False)
         preferences.addPreference("cura/currency", "€")
         preferences.addPreference("cura/material_settings", "{}")
-
         preferences.addPreference("view/invert_zoom", False)
         preferences.addPreference("view/filter_current_build_plate", False)
         preferences.addPreference("cura/sidebar_collapsed", False)
-
         preferences.addPreference("cura/favorite_materials", "")
         preferences.addPreference("cura/expanded_brands", "")
         preferences.addPreference("cura/expanded_types", "")
-
         preferences.addPreference("general/accepted_user_agreement", False)
-
         for key in [
             "dialog_load_path",  # dialog_save_path is in LocalFileOutputDevicePlugin
             "dialog_profile_path",
             "dialog_material_path"]:
-
             preferences.addPreference("local_file/%s" % key, os.path.expanduser("~/"))
-
         preferences.setDefault("local_file/last_used_type", "text/x-gcode")
-
         self.applicationShuttingDown.connect(self.saveSettings)
         self.engineCreatedSignal.connect(self._onEngineCreated)
-
         self.getCuraSceneController().setActiveBuildPlate(0)  # Initialize
-
         CuraApplication.Created = True
 
     def _onEngineCreated(self):
@@ -596,27 +581,22 @@ class CuraApplication(QtApplication):
     @pyqtSlot()
     def showPreferences(self) -> None:
         self.showPreferencesWindow.emit()
-
     @override(Application)
     def getGlobalContainerStack(self) -> Optional["GlobalStack"]:
         return self._global_container_stack
-
     @override(Application)
     def setGlobalContainerStack(self, stack: "GlobalStack") -> None:
         super().setGlobalContainerStack(stack)
-
     ## A reusable dialogbox
     #
     showMessageBox = pyqtSignal(str, str, str, str, int, int, arguments = ["title", "text", "informativeText", "detailedText", "buttons", "icon"])
-
     def messageBox(self, title, text, informativeText = "", detailedText = "", buttons = QMessageBox.Ok, icon = QMessageBox.NoIcon, callback = None, callback_arguments = []):
         self._message_box_callback = callback
         self._message_box_callback_arguments = callback_arguments
         self.showMessageBox.emit(title, text, informativeText, detailedText, buttons, icon)
-
     showDiscardOrKeepProfileChanges = pyqtSignal()
-
     def discardOrKeepProfileChanges(self) -> bool:
+        #Logger.log("e","PROFILE KEEP")
         has_user_interaction = False
         choice = self.getPreferences().getValue("cura/choice_on_profile_override")
         if choice == "always_discard":
@@ -630,7 +610,6 @@ class CuraApplication(QtApplication):
             self.showDiscardOrKeepProfileChanges.emit()
             has_user_interaction = True
         return has_user_interaction
-
     @pyqtSlot(str)
     def discardOrKeepProfileChangesClosed(self, option: str) -> None:
         global_stack = self.getGlobalContainerStack()
@@ -638,14 +617,12 @@ class CuraApplication(QtApplication):
             for extruder in global_stack.extruders.values():
                 extruder.userChanges.clear()
             global_stack.userChanges.clear()
-
         # if the user decided to keep settings then the user settings should be re-calculated and validated for errors
         # before slicing. To ensure that slicer uses right settings values
         elif option == "keep":
             for extruder in global_stack.extruders.values():
                 extruder.userChanges.update()
             global_stack.userChanges.update()
-
     @pyqtSlot(int)
     def messageBoxClosed(self, button):
         if self._message_box_callback:
@@ -723,16 +700,13 @@ class CuraApplication(QtApplication):
 
         Logger.log("i", "Initializing container manager")
         self._container_manager = ContainerManager(self)
-
         Logger.log("i", "Initializing machine error checker")
         self._machine_error_checker = MachineErrorChecker(self)
         self._machine_error_checker.initialize()
-
         # Check if we should run as single instance or not. If so, set up a local socket server which listener which
         # coordinates multiple Cura instances and accepts commands.
         if self._use_single_instance:
             self.__setUpSingleInstanceServer()
-
         # Setup scene and build volume
         root = self.getController().getScene().getRoot()
         self._volume = BuildVolume.BuildVolume(self, root)
@@ -802,15 +776,11 @@ class CuraApplication(QtApplication):
         t = controller.getTool("TranslateTool")
         if t:
             t.setEnabledAxis([ToolHandle.XAxis, ToolHandle.YAxis, ToolHandle.ZAxis])
-
         Selection.selectionChanged.connect(self.onSelectionChanged)
-
         # Set default background color for scene
         self.getRenderer().setBackgroundColor(QColor(245, 245, 245))
-
         # Initialize platform physics
         self._physics = PlatformPhysics.PlatformPhysics(controller, self._volume)
-
         # Initialize camera
         root = controller.getScene().getRoot()
         camera = Camera("3d", root)
@@ -821,18 +791,14 @@ class CuraApplication(QtApplication):
         camera.setPerspective(True)
         camera.lookAt(Vector(0, 0, 0))
         controller.getScene().setActiveCamera("3d")
-
         # Initialize camera tool
         camera_tool = controller.getTool("CameraTool")
         camera_tool.setOrigin(Vector(0, 100, 0))
         camera_tool.setZoomRange(0.1, 2000)
-
         # Initialize camera animations
         self._camera_animation = CameraAnimation.CameraAnimation()
         self._camera_animation.setCameraTool(self.getController().getTool("CameraTool"))
-
         self.showSplashMessage(self._i18n_catalog.i18nc("@info:progress", "Loading interface..."))
-
         # Initialize QML engine
         self.setMainQml(Resources.getPath(self.ResourceTypes.QmlFiles, "Cura.qml"))
         self._qml_import_paths.append(Resources.getPath(self.ResourceTypes.QmlFiles))
@@ -1026,20 +992,16 @@ class CuraApplication(QtApplication):
         qmlRegisterType(InstanceContainer, "Cura", 1, 0, "InstanceContainer")
         qmlRegisterType(ExtrudersModel, "Cura", 1, 0, "ExtrudersModel")
         qmlRegisterType(GlobalStacksModel, "Cura", 1, 0, "GlobalStacksModel")
-
         qmlRegisterType(FavoriteMaterialsModel, "Cura", 1, 0, "FavoriteMaterialsModel")
         qmlRegisterType(GenericMaterialsModel, "Cura", 1, 0, "GenericMaterialsModel")
         qmlRegisterType(MaterialBrandsModel, "Cura", 1, 0, "MaterialBrandsModel")
         qmlRegisterType(QualityManagementModel, "Cura", 1, 0, "QualityManagementModel")
-
         qmlRegisterType(DiscoveredPrintersModel, "Cura", 1, 0, "DiscoveredPrintersModel")
-
         qmlRegisterSingletonType(QualityProfilesDropDownMenuModel, "Cura", 1, 0,
                                  "QualityProfilesDropDownMenuModel", self.getQualityProfilesDropDownMenuModel)
         qmlRegisterSingletonType(CustomQualityProfilesDropDownMenuModel, "Cura", 1, 0,
                                  "CustomQualityProfilesDropDownMenuModel", self.getCustomQualityProfilesDropDownMenuModel)
         qmlRegisterType(NozzleModel, "Cura", 1, 0, "NozzleModel")
-
         qmlRegisterType(MaterialSettingsVisibilityHandler, "Cura", 1, 0, "MaterialSettingsVisibilityHandler")
         qmlRegisterType(SettingVisibilityPresetsModel, "Cura", 1, 0, "SettingVisibilityPresetsModel")
         qmlRegisterType(QualitySettingsModel, "Cura", 1, 0, "QualitySettingsModel")
@@ -1196,7 +1158,6 @@ class CuraApplication(QtApplication):
             if not node.isSelectable():
                 continue  # i.e. node with layer data
             nodes.append(node)
-
         if nodes:
             op = GroupedOperation()
             for node in nodes:
@@ -1374,7 +1335,6 @@ class CuraApplication(QtApplication):
             transformation = node.getLocalTransformation()
             transformation.setTranslation(zero_translation)
             transformed_mesh = mesh.getTransformed(transformation)
-
             # Align the object around its zero position
             # and also apply the offset to center it inside the group.
             node.setPosition(-transformed_mesh.getZeroPosition() - offset)

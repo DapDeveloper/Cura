@@ -99,13 +99,10 @@ UM.PreferencesPage
         zoomToMouseCheckbox.checked = boolCheck(UM.Preferences.getValue("view/zoom_to_mouse"))
         UM.Preferences.resetPreference("view/top_layer_count");
         topLayerCountCheckbox.checked = boolCheck(UM.Preferences.getValue("view/top_layer_count"))
-
         UM.Preferences.resetPreference("cura/choice_on_profile_override")
         setDefaultDiscardOrKeepProfile(UM.Preferences.getValue("cura/choice_on_profile_override"))
-
         UM.Preferences.resetPreference("cura/choice_on_open_project")
         setDefaultOpenProjectOption(UM.Preferences.getValue("cura/choice_on_open_project"))
-
         UM.Preferences.resetPreference("info/send_slice_info")
         sendDataCheckbox.checked = boolCheck(UM.Preferences.getValue("info/send_slice_info"))
         UM.Preferences.resetPreference("info/automatic_update_check")
@@ -537,21 +534,17 @@ UM.PreferencesPage
                 Column
                 {
                     spacing: 4 * screenScaleFactor
-
                     Label
                     {
                         text: catalog.i18nc("@window:text", "Default behavior when opening a project file: ")
                     }
-
                     ComboBox
                     {
                         id: choiceOnOpenProjectDropDownButton
                         width: 200 * screenScaleFactor
-
                         model: ListModel
                         {
                             id: openProjectOptionModel
-
                             Component.onCompleted:
                             {
                                 append({ text: catalog.i18nc("@option:openProject", "Always ask me this"), code: "always_ask" })
@@ -559,7 +552,6 @@ UM.PreferencesPage
                                 append({ text: catalog.i18nc("@option:openProject", "Always import models"), code: "open_as_model" })
                             }
                         }
-
                         currentIndex:
                         {
                             var index = 0;
@@ -574,7 +566,6 @@ UM.PreferencesPage
                             }
                             return index;
                         }
-
                         onActivated: UM.Preferences.setValue("cura/choice_on_open_project", model.get(index).code)
                     }
                 }
