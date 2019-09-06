@@ -172,6 +172,7 @@ SettingItem
             value: propertyProvider.properties.value
             to: sliderMax
             stepSize:step_value
+            
             onValueChanged: 
             {
                 print('Slider onValueChanged', value)
@@ -191,6 +192,12 @@ SettingItem
                 top:slider1.top
                 leftMargin:5
             }
+
+              MouseArea {
+                anchors.fill: parent
+                onClicked: { slider1.forceActiveFocus(); }
+                 }
+            
         }
 
     }
