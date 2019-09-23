@@ -71,7 +71,7 @@ UM.PreferencesPage
         anchors.leftMargin:10
         anchors.topMargin:10
         anchors.bottomMargin:10
-          Timer
+        Timer
         {
             id: sliceTimer
             repeat: false

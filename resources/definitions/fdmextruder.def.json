@@ -123,7 +123,7 @@
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
-
+               
                 "machine_support_line_width":
                 {
                     "label": "Support Line Width",

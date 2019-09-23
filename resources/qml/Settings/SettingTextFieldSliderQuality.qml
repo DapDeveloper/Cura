@@ -194,6 +194,11 @@ SettingItem
                 top:slider1.top
                 leftMargin:5
             }
+               MouseArea {
+                anchors.fill: parent
+                onClicked: { slider1.forceActiveFocus(); }
+                 }
+            
         }
 
     }

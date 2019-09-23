@@ -209,6 +209,7 @@ UM.TooltipArea
                 verticalCenter:slider1.verticalCenter
             }
         }
+
         SliderCustom
         {
             id:slider1
@@ -218,7 +219,7 @@ UM.TooltipArea
             to: sliderMax
             stepSize:step_value
             enabled:editable
-               anchors
+            anchors
             {
                 left:label1.right
             }
@@ -230,12 +231,14 @@ UM.TooltipArea
             handleColor1:value<(parseFloat(minValueWarning)) ? "#BA0000":value>(parseFloat(maxValueWarning))?"#BA0000":"#079600"
             handleColor2:value<(parseFloat(minValueWarning)) ? "#BA0000":value>(parseFloat(maxValueWarning))?"#B00000":"#078A00"
         }
+
      /*   SwitchCustom
         {
             id:switch1
             width:100
             height:50
         }*/
+
         Label
         {
             id:unitLabel2
@@ -248,6 +251,12 @@ UM.TooltipArea
                 verticalCenter:slider1.verticalCenter
                 leftMargin:5
             }
+               MouseArea {
+                anchors.fill: parent
+                onClicked: { slider1.forceActiveFocus(); }
+                 }
+            
+            
         }
 
 }

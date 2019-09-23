@@ -143,7 +143,6 @@ Item
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
         */
-
             Cura.NumericSliderWithUnit  // "Line WIDTH"
             {
                 id: extruderLineWidth
@@ -156,7 +155,6 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-              
                 sliderMin:0
                 sliderMax:2
                 precision:2
@@ -273,7 +271,6 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-              
                 sliderMin:0
                 sliderMax:2
                 precision:2
@@ -293,7 +290,6 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-      
                 sliderMin:0
                 sliderMax:2
                 precision:2
@@ -313,7 +309,6 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
- 
                 sliderMin:0
                 sliderMax:2
                 precision:2
@@ -333,7 +328,6 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
- 
                 sliderMin:0
                 sliderMax:2
                 precision:2
@@ -353,7 +347,6 @@ Item
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
-    
                 sliderMin:0
                 sliderMax:2
                 precision:2
@@ -361,13 +354,14 @@ Item
                 maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
                 step_value:0.01
             }*/
+            
             Cura.NumericSliderWithUnit  // "infill Line WIDTH"
             {
                 id: extruderInfillLineWidth
                 containerStackId: base.extruderStackId
                 settingKey: "machine_infill_line_width"
                 settingStoreIndex: propertyStoreIndex
-                labelText: catalog.i18nc("@label", "Infill line width")
+                labelText: catalog.i18nc("@label", "Infill line width(mm)")
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth/1.2
                 controlWidth: base.controlWidth/1.5
@@ -380,6 +374,7 @@ Item
                 maxValueWarning:extruderNozzleSizeField.sliderValue+extruderNozzleSizeField.sliderValue/100*20
                 step_value:0.01
             }
+
               Cura.NumericSliderWithUnit  // "prime tower flow"
             { 
                 id: extruderPrimeTowerFlow

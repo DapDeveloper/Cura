@@ -70,7 +70,6 @@ Item
             id: extruderButtons
             anchors.topMargin: UM.Theme.getSize("default_margin").height
             anchors.top: toolButtons.bottom
-            
             //anchors.right: parent.right
             //anchors.rightMargin:180
             anchors.left:parent.left
@@ -93,6 +92,7 @@ Item
                 font.pointSize:13
                 //text:catalog.i18nc("@label", "Active printer")
             }
+
             Item
             {
                 id:itmPers1
@@ -114,7 +114,13 @@ Item
                         bottom:parent.bottom
                     }
                 }
+
+                
+
+
             }
+         
+
           /*  Cura.CustomPrintSetupResolution
             {
                  id:pers1

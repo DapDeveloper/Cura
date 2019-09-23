@@ -843,7 +843,7 @@ Item
         }
     }  
 
-               Label   // Title Label
+               /*Label   // Title Label
                 {
                     id:lblCollingController
                     text: catalog.i18nc("@title:label", "Cooling controller")
@@ -894,7 +894,7 @@ Item
                             forceUpdateOnChangeFunction: forceUpdateFunction
                         }
                     }
-                }  
+                }  */
 
          Label
             {
@@ -902,8 +902,8 @@ Item
                 text: catalog.i18nc("@title:label", "Raft controller")
                 font: UM.Theme.getFont("medium_bold")
                 renderType: Text.NativeRendering
-                anchors.left:lblPrinterJerk.left
-                anchors.top:objectListContainer3.bottom
+                anchors.left:lblAccelerationsSettings.left
+                anchors.top:objectListContainer.bottom
                
             }
             ScrollView

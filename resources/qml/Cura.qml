@@ -19,6 +19,7 @@ UM.MainWindow
     // Cura application window title
     title: catalog.i18nc("@title:window", "MTCSlicer")
     backgroundColor: UM.Theme.getColor("viewport_background")
+      property bool preSlicedData: PrintInformation.preSliced
     UM.I18nCatalog
     {
         id: catalog
@@ -360,6 +361,10 @@ UM.MainWindow
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
+       
+
+           
+
      /*    ToolbarSave
         {
             // The toolbar is the left bar that is populated by all the tools (which are dynamicly populated by
@@ -392,6 +397,7 @@ UM.MainWindow
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
+      
         ToolbarInformations
         {
             id:toolbarInformations
@@ -406,6 +412,28 @@ UM.MainWindow
             //anchors.topMargin:15
             visible:welcomeDialogWizardItem.visible==false && welcomeDialogItem.visible==false
         }
+          
+        Cura.IconWithText
+        {
+            id: estimatedTime
+            width: 300
+            text: preSlicedData ? catalog.i18nc("@label", "No time estimation available") : PrintInformation.currentPrintTime.getDisplayString(UM.DurationFormat.Long)
+            source: UM.Theme.getIcon("clock")
+            font: UM.Theme.getFont("medium_bold")
+            visible:UM.Backend.state == UM.Backend.Done
+            anchors
+            {
+                    right:parent.right
+                    top:parent.top
+
+
+            }
+            anchors.topMargin:20
+        }
+
+
+
+
        /* Item
         {
             id:item1
@@ -629,6 +657,8 @@ UM.MainWindow
             }
         }
     }
+   
+
     PrintSetupTooltip
     {
         id: tooltip

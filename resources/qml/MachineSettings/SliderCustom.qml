@@ -4,11 +4,14 @@ import QtQuick.Templates 2.0 as T
 import "."
 
 T.Slider {
+
     id: control
     implicitWidth: 200
     implicitHeight: 26
     property var handleColor1:"#079600"
     property var handleColor2:"#078A00"
+    
+    snapMode: T.Slider.NoSnap
     handle: Rectangle {
         x: control.visualPosition * (control.width - width)
         y: (control.height - height) / 2

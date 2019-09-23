@@ -1236,7 +1236,7 @@ Item
             }
             }
         }  
-               Label   // Title Label
+              /* Label   // Title Label
                 {
                     id:lblCollingController
                     text: catalog.i18nc("@title:label", "Cooling controller")
@@ -1282,8 +1282,6 @@ Item
                             minValueWarning:-1
                             maxValueWarning:110
                             step_value:1
-
-
                         }
                         Cura.NumericSliderWithUnit  // "machine fan speed max"
                         {
@@ -1310,7 +1308,7 @@ Item
 
                         }
                     }
-                }  
+                }  */
 
                 Label   // Title Label
                 {
@@ -1318,8 +1316,8 @@ Item
                     text: catalog.i18nc("@title:label", "Aditional Features")
                     font: UM.Theme.getFont("medium_bold")
                     renderType: Text.NativeRendering
-                    anchors.left:objectListContainer4.left
-                    anchors.top:objectListContainer4.bottom
+                    anchors.left:lblPrinterSettings.left
+                    anchors.top:objectListContainer.bottom
                 }
                 ScrollView
                 {

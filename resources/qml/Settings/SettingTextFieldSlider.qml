@@ -172,7 +172,6 @@ SettingItem
             value: propertyProvider.properties.value
             to: sliderMax
             stepSize:step_value
-            
             onValueChanged: 
             {
                 print('Slider onValueChanged', value)
@@ -181,6 +180,8 @@ SettingItem
             handleColor1:value<(parseFloat(minValueWarning)) ? "#BA0000":value>(parseFloat(maxValueWarning))?"#BA0000":"#079600"
             handleColor2:value<(parseFloat(minValueWarning)) ? "#BA0000":value>(parseFloat(maxValueWarning))?"#B00000":"#078A00"
         }
+
+
         Label
         {
             id:lbl1

@@ -490,6 +490,24 @@ class StartSliceJob(Job):
                 Job.yieldThread()
         except:
             Logger.log("e","ERRORE1")
+
+    '''
+
+     "machine_infill_line_width":
+                {
+                    "label": "Infill Line Width",
+                            "description": "Width of a single infill line.",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.5,
+                    "minimum_value": "0.001",
+                    "maximum_value_warning": "10",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true
+                },
+
+                
+    '''        
     ##  Sends for some settings which extruder they should fallback to if not
     #   set.
     #

@@ -283,7 +283,7 @@ Item
                 containerStackId: base.extruderStackId
                 settingKey: "machine_infill_line_width"
                 settingStoreIndex: propertyStoreIndex
-                labelText: catalog.i18nc("@label", "Infill line width")
+                labelText: catalog.i18nc("@label", "Infill line width(mm)")
                 labelFont: base.labelFont
                 labelWidth: base.labelWidth/1.2
                 controlWidth: base.controlWidth/1.5

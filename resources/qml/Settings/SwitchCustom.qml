@@ -52,29 +52,24 @@ T.Switch {
             State {
                 name: "on"
                 when: control.checked && !control.down
-
                 PropertyChanges {
                     target: switchHandle
                     color: "#079600"
                     border.color: "#343434"
                 }
-
                 PropertyChanges {
                     target: rectangle
                     x: parent.width - width
                     color:"#ffffff"
-                  
                 }
             },
             State {
                 name: "off_down"
                 when: !control.checked && control.down
-
                 PropertyChanges {
                     target: rectangle
                     color: "#079600"
                 }
-
             }
            /* State {
                 name: "on_down"
