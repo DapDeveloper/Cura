@@ -3439,8 +3439,8 @@
                     "description": "The default temperature used for the heated build plate. This should be the \"base\" temperature of a build plate. All other print temperatures should use offsets based on this value",
                     "unit": "°C",
                     "type": "int",
+                    "default_value": 45,
                     "resolve": "max(extruderValues('default_material_bed_temperature'))",
-                    "default_value": 60,
                     "minimum_value": "0",
                     "minimum_value_warning": "20",
                     "maximum_value_warning": "100",
@@ -3453,6 +3453,7 @@
                     "settable_per_extruder": false,
                     "settable_per_meshgroup": false
                 },
+
                 "material_bed_temperature":
                 {
                     "label": "Build Plate Temperature",
