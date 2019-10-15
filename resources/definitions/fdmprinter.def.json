@@ -3784,10 +3784,10 @@
                     "description": "Retract the filament when the nozzle is moving over a non-printed area. ",
                     "type": "bool",
                     "default_value": true,
+                    "value":true,
                     "settable_per_mesh": false,
                     "settable_per_extruder": true,
-                    "enabled":false,
-                    "value":true
+                    "enabled":false
                 },
                 "retract_at_layer_change":
                 {
@@ -3796,10 +3796,10 @@
                     "type": "bool",
                     "default_value": false,
                     "settable_per_mesh": false,
-                    "value":false,
                     "enabled":false,
                     "settable_per_extruder": true
                 },
+              
                 "retraction_amount":
                 {
                     "label": "Retraction Distance",
@@ -3807,8 +3807,8 @@
                     "unit": "mm",
                     "type": "float",
                     "default_value": 6.5,
-                    "minimum_value_warning": "-0.0001",
-                    "maximum_value_warning": "10.0",
+                    "minimum_value_warning": "-10",
+                    "maximum_value_warning": "10",
                     "enabled": false,
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
@@ -3911,7 +3911,6 @@
                     "default_value": 4.5,
                     "minimum_value": "0",
                     "maximum_value_warning": "retraction_amount * 2",
-                    "value": "retraction_amount",
                     "enabled": false,
                     "settable_per_mesh": false,
                     "settable_per_extruder": true

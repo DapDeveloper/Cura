@@ -172,6 +172,14 @@ Item
                     key: "material_diameter"
                   watchedProperties: [ "value" ]
                 }
+                   UM.SettingPropertyProvider
+                {
+                    id: materialRetraction
+                  containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
+                    key: "retraction_amount"
+                  watchedProperties: [ "value" ]
+                }
+
                  Label
                 {
                     id:lblDefaultTemperatureExtruder
@@ -252,7 +260,17 @@ Item
                         top:lblNozzleSize.bottom
                     }
                 }
-               
+                   Label
+                {
+                    id:lblRetraction
+                    text:catalog.i18nc("@title:label", "Retraction distance")+":"+materialRetraction.properties.value
+                    anchors
+                    {
+                        left:lblFilamentDiameter.left
+                        top:lblFilamentDiameter.bottom
+                    }
+                }
+
             }
 
             /*
