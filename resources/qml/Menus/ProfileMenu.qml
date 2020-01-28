@@ -48,7 +48,6 @@ Menu
     {
         id: customProfileInstantiator
         model: Cura.CustomQualityProfilesDropDownMenuModel
-
         Connections
         {
             target: Cura.CustomQualityProfilesDropDownMenuModel
@@ -78,7 +77,6 @@ Menu
             menu.removeItem(object);
         }
     }
-
     ExclusiveGroup { id: group; }
     MenuSeparator { id: profileMenuSeparator }
     MenuItem { action: Cura.Actions.addProfile }

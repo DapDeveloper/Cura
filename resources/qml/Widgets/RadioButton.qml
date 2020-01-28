@@ -31,7 +31,6 @@ RadioButton
         radius: width / 2
         border.width: UM.Theme.getSize("default_lining").width
         border.color: radioButton.hovered ? UM.Theme.getColor("small_button_text") : UM.Theme.getColor("small_button_text_hover")
-
         Rectangle
         {
             width: (parent.width / 2) | 0
@@ -42,7 +41,6 @@ RadioButton
             visible: radioButton.checked
         }
     }
-
     contentItem: Label
     {
         verticalAlignment: Text.AlignVCenter

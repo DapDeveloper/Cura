@@ -361,9 +361,6 @@ UM.MainWindow
             }
             visible: CuraApplication.platformActivity && !PrintInformation.preSliced
         }
-       
-
-           
 
      /*    ToolbarSave
         {
@@ -425,15 +422,9 @@ UM.MainWindow
             {
                     right:parent.right
                     top:parent.top
-
-
             }
             anchors.topMargin:20
         }
-
-
-
-
        /* Item
         {
             id:item1

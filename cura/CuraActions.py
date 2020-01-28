@@ -108,7 +108,7 @@ class CuraActions(QObject):
                     if grouped_node.callDecoration("isGroup"):
                         continue
                     nodes_to_change.append(grouped_node)
-                continue
+                continues
             # Do not change any nodes that already have the right extruder set.
             if node.callDecoration("getActiveExtruder") == extruder_id:
                 continue

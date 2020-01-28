@@ -99,6 +99,7 @@ class StartSliceJob(Job):
             return False
 
         for key in stack.getAllKeys():
+            
             validation_state = stack.getProperty(key, "validationState")
             if validation_state in (ValidatorState.Exception, ValidatorState.MaximumError, ValidatorState.MinimumError):
                 Logger.log("w", "Setting %s is not valid, but %s. Aborting slicing.", key, validation_state)
@@ -323,7 +324,13 @@ class StartSliceJob(Job):
         result["time"] = time.strftime("%H:%M:%S") #Some extra settings.
         result["date"] = time.strftime("%d-%m-%Y")
         result["day"] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][int(time.strftime("%w"))]
-
+        
+        if(result["support_solubile"] == True):
+            print("SUPPORT TRUE!!!!")
+            result["support_bottom_distance"] = "0.0"
+            result["support_top_distance"] = "0.0"
+        
+           
         initial_extruder_stack = CuraApplication.getInstance().getExtruderManager().getUsedExtruderStacks()[0]
         initial_extruder_nr = initial_extruder_stack.getProperty("extruder_nr", "value")
         result["initial_extruder_nr"] = initial_extruder_nr

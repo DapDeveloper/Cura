@@ -86,7 +86,6 @@ Item
                  "minimum_support_area","support_interface_enable","support_interface_height","support_interface_skip_height","support_interface_density",
                  "support_interface_pattern","minimum_interface_area","support_interface_offset","support_fan_enable","support_supported_skin_fan_speed",
                  "support_use_towers","support_tower_diameter","support_tower_maximum_supported_diameter","support_tower_roof_angle","support_mesh_drop_down",
-                 "support_top_distance","support_bottom_distance"
                  ,] 
                   // TODO: infill_mesh settigns are excluded hardcoded, but should be based on the fact that settable_globally, settable_per_meshgroup and settable_per_extruder are false.
                     expanded: CuraApplication.expandedCategories

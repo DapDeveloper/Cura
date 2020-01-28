@@ -4,23 +4,19 @@
 import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Window 2.1
+import QtQuick.Controls.Styles 1.4
 
 import UM 1.2 as UM
 import Cura 1.0 as Cura
 
-
 UM.ManagementPage
 {
     id: base;
-
     title: catalog.i18nc("@title:tab", "Printers");
     model: Cura.GlobalStacksModel { }
-
     sectionRole: "discoverySource"
-
     activeId: Cura.MachineManager.activeMachineId
     activeIndex: activeMachineIndex()
-
     function activeMachineIndex()
     {
         for(var i = 0; i < model.count; i++)
@@ -61,12 +57,10 @@ UM.ManagementPage
             onClicked: renameDialog.open();
         }
     ]
-
     Item
     {
         visible: base.currentItem != null
         anchors.fill: parent
-
         Label
         {
             id: machineName
@@ -75,6 +69,14 @@ UM.ManagementPage
             width: parent.width
             elide: Text.ElideRight
         }
+       /* Label
+        {
+            id: machineName3
+            text: ">"+currentItem.id+"<"
+            font: UM.Theme.getFont("large_bold")
+            width: parent.width
+            anchors.top:machineName.bottom
+        }*/
 
         Flow
         {
@@ -84,19 +86,46 @@ UM.ManagementPage
             anchors.right: parent.right
             anchors.top: machineName.bottom
             anchors.topMargin: UM.Theme.getSize("default_margin").height
-
             Repeater
             {
                 id: machineActionRepeater
                 model: base.currentItem ? Cura.MachineActionManager.getSupportedActions(Cura.MachineManager.getDefinitionByMachineId(base.currentItem.id)) : null
-
                 Item
                 {
                     width: Math.round(childrenRect.width + 2 * screenScaleFactor)
                     height: childrenRect.height
                     Button
                     {
-                        text: machineActionRepeater.model[index].label
+                        // fillMode: Image.PreserveAspectFit
+                         //source:"../images/printers/leonardo.png"
+                         //iconSource: "../images/printers/settings.png"
+                         text:machineActionRepeater.model[index].label
+                         anchors.centerIn: parent
+                         style: ButtonStyle {
+                            background: Rectangle {
+                                implicitWidth: 20
+                                implicitHeight: 20
+                                border.width: control.activeFocus ? 2 : 1
+                                border.color: "#5E5E5E"
+                                radius: 6
+                                gradient: Gradient {
+                                    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
+                                    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                                }
+                            }
+                           label: Text {
+                            renderType: Text.NativeRendering
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.family: "Candara"
+                            font.pointSize: 16
+                            color: "#181818"
+                            text: control.text
+                        }
+                        }
+                         width:200
+                         height:50
+                        //text: "Impostazioni stampante"//machineActionRepeater.model[index].label
                         onClicked:
                         {
                             actionDialog.content = machineActionRepeater.model[index].displayItem;
@@ -108,7 +137,30 @@ UM.ManagementPage
                 }
             }
         }
-
+        Image
+        {
+            id: printerImage
+            fillMode: Image.PreserveAspectFit
+            source:
+            {
+                 if(base.currentItem.type=="MeccatronicoreLeonardoRevo")
+                {
+                    "../images/printers/leonardo.png"
+                }else if(base.currentItem.type=="MeccatronicoreS300")
+                {
+                    "../images/printers/s300.png"
+                }else if(base.currentItem.type=="MeccatronicoreS200")
+                {
+                    "../images/printers/s200.png"
+                }
+            }
+           // (base.currentItem.name == base.currentItem.name) ?  "../images/printers/s300.png":"../images/printers/Leonardo.png"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top:machineActions.bottom
+            anchors.topMargin:20
+            width: parent.width
+            height:parent.height-parent.height/10
+        }
         UM.Dialog
         {
             id: actionDialog
@@ -159,8 +211,8 @@ UM.ManagementPage
                 //Force updating currentItem and the details panel
                 objectList.onCurrentIndexChanged()
             }
-        }
 
+        }
         Connections
         {
             target: Cura.MachineManager

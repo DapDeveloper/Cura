@@ -32,7 +32,7 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.topMargin: UM.Theme.getSize("wide_margin").height
-        title: catalog.i18nc("@label", "Add a new printer")
+        title: catalog.i18nc("@label", "Select a printer")
         contentComponent: localPrinterListComponent
         Component
         {
@@ -50,16 +50,14 @@ Item
         anchors.bottom: parent.bottom
         enabled:
         {
-                // Printer name cannot be empty
-                const localPrinterItem = addLocalPrinterDropDown.contentItem.currentItem
-                const isPrinterNameValid = addLocalPrinterDropDown.contentItem.isPrinterNameValid
-                return localPrinterItem != null && isPrinterNameValid
-
+            // Printer name cannot be empty
+            const localPrinterItem = addLocalPrinterDropDown.contentItem.currentItem
+            const isPrinterNameValid = addLocalPrinterDropDown.contentItem.isPrinterNameValid
+            return localPrinterItem != null && isPrinterNameValid
         }
         text: base.currentItem.next_page_button_text
         onClicked:
         {
-            
                 // Create a local printer
                 const localPrinterItem = addLocalPrinterDropDown.contentItem.currentItem
                 const printerName = addLocalPrinterDropDown.contentItem.printerName

@@ -4,7 +4,7 @@
     "inherits": "fdmprinter",
     "metadata": {
         "visible": true,
-        "author": "Meccatronicore",
+        "author": "MeccatronicoreS200",
         "manufacturer": "Meccatronicore",
         "category": "Meccatronicore",
         "file_formats": "text/x-gcode",
@@ -18,7 +18,6 @@
             "1": "BLUE_EXTRUDER"
         },
         "first_start_actions": ["MachineSettingsAction"],
-        "platform": "piano_studio200.stl",
 		"platform_offset": [-167,-255,135]
     },
 	 "overrides": {
@@ -34,7 +33,6 @@
         "machine_door_security":{"default_value":false},
         "machine_has_adhesion_control":{"default_value":false},
         "machine_layers_no_fan":{"default_value":4},
-
         "machine_center_is_zero": { "default_value": false },
         "machine_gcode_flavor": { "default_value": "RepRap (Marlin/Sprinter)" },
 		"machine_head_with_fans_polygon":
@@ -56,5 +54,4 @@
             "default_value": 1
         }
     }
-	
 }

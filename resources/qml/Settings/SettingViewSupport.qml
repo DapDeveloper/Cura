@@ -19,9 +19,7 @@ Item
         id: filterContainer
         visible: false
         radius: UM.Theme.getSize("setting_control_radius").width
-      
     }
-
     ToolButton
     {
         id: settingVisibilityMenu
@@ -33,9 +31,7 @@ Item
             right: parent.right
             rightMargin: UM.Theme.getSize("wide_margin").width
         }
-
     }
-
     // Mouse area that gathers the scroll events to not propagate it to the main view.
     MouseArea
     {

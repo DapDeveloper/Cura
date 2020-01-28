@@ -15,7 +15,6 @@ Item
 {
     id: base
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.top: parent.top
@@ -87,7 +86,6 @@ Item
                 unitText: catalog.i18nc("@label", "mm")
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
-
             Cura.NumericTextFieldWithUnit  // "Z (Height)"
             {
                 id: machineZHeightField

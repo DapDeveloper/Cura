@@ -710,9 +710,8 @@ Item
                 unitText: catalog.i18nc("@label", "mm/s²")
                 forceUpdateOnChangeFunction: forceUpdateFunction
                 editable:editable3  
-                
                 titleWidth:170
-               sliderWidth:50
+                sliderWidth:50
                 unitWidth:50
                 sliderMin:100
                 sliderMax:5000

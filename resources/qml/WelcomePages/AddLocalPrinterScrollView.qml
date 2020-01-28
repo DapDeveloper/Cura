@@ -15,10 +15,8 @@ import Cura 1.0 as Cura
 Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
-
     id: base
     height: childrenRect.height
-
     // The currently selected machine item in the local machine list.
     property var currentItem: (machineList.currentIndex >= 0)
                               ? machineList.model.getItem(machineList.currentIndex)
@@ -27,18 +25,14 @@ Item
     property string currentSection: preferredCategory
     // By default (when this list shows up) we always expand the "Ultimaker" section.
     property string preferredCategory: "Meccatronicore"
-
     property int maxItemCountAtOnce: 10  // show at max 10 items at once, otherwise you need to scroll.
-
     // User-editable printer name
     property alias printerName: printerNameTextField.text
     property alias isPrinterNameValid: printerNameTextField.acceptableInput
-
     onCurrentItemChanged:
     {
         printerName = currentItem == null ? "" : currentItem.name
     }
-
     function updateCurrentItemUponSectionChange()
     {
         // Find the first machine from this section
@@ -52,12 +46,10 @@ Item
             }
         }
     }
-
     Component.onCompleted:
     {
         updateCurrentItemUponSectionChange()
     }
-
     Item
     {
         id: localPrinterSelectionItem
@@ -72,9 +64,10 @@ Item
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            height: maxItemCountAtOnce * UM.Theme.getSize("action_button").height
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AsNeeded
+            height: 500//maxItemCountAtOnce * UM.Theme.getSize("action_button").height
+            width:parent.width
+            ScrollBar.horizontal.policy: ScrollBar.AsNeeded
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
             clip: true
             ListView
             {
@@ -88,6 +81,7 @@ Item
                 }
                 section.property: "section"
                 section.delegate: sectionHeader
+                orientation:ListView.Horizontal
                 delegate: machineButton
             }
             Component
@@ -131,7 +125,6 @@ Item
                             text: button.text
                             font: UM.Theme.getFont("default_bold")
                             renderType: Text.NativeRendering
-
                         }
                     }
                     onClicked:
@@ -141,31 +134,144 @@ Item
                     }
                 }
             }
-            Component
+
+          /*  Item
             {
-                id: machineButton
-
-                Cura.RadioButton
+                id: machineButtonb
+                Label
                 {
-                    id: radioButton
-                    anchors.left: parent.left
-                    anchors.leftMargin: UM.Theme.getSize("standard_list_lineheight").width
-                    anchors.right: parent.right
-                    anchors.rightMargin: UM.Theme.getSize("default_margin").width
-                    anchors.top:machineList.bottom
-                    anchors.topMargin:20
-                    height: visible ? UM.Theme.getSize("standard_list_lineheight").height : 0
+                    id:lblButton
+                    text:"LBLTest"
+                    width:100
+                    height:30
+                    anchors.top:sectionHeader.bottom
+                }*/
 
-                    checked: ListView.view.currentIndex == index
-                    text: name
-                    visible: base.currentSection == section
-                    onClicked: ListView.view.currentIndex = index
+                 Component
+                {
+                    id: machineButton
+                    Cura.RadioButtonWithImage
+                    {
+                        id: machineButton
+                        anchors.top:parent.top
+                        anchors.topMargin:-150
+                        anchors.left: parent.left
+                        textV:
+                        {
+                            if(name=="Leonardo Revo")
+                            {
+                               "Leonardo Revo     "
+                            }else if(name=="Studio 300")
+                            {
+                               "Studio 300"
+                            }else if(name=="Studio 200")
+                            {
+                                "Studio 200"
+                            }       
+                        }
+                    
+                        anchors.leftMargin: 
+                        {
+                               if(name=="Leonardo Revo")
+                            {
+                                450
+                            }else if(name=="Studio 300")
+                            {
+                               850
+                            }else if(name=="Studio 200")
+                            {
+                                50
+                            }
+                        }
+                        //anchors.right: parent.right
+                        //anchors.rightMargin: UM.Theme.getSize("default_margin").width
+                        //anchors.top:machineList.bottom
+                        //anchors.topMargin:400
+                        //anchors.rightMargin:400
+                        //height: visible ? UM.Theme.getSize("standard_list_lineheight").height : 0
+                        width:400
+                        height:400
+                        imgH:
+                        {
+                            if(name=="Leonardo Revo")
+                            {
+                               400
+                            }else if(name=="Studio 300")
+                            {
+                              300
+                            }else if(name=="Studio 200")
+                            {
+                                300
+                            }
+
+
+                        }
+                        imageSRC:
+                        {
+                            if(name=="Leonardo Revo")
+                            {
+                                if(ListView.view.currentIndex == index)
+                                {
+                                        "../images/printers/leonardo.png"   
+                                }else
+                                {
+                                        "../images/printers/leonardoNE.png"    
+                                }
+                            }else if(name=="Studio 300")
+                            {
+                                 if(ListView.view.currentIndex == index)
+                                {
+                                        "../images/printers/s300.png"   
+                                }else
+                                {
+                                       "../images/printers/s300NE.png"   
+                                }
+                               
+                            }else if(name=="Studio 200")
+                            {
+                                 if(ListView.view.currentIndex == index)
+                                {
+                                        "../images/printers/s200.png"   
+                                }else
+                                {
+                                        "../images/printers/s200NE.png"   
+                                }
+                              
+                            }
+                        }
+                        checked: ListView.view.currentIndex == index
+                        text: ""//name
+                        visible: base.currentSection == section
+                        onClicked: ListView.view.currentIndex = index
+                    }
                 }
-            }
+           // }
+          /*  Component
+            {
+                id:cmp2
+                 /*UM.RecolorImage
+                {
+                    id: printerImage
+                    anchors.top:machineButton.bottom
+                    width: 100
+                    height: 100
+                    sourceSize.width: width
+                    sourceSize.height: height
+                    color: UM.Theme.getColor("text")
+                    source: "../images/printers/leonardo.png"
+                }
+                Label
+                {
+                    id:lblbl
+                    text:"Label1"
+                      anchors.top:machineButton.bottom
+                }
+
+            }*/
         }
     }
     // Horizontal line
-    Rectangle
+   /* Rectangle
     {
         id: horizontalLine
         anchors.top: localPrinterSelectionItem.bottom
@@ -173,7 +279,7 @@ Item
         anchors.right: parent.right
         height: UM.Theme.getSize("default_lining").height
         color: UM.Theme.getColor("lining")
-    }
+    }*/
     // User-editable printer name row
     Row
     {
@@ -183,6 +289,7 @@ Item
         anchors.topMargin: UM.Theme.getSize("default_lining").height
         anchors.leftMargin: UM.Theme.getSize("default_margin").width
         spacing: UM.Theme.getSize("default_margin").width
+        visible:false
         Label
         {
             text: catalog.i18nc("@label", "Printer Name")

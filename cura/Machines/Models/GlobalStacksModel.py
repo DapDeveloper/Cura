@@ -72,6 +72,9 @@ class GlobalStacksModel(ListModel):
                           "id": container_stack.getId(),
                           "hasRemoteConnection": has_remote_connection,
                           "metadata": container_stack.getMetaData().copy(),
-                          "discoverySource": section_name})
+                          "type":container_stack.getMetaDataEntry("author"),
+                          "discoverySource": section_name}
+                          
+                          )
         items.sort(key = lambda i: not i["hasRemoteConnection"])
         self.setItems(items)

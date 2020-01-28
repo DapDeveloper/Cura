@@ -45,14 +45,29 @@ UM.PreferencesPage
         anchors.rightMargin:10
         anchors.leftMargin:10
         anchors.topMargin:10
-        anchors.bottomMargin:10
+        anchors.bottomMargin:100
         Cura.CustomPrintSetupSupportWizard2
             {
                 anchors.topMargin:10
+                anchors.bottomMargin:100
                 id: machineProfile
                 width:parent.width
                 height:parent.height
-            
             }
+
+        Cura.StructureExtraFeatures
+        {
+            id:machineStructureSettings
+            width:parent.width
+            height:100
+            anchors
+            {
+                left:parent.left
+                top:machineProfile.bottom
+            }
+        }
+
     }
+    
+
 }

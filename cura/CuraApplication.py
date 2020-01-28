@@ -312,13 +312,11 @@ class CuraApplication(QtApplication):
         self.__addAllResourcesAndContainerResources()
         self.__addAllEmptyContainers()
         self.__setLatestResouceVersionsForVersionUpgrade()
-
         self._machine_action_manager = MachineActionManager.MachineActionManager(self)
         self._machine_action_manager.initialize()
 
     def __sendCommandToSingleInstance(self):
         self._single_instance = SingleInstance(self, self._files_to_open)
-
         # If we use single instance, try to connect to the single instance server, send commands, and then exit.
         # If we cannot find an existing single instance server, this is the only instance, so just keep going.
         if self._use_single_instance:

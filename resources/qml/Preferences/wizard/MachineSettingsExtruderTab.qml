@@ -311,7 +311,7 @@ Item
                 settingStoreIndex: propertyStoreIndex
                 labelText: catalog.i18nc("@label", "Support extruder nr")
                 labelFont: base.labelFont
-                  labelWidth: base.labelWidth/1.2
+                labelWidth: base.labelWidth/1.2
                 controlWidth: base.controlWidth/1.5
                 unitText: catalog.i18nc("@label", "")
                 forceUpdateOnChangeFunction: forceUpdateFunction
@@ -389,12 +389,11 @@ Item
                 settingKey: "machine_adhesion_extruder_nr"
                 settingStoreIndex: propertyStoreIndex
                 labelText: catalog.i18nc("@label", "Build Plate Adhesion Extruder")
-               labelFont: base.labelFont
+                labelFont: base.labelFont
                 labelWidth: base.labelWidth/1.2
                 controlWidth: base.controlWidth/1.5
                 forceUpdateOnChangeFunction: forceUpdateFunction
             }
-
              Cura.NumericTextFieldWithUnit  // "prime tower flow"
             { 
                 id: extruderPrimeTowerFlow

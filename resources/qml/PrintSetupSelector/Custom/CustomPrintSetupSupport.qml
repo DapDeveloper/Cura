@@ -100,6 +100,7 @@ Item
         color: UM.Theme.getColor("main_background")
         Cura.SettingViewSupport
         {
+            id:pp1
             anchors
             {
                 fill: parent
@@ -108,8 +109,25 @@ Item
                 // Small space for the scrollbar
                 rightMargin: UM.Theme.getSize("narrow_margin").width
                 // Compensate for the negative margin in the parent
-                bottomMargin: UM.Theme.getSize("default_lining").width
+                bottomMargin: 100
             }
         }
+          
+          
+            Cura.StructureExtraFeatures
+            {
+                id:machineStructureSettings
+                width:parent.width
+                anchors
+                {
+                    left:parent.left
+                    bottom:parent.bottom
+                    top:pp1.bottom
+                }
+            }
+
     }
+
+
+
 }

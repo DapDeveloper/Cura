@@ -218,7 +218,6 @@ class CuraEngineBackend(QObject, Backend):
         Logger.log("d","CALL SLICE 1")
         self.slice()
         
-     
     ##  Perform a slice of the scene.
     def slice(self) -> None:
         self._slice_start_time = time()
@@ -275,6 +274,8 @@ class CuraEngineBackend(QObject, Backend):
         self._start_slice_job.start()
         self._start_slice_job.finished.connect(self._onStartSliceCompleted)
         Logger.log("d","SLICING DONE!")
+        #self.getController().setActiveStage("PreviewStage")
+        self._application.getController().setActiveStage("PreviewStage")
     ##  Terminate the engine process.
     #   Start the engine process by calling _createSocket()
     def _terminate(self) -> None:

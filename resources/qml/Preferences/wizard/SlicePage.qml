@@ -184,7 +184,7 @@ UM.PreferencesPage
             text: catalog.i18nc("@button", "Cancel")
             enabled: sliceButton.enabled
             visible: !sliceButton.visible //&& generalPreferencesPage.backendState!=UM.Backend.Done
-              onClicked: 
+            onClicked: 
             {
                 Cura.ContainerManager.updateQualityChanges()
                 sliceTimer.start()

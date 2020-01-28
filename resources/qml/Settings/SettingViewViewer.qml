@@ -141,7 +141,23 @@ Item
                   key: "material_print_temperature_layer_0"
                   watchedProperties: [ "value" ]
                 }
-              /*UM.SettingPropertyProvider
+                 UM.SettingPropertyProvider
+                {
+                  id: supp
+                  containerStackId:  Cura.MachineManager.activeMachineId
+                  key: "support_solubile"
+                  watchedProperties: [ "value" ]
+                }
+
+                UM.SettingPropertyProvider
+                {
+                  id: supp1
+                  containerStackId:  Cura.MachineManager.activeMachineId
+                  key: "support_enable"
+                  watchedProperties: [ "value" ]
+                }
+
+              /*support_enableUM.SettingPropertyProvider
                 {
                     id: layerHeight
                     containerStackId: Cura.MachineManager.activeMachineId
@@ -270,6 +286,22 @@ Item
                         top:lblFilamentDiameter.bottom
                     }
                 }
+                  Label
+                {
+                    id:lblSolubile
+                    text:catalog.i18nc("@title:label", "Solubile mode!")
+                    visible:supp.properties.value=="True" && supp1.properties.value=="True"
+                    anchors
+                    {
+                        left:lblRetraction.left
+                        top:lblRetraction.bottom
+                    }
+                      font.pixelSize: 22
+
+                     color: "red"
+
+                }
+
 
             }
 

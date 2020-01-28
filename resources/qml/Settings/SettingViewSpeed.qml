@@ -267,16 +267,13 @@ Item
                     }
                 }
             }
-
             UM.I18nCatalog { id: catalog; name: "cura"; }
-
             NumberAnimation {
                 id: animateContentY
                 target: contents
                 property: "contentY"
                 duration: 50
             }
-
             add: Transition {
                 SequentialAnimation {
                     NumberAnimation { properties: "height"; from: 0; duration: 100 }

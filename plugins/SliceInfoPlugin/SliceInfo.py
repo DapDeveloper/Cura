@@ -189,7 +189,7 @@ class SliceInfo(QObject, Extension):
                     model_settings = dict()
                     model_stack = node.callDecoration("getStack")
                     if model_stack:
-                        model_settings["support_enabled"] = model_stack.getProperty("support_enable", "value")
+                        model_settings["support_enabled"] =model_stack.getProperty("support_enable", "value")
                         model_settings["support_extruder_nr"] = int(model_stack.getExtruderPositionValueWithDefault("support_extruder_nr"))
                         # Mesh modifiers;
                         model_settings["infill_mesh"] = model_stack.getProperty("infill_mesh", "value")
@@ -202,21 +202,18 @@ class SliceInfo(QObject, Extension):
                         model_settings["infill_sparse_density"] = model_stack.getProperty("infill_sparse_density", "value")
                         model_settings["infill_pattern"] = model_stack.getProperty("infill_pattern", "value")
                         model_settings["gradual_infill_steps"] = model_stack.getProperty("gradual_infill_steps", "value")
-
                     model["model_settings"] = model_settings
-
                     data["models"].append(model)
-
             print_times = print_information.printTimes()
             data["print_times"] = {"travel": int(print_times["travel"].getDisplayString(DurationFormat.Format.Seconds)),
                                    "support": int(print_times["support"].getDisplayString(DurationFormat.Format.Seconds)),
                                    "infill": int(print_times["infill"].getDisplayString(DurationFormat.Format.Seconds)),
                                    "total": int(print_information.currentPrintTime.getDisplayString(DurationFormat.Format.Seconds))}
-
             print_settings = dict()
             print_settings["layer_height"] = global_stack.getProperty("layer_height", "value")
             # Support settings
             print_settings["support_enabled"] = global_stack.getProperty("support_enable", "value")
+            
             print_settings["support_extruder_nr"] = int(global_stack.getExtruderPositionValueWithDefault("support_extruder_nr"))
             # Platform adhesion settings
             print_settings["adhesion_type"] = global_stack.getProperty("adhesion_type", "value")

@@ -3315,18 +3315,21 @@
                     "description": "The default temperature used for printing. This should be the \"base\" temperature of a material. All other print temperatures should use offsets based on this value",
                     "unit": "°C",
                     "type": "int",
-                    "default_value": 222,
-                    "minimum_value": "0",
-                    "minimum_value_warning": "150",
-                    "maximum_value_warning": "260",
+                    "default_value": 210,
+                    "minimum_value_warning": "0",
+                    "maximum_value_warning": "285",
+                    "enabled": "machine_nozzle_temp_enabled",
+                    "minimum_value": "-273.15",
                     "slider_min": "0",
                     "slider_max": "500",
                     "step_value": "1",
                     "precision":"0",
-                    "enabled": true,
+    
                     "settable_per_extruder": true,
                     "settable_per_mesh": false
                 },
+               
+
                 "build_volume_temperature":
                 {
                     "label": "Build Volume Temperature",
@@ -3449,8 +3452,8 @@
                     "step_value": "1",
                     "precision":"0",
                     "enabled":true,
-                    "settable_per_mesh": true,
-                    "settable_per_extruder": false,
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true,
                     "settable_per_meshgroup": false
                 },
 
@@ -3471,8 +3474,9 @@
                     "step_value": "1",
                     "precision":"0",
                     "enabled": true,
-                    "settable_per_mesh": true,
-                    "settable_per_extruder": false,
+                    "settable_per_mesh": false,
+           
+                    "settable_per_extruder": true,
                     "settable_per_meshgroup": false
                 },
                 "material_bed_temperature_layer_0":
@@ -3492,8 +3496,8 @@
                     "step_value": "1",
                     "precision":"0",
                     "enabled": true,
-                    "settable_per_mesh": true,
-                    "settable_per_extruder": false,
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": true,
                     "settable_per_meshgroup": false
                 }, 
                 "default_material_chamber_temperature":
@@ -3503,7 +3507,7 @@
                     "unit": "°C",
                     "type": "int",
                     "resolve": "max(extruderValues('default_material_chamber_temperature'))",
-                    "value": "resolveOrValue('default_material_chamber_temperature' if resolveOrValue('machine_heated_chamber') else 0",
+                    "value": "if resolveOrValue('machine_heated_chamber') else 0",
                     "default_value": 25,
                     "minimum_value": "0",
                     "minimum_value_warning": "20",
@@ -3514,7 +3518,8 @@
                     "precision":"0",
                     "enabled": "resolveOrValue('machine_heated_chamber')",
                     "visible": "resolveOrValue('machine_heated_chamber')",
-                    "settable_per_mesh": true,
+                    "settable_per_mesh": false,
+                    "settable_globally":true,
                     "settable_per_extruder": false,
                     "settable_per_meshgroup": false
                 },
@@ -5420,7 +5425,6 @@
                     "settable_globally":true,
                     "settable_per_meshgroup":false
                 },
-
                 "support_extruder_nr":
                 {
                     "label": "Support Extruder",
@@ -5521,7 +5525,6 @@
                     "settable_per_extruder": false,
                     "settable_globally":true,
                     "settable_per_meshgroup":false
-
                 },
                 "support_angle":
                 {
@@ -5543,6 +5546,7 @@
                     "settable_globally":true,
                     "settable_per_meshgroup":false
                 },
+
                 "support_pattern":
                 {
                     "label": "Support Pattern",
@@ -5565,6 +5569,7 @@
                     "settable_globally":true,
                     "settable_per_meshgroup":false
                 },
+
                 "support_wall_count":
                 {
                     "label": "Support Wall Line Count",
@@ -5725,129 +5730,7 @@
                         }
                     }
                 },
-                "support_z_distance":
-                {
-                    "label": "Support Z Distance",
-                    "description": "Distance from the top/bottom of the support structure to the print. This gap provides clearance to remove the supports after the model is printed. This value is rounded up to a multiple of the layer height.",
-                    "unit": "mm",
-                    "type": "float",
-                    "minimum_value": "0",
-                    "minimum_value_warning": "0.1",
-                    "maximum_value_warning": "machine_nozzle_size*0.9",
-                    "slider_min": "0",
-                    "slider_max": "machine_nozzle_size*2",
-                    "step_value": "0.001",
-                    "precision":"3",
-                    "default_value": 0.1,
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": false,
-                    "settable_globally":true,
-                    "settable_per_meshgroup":false,
-                    "enabled": "support_enable or support_tree_enable",
-                    "children":
-                    {
-                        "support_top_distance":
-                        {
-                            "label": "Support Top Distance",
-                            "description": "Distance from the top of the support to the print.",
-                            "unit": "mm",
-                            "minimum_value": "0",
-                            "minimum_value_warning": "0.1",
-                            "maximum_value_warning": "machine_nozzle_size*0.9",
-                            "slider_min": "0",
-                            "slider_max": "machine_nozzle_size*2",
-                            "step_value": "0.001",
-                            "precision":"3",
-                            "default_value": 0.1,
-                            "type": "float",
-                            "enabled": "support_enable or support_tree_enable",
-                            "value": "extruderValue(support_roof_extruder_nr if support_roof_enable else support_infill_extruder_nr, 'support_z_distance')",
-                            "settable_per_mesh": false,
-                            "settable_per_extruder": false,
-                            "settable_globally":true,
-                            "settable_per_meshgroup":false
-                        },
-                        "support_bottom_distance":
-                        {
-                            "label": "Support Bottom Distance",
-                            "description": "Distance from the print to the bottom of the support.",
-                            "unit": "mm",
-                            "minimum_value": "0",
-                            "minimum_value_warning": "0.1",
-                            "maximum_value_warning": "machine_nozzle_size*0.9",
-                            "slider_min": "0",
-                            "slider_max": "machine_nozzle_size*2",
-                            "step_value": "0.001",
-                            "precision":"3",
-                            "default_value": 0.1,
-                            "value": "extruderValue(support_bottom_extruder_nr if support_bottom_enable else support_infill_extruder_nr, 'support_z_distance') if support_type == 'everywhere' else 0",
-                            "type": "float",
-                            "enabled": "(support_enable or support_tree_enable) and resolveOrValue('support_type') == 'everywhere'",
-                            "settable_per_mesh": false,
-                            "settable_per_extruder": false,
-                            "settable_globally":true,
-                            "settable_per_meshgroup":false
-                        }
-                    }
-                },
-                "support_xy_distance":
-                {
-                    "label": "Support X/Y Distance",
-                    "description": "Distance of the support structure from the print in the X/Y directions.",
-                    "unit": "mm",
-                    "type": "float",
-                    "minimum_value": "0",
-                    "minimum_value_warning": "0.1",
-                    "maximum_value_warning": "1.5 * machine_nozzle_tip_outer_diameter",
-                    "slider_min": "0",
-                    "slider_max": "machine_nozzle_tip_outer_diameter*2",
-                    "step_value": "0.001",
-                    "precision":"3",
-                    "default_value": 0.7,
-                    "enabled": "support_enable or support_tree_enable",
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": false,
-                    "settable_globally":true,
-                    "settable_per_meshgroup":false
-                },
-                "support_xy_overrides_z":
-                {
-                    "label": "Support Distance Priority",
-                    "description": "Whether the Support X/Y Distance overrides the Support Z Distance or vice versa. When X/Y overrides Z the X/Y distance can push away the support from the model, influencing the actual Z distance to the overhang. We can disable this by not applying the X/Y distance around overhangs.",
-                    "type": "enum",
-                    "options":
-                    {
-                        "xy_overrides_z": "X/Y overrides Z",
-                        "z_overrides_xy": "Z overrides X/Y"
-                    },
-                    "default_value": "z_overrides_xy",
-                    "enabled": "support_enable",
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": false,
-                    "settable_globally":true,
-                    "settable_per_meshgroup":false
-                },
-                "support_xy_distance_overhang":
-                {
-                    "label": "Minimum Support X/Y Distance",
-                    "description": "Distance of the support structure from the overhang in the X/Y directions. ",
-                    "unit": "mm",
-                    "type": "float",
-                    "minimum_value": "0",
-                    "minimum_value_warning": "0.1",
-                    "maximum_value_warning": "support_xy_distance",
-                    "slider_min": "0.001",
-                    "slider_max": "machine_nozzle_tip_outer_diameter*2",
-                    "step_value": "0.001",
-                    "precision":"3",
-                    "default_value": 0.2,
-                    "value": "machine_nozzle_size / 2",
-                    "enabled": "support_enable and support_xy_overrides_z == 'z_overrides_xy'",
-                    "settable_per_mesh": false,
-                    "settable_per_extruder": false,
-                    "settable_globally":true,
-                    "settable_per_meshgroup":false
-                },
+               
                 "support_bottom_stair_step_height":
                 {
                     "label": "Support Stair Step Height",
@@ -5937,14 +5820,11 @@
                     "default_value": 0.1,
                     "minimum_value": "resolveOrValue('layer_height')",
                     "maximum_value_warning": "0.75 * machine_nozzle_size",
-
                     "minimum_value_warning":"resolveOrValue('layer_height')",
-
                     "slider_min": "resolveOrValue('layer_height')",
                     "slider_max": "0.75 * machine_nozzle_size",
                     "step_value": "0.1",
                     "precision":"1",
-
                     "maximum_value": "resolveOrValue('layer_height') * 8",
                     "value": "resolveOrValue('layer_height')",
                     "enabled": "(support_enable or support_tree_enable) and support_infill_rate > 0",
@@ -5968,6 +5848,7 @@
                     "settable_globally":true,
                     "settable_per_meshgroup":false
                 },
+             
                 "gradual_support_infill_step_height":
                 {
                     "label": "Gradual Support Infill Step Height",
@@ -5996,6 +5877,144 @@
                     "settable_per_extruder": false,
                     "settable_globally":true,
                     "settable_per_meshgroup":false
+                },
+                "support_xy_distance":
+                {
+                    "label": "Support X/Y Distance",
+                    "description": "Distance of the support structure from the print in the X/Y directions.",
+                    "unit": "mm",
+                    "type": "float",
+                    "minimum_value": "0",
+                    "minimum_value_warning": "0.1",
+                    "maximum_value_warning": "1.5 * machine_nozzle_tip_outer_diameter",
+                    "slider_min": "0",
+                    "slider_max": "machine_nozzle_tip_outer_diameter*2",
+                    "step_value": "0.001",
+                    "precision":"3",
+                    "default_value": 0.7,
+                    "enabled": "support_enable or support_tree_enable ",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_globally":true,
+                    "settable_per_meshgroup":false
+                },
+                "support_xy_overrides_z":
+                {
+                    "label": "Support Distance Priority",
+                    "description": "Whether the Support X/Y Distance overrides the Support Z Distance or vice versa. When X/Y overrides Z the X/Y distance can push away the support from the model, influencing the actual Z distance to the overhang. We can disable this by not applying the X/Y distance around overhangs.",
+                    "type": "enum",
+                    "options":
+                    {
+                        "xy_overrides_z": "X/Y overrides Z",
+                        "z_overrides_xy": "Z overrides X/Y"
+                    },
+                    "default_value": "z_overrides_xy",
+                    "enabled": "support_enable",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_globally":true,
+                    "settable_per_meshgroup":false
+                },
+
+                "support_xy_distance_overhang":
+                {
+                    "label": "Minimum Support X/Y Distance",
+                    "description": "Distance of the support structure from the overhang in the X/Y directions. ",
+                    "unit": "mm",
+                    "type": "float",
+                    "minimum_value": "0",
+                    "minimum_value_warning": "0.1",
+                    "maximum_value_warning": "support_xy_distance",
+                    "slider_min": "0.001",
+                    "slider_max": "machine_nozzle_tip_outer_diameter*2",
+                    "step_value": "0.001",
+                    "precision":"3",
+                    "default_value": 0.2,
+                    "value": "machine_nozzle_size / 2",
+                    "enabled": "support_enable and support_xy_overrides_z == 'z_overrides_xy'",
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_globally":true,
+                    "settable_per_meshgroup":false
+                },
+
+                "support_solubile":
+                {
+                    "label": "Solubile support",
+                    "description": "The distance(xyz) between the print and support is 0mm",
+                    "type": "bool",
+                    "enabled":"support_enable",
+                    "default_value": false,
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_globally":true,
+                    "settable_per_meshgroup":false
+                },
+                "support_z_distance":
+                {
+                    "label": "Support Z Distance",
+                    "description": "Distance from the top/bottom of the support structure to the print. This gap provides clearance to remove the supports after the model is printed. This value is rounded up to a multiple of the layer height.",
+                    "unit": "mm",
+                    "type": "float",
+                    "minimum_value": "0",
+                    "minimum_value_warning": "0.1",
+                    "maximum_value_warning": "machine_nozzle_size*0.9",
+                    "slider_min": "0",
+                    "slider_max": "machine_nozzle_size*4",
+                    "step_value": "0.001",
+                    "precision":"3",
+                    "default_value": 0.1,
+                    "settable_per_mesh": false,
+                    "settable_per_extruder": false,
+                    "settable_globally":true,
+                    "settable_per_meshgroup":false,
+                    "visible": "true ",
+                    "enabled": "support_solubile==False and (support_enable or support_tree_enable) ",
+                    "children": 
+                    {
+                        "support_top_distance":
+                        {
+                            "label": "Support Top Distance",
+                            "description": "Distance from the top of the support to the print.",
+                            "unit": "mm",
+                            "minimum_value": "0",
+                            "minimum_value_warning": "0.1",
+                            "maximum_value_warning": "machine_nozzle_size*0.9",
+                            "slider_min": "0",
+                            "slider_max": "machine_nozzle_size*4",
+                            "step_value": "0.001",
+                            "precision":"3",
+                            "default_value": 0.1,
+                            "type": "float",
+                            "enabled": "support_solubile==False and ( support_enable or support_tree_enable) ",
+                            "value": "0 if support_solubile else extruderValue(support_roof_extruder_nr if support_roof_enable else support_infill_extruder_nr, 'support_z_distance')",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": false,
+                            "settable_globally":true,
+                            "settable_per_meshgroup":false
+                        },
+                        "support_bottom_distance":
+                        {
+                            "label": "Support Bottom Distance",
+                            "description": "Distance from the print to the bottom of the support.",
+                            "unit": "mm",
+                            "minimum_value": "0",
+                            "minimum_value_warning": "0.1",
+                            "maximum_value_warning": "machine_nozzle_size*0.9",
+                            "slider_min": "0",
+                            "slider_max": "machine_nozzle_size*2",
+                            "step_value": "0.001",
+                            "precision":"3",
+                            "default_value": 0.1,
+                            "value": "0 if support_solubile else extruderValue(support_bottom_extruder_nr if support_bottom_enable else support_infill_extruder_nr, 'support_z_distance') if support_type == 'everywhere' else 0",
+                            "type": "float",
+                            "enabled": "support_solubile==False and (support_solubile or support_enable or support_tree_enable ) and resolveOrValue('support_type') == 'everywhere'  ",
+                            "settable_per_mesh": false,
+                            "settable_per_extruder": false,
+                            "settable_globally":true,
+                            "settable_per_meshgroup":false
+                        }
+                    }
                 },
                 "support_interface_enable":
                 {

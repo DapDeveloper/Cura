@@ -71,7 +71,6 @@ class MachineSettingsAction(MachineAction):
         # Force rebuilding the build volume by reloading the global container stack.
         # This is a bit of a hack, but it seems quick enough.
         self._application.getMachineManager().globalContainerChanged.emit()
-
     @pyqtSlot()
     def updateHasMaterialsMetadata(self) -> None:
         global_stack = self._application.getMachineManager().activeMachine

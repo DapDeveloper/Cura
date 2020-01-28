@@ -27,6 +27,7 @@ Item
     property var forceUpdateFunction: manager.forceUpdate
     //property var forceUpdateQuality: Cura.MachineManager.updateQualityChanges()
     //property var forceUpdateAllSetings:manager.forceUpdateAllSetings
+    
     Item
     {
         id: upperBlock

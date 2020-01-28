@@ -356,10 +356,27 @@ class ContainerManager(QObject):
     def _performMerge(self, merge_into: InstanceContainer, merge: InstanceContainer, clear_settings: bool = True) -> None:
         if merge == merge_into:
             return
+
+        '''isSolubile=False
         for key in merge.getAllKeys():
-            print("VALUEK:"+key+"->")
+            if(key=="support_solubile"):
+                print("supporto solubile:=")
+                print(merge.getProperty(key, "value"))
+                if(merge.getProperty(key,"value")==True):#solubile enable
+                    isSolubile=True
+        
+        print("SOLUBILE?"+str(isSolubile))
+        '''
+        #remerge and set Property            
+        for key in merge.getAllKeys():            
+            #if(key == "support_bottom_distance" or key == "support_top_distance"):
+                #if(isSolubile):
+            #    merge_into.setProperty(key, "value","0.0")
+            #    print("SETTED OFFSET 0")
+            #else:        
             merge_into.setProperty(key, "value", merge.getProperty(key, "value"))
         if clear_settings:
+            #print("CLEAR SETTINGS")
             merge.clear()
 
     def _updateContainerNameFilters(self) -> None:

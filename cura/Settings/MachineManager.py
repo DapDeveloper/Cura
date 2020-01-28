@@ -959,7 +959,6 @@ class MachineManager(QObject):
         for setting_instance in global_user_container.findInstances():
             setting_key = setting_instance.definition.key
             settable_per_extruder = self._global_container_stack.getProperty(setting_key, "settable_per_extruder")
-
             if settable_per_extruder:
                 limit_to_extruder = int(self._global_container_stack.getProperty(setting_key, "limit_to_extruder"))
                 extruder_position = max(0, limit_to_extruder)
@@ -969,11 +968,9 @@ class MachineManager(QObject):
                 else:
                     Logger.log("e", "Unable to find extruder on position %s", extruder_position)
                 global_user_container.removeInstance(setting_key)
-
         # Signal that the global stack has changed
         self._application.globalContainerStackChanged.emit()
         self.forceUpdateAllSettings()
-
     @pyqtSlot(int, result = QObject)
     def getExtruder(self, position: int) -> Optional[ExtruderStack]:
         if self._global_container_stack:
@@ -1027,23 +1024,19 @@ class MachineManager(QObject):
             for container in [self._global_container_stack] + list(self._global_container_stack.extruders.values()):
                 for setting_key in container.getAllKeys():
                     container.propertiesChanged.emit(setting_key, property_names)
-
     @pyqtSlot(int, bool)
     def setExtruderEnabled(self, position: int, enabled: bool) -> None:
         extruder = self.getExtruder(position)
         if not extruder or self._global_container_stack is None:
             Logger.log("w", "Could not find extruder on position %s", position)
             return
-
         extruder.setEnabled(enabled)
         self.updateDefaultExtruder()
         self.updateNumberExtrudersEnabled()
         self.correctExtruderSettings()
-
         # In case this extruder is being disabled and it's the currently selected one, switch to the default extruder
         if not enabled and position == ExtruderManager.getInstance().activeExtruderIndex:
             ExtruderManager.getInstance().setActiveExtruderIndex(int(self._default_extruder_position))
-
         # Ensure that the quality profile is compatible with current combination, or choose a compatible one if available
         self._updateQualityWithMaterial()
         self.extruderChanged.emit()
@@ -1058,10 +1051,8 @@ class MachineManager(QObject):
 
     def _onMachineNameChanged(self) -> None:
         self.globalContainerChanged.emit()
-
     def _onMaterialNameChanged(self) -> None:
         self.activeMaterialChanged.emit()
-
     def _getContainerChangedSignals(self) -> List[Signal]:
         if self._global_container_stack is None:
             return []
@@ -1110,14 +1101,12 @@ class MachineManager(QObject):
     @pyqtProperty("QVariant", notify = activeVariantChanged)
     def activeVariantNames(self) -> Dict[str, str]:
         result = {}
-
         active_stacks = ExtruderManager.getInstance().getActiveExtruderStacks()
         for stack in active_stacks:
             variant_container = stack.variant
             position = stack.getMetaDataEntry("position")
             if variant_container and variant_container != empty_variant_container:
                 result[position] = variant_container.getName()
-
         return result
 
     # Sets all quality and quality_changes containers to empty_quality and empty_quality_changes containers
@@ -1133,17 +1122,14 @@ class MachineManager(QObject):
         for extruder in self._global_container_stack.extruders.values():
             extruder.quality = empty_quality_container
             extruder.qualityChanges = empty_quality_changes_container
-
         self.activeQualityGroupChanged.emit()
         self.activeQualityChangesGroupChanged.emit()
-
     def _setQualityGroup(self, quality_group: Optional["QualityGroup"], empty_quality_changes: bool = True) -> None:
         if self._global_container_stack is None:
             return
         if quality_group is None:
             self._setEmptyQuality()
             return
-
         if quality_group.node_for_global is None or quality_group.node_for_global.getContainer() is None:
             return
         for node in quality_group.nodes_for_extruders.values():
