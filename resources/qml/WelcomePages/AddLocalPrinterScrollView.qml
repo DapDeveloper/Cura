@@ -50,6 +50,7 @@ Item
     {
         updateCurrentItemUponSectionChange()
     }
+    
     Item
     {
         id: localPrinterSelectionItem

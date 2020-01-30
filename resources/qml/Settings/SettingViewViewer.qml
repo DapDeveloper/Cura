@@ -113,20 +113,20 @@ Item
                     key: "default_material_print_temperature"
                     watchedProperties: [ "value" ]
                 }
-                UM.SettingPropertyProvider
+               /* UM.SettingPropertyProvider
                 {
                     id: materialTemp
                     containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
                     key: "material_print_temperature"
                     watchedProperties: [ "value" ]
-                }
-                UM.SettingPropertyProvider
+                }*/
+                /*UM.SettingPropertyProvider
                 {
                     id: bedTemperature
                     containerStackId:  Cura.ExtruderManager.extruderIds[Cura.ExtruderManager.activeExtruderIndex]
                     key: "material_bed_temperature"
                     watchedProperties: [ "value" ]
-                }
+                }*/
                 UM.SettingPropertyProvider
                 {
                     id: bedDefaultTemperature
@@ -206,7 +206,7 @@ Item
                         top:filamentDiameter.bottom
                     }
                 }
-                Label
+                /*Label
                 {
                     id:lblTemperatureExtruder
                     text:catalog.i18nc("@title:label", "Printing Temperature")+": "+materialTemp.properties.value+"°C"
@@ -215,15 +215,15 @@ Item
                         left:lblDefaultTemperatureExtruder.left
                         top:lblDefaultTemperatureExtruder.bottom
                     }
-                }
+                }*/
                 Label
                 {
                     id:lblTemperatureFirstLayer
                     text:catalog.i18nc("@title:label", "Printing Temperature Initial Layer")+": "+firstLayerTemperature.properties.value+"°C"
                     anchors
                     {
-                        left:definitionsModel.left
-                        top:lblTemperatureExtruder.bottom
+                       left:lblDefaultTemperatureExtruder.left
+                        top:lblDefaultTemperatureExtruder.bottom
                     }
                 }
                      Label
@@ -236,7 +236,7 @@ Item
                         top:lblTemperatureFirstLayer.bottom
                     }
                 }
-                Label
+              /*  Label
                 {
                     id:lblTemperatureBed
                     text:catalog.i18nc("@title:label", "Bed Temperature")+": "+bedTemperature.properties.value+"°C"
@@ -245,15 +245,15 @@ Item
                         left:lblDefaultTemperatureBed.left
                         top:lblDefaultTemperatureBed.bottom
                     }
-                }
+                }*/
                 Label
                 {
                     id:lblLayerHeight
                     text:catalog.i18nc("@title:label", "Layer Height")+":"+layerHeight.properties.value
                     anchors
                     {
-                        left:definitionsModel.left
-                        top:lblTemperatureBed.bottom
+                        left:lblDefaultTemperatureBed.left
+                        top:lblDefaultTemperatureBed.bottom
                     }
                 }
                 Label

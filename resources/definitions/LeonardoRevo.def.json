@@ -27,14 +27,13 @@
         "machine_width": { "default_value": 600 },
         "machine_depth": { "default_value": 500 },
         "machine_height": { "default_value": 600 },
-        "machine_has_encoder":{"default_value":true},
+        "machine_has_encoder":{"default_value":false},
         "machine_encoder_control":{"default_value":false},
         "machine_encoder_percentage":{"default_value":30},
-        "machine_has_door_sensor":{"default_value":true},
+        "machine_has_door_sensor":{"default_value":false},
         "machine_door_security":{"default_value":true},
         "machine_has_adhesion_control":{"default_value":true},
-        "machine_layers_no_fan":{"default_value":4},
-        
+        "machine_layers_no_fan":{"default_value":0},
         "machine_center_is_zero": { "default_value": false },
         "machine_gcode_flavor": { "default_value": "RepRap (Marlin/Sprinter)" },
 		"machine_head_with_fans_polygon":

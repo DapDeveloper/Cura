@@ -44,7 +44,7 @@ Item
                       Label
                     {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text:model.material_brand + " " + model.material
+                        text:/*model.material_brand + " " +-*/ model.material
                         anchors.top:extLabel.bottom
                     }
                 }
