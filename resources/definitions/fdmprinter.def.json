@@ -5257,13 +5257,9 @@
                     "label": "Enable Print Cooling",
                     "description": "Enables the print cooling fans while printing. The fans improve print quality on layers with short layer times and bridging / overhangs.",
                     "type": "bool",
-                    "minimum_value":0,
-                    "maximum_value":1,
-                    "value":true,
                     "default_value": true,
                     "settable_per_mesh": false,
-                    "settable_per_extruder": true,
-                    "enabled":true
+                    "settable_per_extruder": true
                 },
                 "cool_fan_speed":
                 {
@@ -5273,8 +5269,8 @@
                     "type": "float",
                     "minimum_value": "0",
                     "maximum_value": "100",
-                    "default_value": 0,
-                    "enabled": true,
+                    "default_value": 100,
+                    "enabled": "cool_fan_enabled",
                     "settable_per_mesh": false,
                     "settable_per_extruder": true,
                     "children":
@@ -5288,11 +5284,10 @@
                             "minimum_value": "0",
                             "maximum_value": "100",
                             "value": "cool_fan_speed",
-                            "default_value": 0,
-                            "enabled":true,
+                            "default_value": 100,
+                            "enabled": "cool_fan_enabled",
                             "settable_per_mesh": false,
-                            "settable_per_extruder": true,
-                            "settable_per_meshgroup": false
+                            "settable_per_extruder": true
                         },
                         "cool_fan_speed_max":
                         {
@@ -5302,12 +5297,11 @@
                             "type": "float",
                             "minimum_value": "max(0, cool_fan_speed_min)",
                             "maximum_value": "100",
-                            "default_value": 50,
-                            "enabled": true,
+                            "default_value": 100,
+                            "enabled": "cool_fan_enabled",
                             "value": "cool_fan_speed",
                             "settable_per_mesh": false,
-                            "settable_per_extruder": true,
-                            "settable_per_meshgroup": true
+                            "settable_per_extruder": true
                         }
                     }
                 },
@@ -5317,8 +5311,9 @@
                     "description": "The layer time which sets the threshold between regular fan speed and maximum fan speed. Layers that print slower than this time use regular fan speed. For faster layers the fan speed gradually increases towards the maximum fan speed.",
                     "unit": "s",
                     "type": "float",
-                    "default_value": 9999999999,
-                    "enabled":false,
+                    "default_value": 0,
+                    "value":0.01,
+                    "maximum_value_warning": "600",
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
@@ -5331,7 +5326,7 @@
                     "minimum_value": "0",
                     "maximum_value": "100",
                     "default_value": 0,
-                    "enabled":false,
+                    "enabled": "cool_fan_enabled",
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
@@ -5342,13 +5337,11 @@
                     "unit": "mm",
                     "type": "float",
                     "default_value": 0.5,
-                    "enabled":false,
                     "value": "0 if resolveOrValue('adhesion_type') == 'raft' else resolveOrValue('layer_height_0')",
                     "minimum_value": "0",
                     "maximum_value_warning": "10.0",
                     "settable_per_mesh": false,
                     "settable_per_extruder": true,
-                    "visible":true,
                     "children":
                     {
                         "cool_fan_full_layer":
@@ -5357,11 +5350,11 @@
                             "description": "The layer at which the fans spin on regular fan speed. If regular fan speed at height is set, this value is calculated and rounded to a whole number.",
                             "type": "int",
                             "default_value": 2,
-                            "minimum_value": "-1",
-                            "enabled":false,
+                            "minimum_value": "1",
+                            "maximum_value_warning": "10 / resolveOrValue('layer_height')",
+                            "value": "max(1, int(math.floor((cool_fan_full_at_height - resolveOrValue('layer_height_0')) / resolveOrValue('layer_height')) + 2))",
                             "settable_per_mesh": false,
-                            "settable_per_extruder": false,
-                            "settable_globally":true
+                            "settable_per_extruder": true
                         }
                     }
                 },
@@ -5374,7 +5367,6 @@
                     "default_value": 5,
                     "minimum_value": "0",
                     "maximum_value_warning": "600",
-                    "enabled":false,
                     "settable_per_mesh": false,
                     "settable_per_extruder": true
                 },
@@ -5388,7 +5380,6 @@
                     "minimum_value": "0",
                     "maximum_value_warning": "100",
                     "settable_per_mesh": false,
-                    "enabled":false,
                     "settable_per_extruder": true
                 },
                 "cool_lift_head":
@@ -5398,7 +5389,6 @@
                     "type": "bool",
                     "default_value": false,
                     "settable_per_mesh": false,
-                    "enabled":false,
                     "settable_per_extruder": true
                 }
             }
@@ -5616,16 +5606,17 @@
                     "description": "Adjusts the density of the support structure. A higher value results in better overhangs, but the supports are harder to remove.",
                     "unit": "%",
                     "type": "float",
-                    "minimum_value": "0",
-                    "minimum_value_warning": "5",
-                    "maximum_value_warning": "80",
+               
                     "slider_min": "0",
                     "slider_max": "100",
                     "step_value": "1",
                     "precision":"0",
+                    "minimum_value": "0",
+                    "maximum_value_warning": "100",
                     "default_value": 15,
                     "value": "15 if support_enable else 0 if support_tree_enable else 15",
                     "enabled": "support_enable or support_tree_enable",
+
                     "settable_per_mesh": false,
                     "settable_per_extruder": false,
                     "settable_globally":true,
@@ -5642,8 +5633,7 @@
                             "minimum_value_warning": "support_line_width",
                             "default_value": 2.66,
                             "enabled": "support_enable or support_tree_enable",
-                            "_comment": "0 if support_infill_rate == 0 else (support_line_width * 100) / support_infill_rate * (2 if support_pattern == 'grid' else (3 if support_pattern == 'triangles' else 1))",
-                            "value":"1", 
+                            "value": "0 if support_infill_rate == 0 else (support_line_width * 100) / support_infill_rate * (2 if support_pattern == 'grid' else (3 if support_pattern == 'triangles' else 1))",
                             "settable_per_mesh": false,
                             "settable_per_extruder": false,
                             "settable_globally":true,
@@ -5659,8 +5649,8 @@
                             "minimum_value_warning": "support_line_width",
                             "default_value": 2.66,
                             "enabled": "support_enable or support_tree_enable",
-                            "_comment":"support_line_distance",
-                            "value": "1",
+                            "value": "support_line_distance",
+                       
                             "settable_per_mesh": false,
                             "settable_per_extruder": false,
                             "settable_globally":true,
@@ -5679,6 +5669,7 @@
                     "maximum_value": "180",
                     "default_value": 0,
                     "enabled": "support_enable and support_pattern != 'concentric' and support_infill_rate > 0",
+                
                     "settable_per_mesh": false,
                     "settable_per_extruder": false,
                     "settable_globally":true,
@@ -5691,7 +5682,7 @@
                     "type": "bool",
                     "default_value": false,
                     "enabled": "support_enable or support_tree_enable",
-                    "settable_per_mesh": false,
+                  "settable_per_mesh": false,
                     "settable_per_extruder": false,
                     "settable_globally":true,
                     "settable_per_meshgroup":false
@@ -7534,7 +7525,7 @@
                         "one_at_a_time": "One at a Time"
                     },
                     "default_value": "all_at_once",
-                    "enabled": "extruders_enabled_count == 1",
+                    "enabled": true,
                     "settable_per_mesh": false,
                     "settable_per_extruder": false,
                     "settable_per_meshgroup": false

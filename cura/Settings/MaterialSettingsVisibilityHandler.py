@@ -48,7 +48,7 @@ class MaterialSettingsVisibilityHandler(UM.Settings.Models.SettingVisibilityHand
             "cool_min_speed",
             "cool_lift_head",
        
-            "cool_fan_full_at_height",
+            #"cool_fan_full_at_height",
             "cool_fan_full_layer",
             "cool_fan_speed_min",
             "cool_fan_speed_max",
