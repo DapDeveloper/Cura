@@ -67,7 +67,7 @@ Item
             anchors.top: parent.top
             height: 500//maxItemCountAtOnce * UM.Theme.getSize("action_button").height
             width:parent.width
-            ScrollBar.horizontal.policy: ScrollBar.AsNeeded
+            ScrollBar.horizontal.policy: ScrollBar.always
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
             clip: true
             ListView
@@ -165,6 +165,9 @@ Item
                             }else if(name=="Studio 300")
                             {
                                "Studio 300"
+                            }else if(name=="Studio 300Plus")
+                            {
+                               "Studio 300Plus"
                             }else if(name=="Studio 200")
                             {
                                 "Studio 200"
@@ -179,6 +182,9 @@ Item
                             }else if(name=="Studio 300")
                             {
                                850
+                            }else if(name=="Studio 300Plus")
+                            {
+                               1250
                             }else if(name=="Studio 200")
                             {
                                 50
@@ -200,6 +206,9 @@ Item
                             }else if(name=="Studio 300")
                             {
                               300
+                            }else if(name=="Studio 300Plus")
+                            {
+                              300
                             }else if(name=="Studio 200")
                             {
                                 300
@@ -219,6 +228,16 @@ Item
                                         "../images/printers/leonardoNE.png"    
                                 }
                             }else if(name=="Studio 300")
+                            {
+                                 if(ListView.view.currentIndex == index)
+                                {
+                                        "../images/printers/s300.png"   
+                                }else
+                                {
+                                       "../images/printers/s300NE.png"   
+                                }
+                               
+                            }else if(name=="Studio 300Plus")
                             {
                                  if(ListView.view.currentIndex == index)
                                 {

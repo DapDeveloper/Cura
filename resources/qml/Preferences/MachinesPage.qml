@@ -149,7 +149,11 @@ UM.ManagementPage
                 }else if(base.currentItem.type=="MeccatronicoreS300")
                 {
                     "../images/printers/s300.png"
-                }else if(base.currentItem.type=="MeccatronicoreS200")
+                }else if(base.currentItem.type=="MeccatronicoreS300Plus")
+                {
+                    "../images/printers/s300.png"
+                }
+                else if(base.currentItem.type=="MeccatronicoreS200")
                 {
                     "../images/printers/s200.png"
                 }

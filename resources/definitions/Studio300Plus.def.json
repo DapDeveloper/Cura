@@ -1,10 +1,10 @@
 {
     "version": 2,
-    "name": "Studio 300",
+    "name": "Studio 300Plus",
     "inherits": "fdmprinter",
     "metadata": {
         "visible": true,
-        "author": "MeccatronicoreS300",
+        "author": "MeccatronicoreS300Plus",
         "manufacturer": "Meccatronicore",
         "category": "Meccatronicore",
         "file_formats": "text/x-gcode",
@@ -14,8 +14,7 @@
 	    "exclude_materials": [ "generic_hips", "generic_petg", "structur3d_dap100silicone" ],
         "machine_extruder_trains":
         {
-            "0": "RED_EXTRUDER",
-            "1": "BLUE_EXTRUDER"
+            "0": "RED_EXTRUDER"
         },
         "first_start_actions": ["MachineSettingsAction"],
         "platform": "piano_studio300.stl",
@@ -46,7 +45,7 @@
             ]
         },
         "machine_start_gcode": {
-            "default_value": "G28 \n"
+            "default_value": ""
          },
         "machine_end_gcode": {
             "default_value": "M104 S0\nM140 S0\nG92 Z0\nG1 Z10\nG1 X10 Y10\nM84\nM106\n"
