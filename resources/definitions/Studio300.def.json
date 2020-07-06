@@ -46,13 +46,13 @@
             ]
         },
         "machine_start_gcode": {
-            "default_value": "G28"
+            "default_value": ""
          },
         "machine_end_gcode": {
-            "default_value": "M104 S0\nM140 S0\nG92 Z0\nG1 Z10\nG28 X Y\nM84\nM106\n"
+            "default_value": "M104 S0\nM140 S0\nG92 Z0\nG1 Z10\nG1 X10 Y10\nM84\nM106\n"
         },
 		"machine_extruder_count": {
-            "default_value": 2
+            "default_value": 1
         }
     }
 	
