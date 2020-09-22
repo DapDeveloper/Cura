@@ -3,7 +3,7 @@
 
 CuraAppName = "@CURA_APP_NAME@"
 CuraAppDisplayName = "@CURA_APP_DISPLAY_NAME@"
-CuraVersion = "2.4"
+CuraVersion = "2.5"
 CuraBuildType = "@CURA_BUILDTYPE@"
 CuraDebugMode = True if "@_cura_debugmode@" == "ON" else False
 CuraSDKVersion = "@CURA_SDK_VERSION@"

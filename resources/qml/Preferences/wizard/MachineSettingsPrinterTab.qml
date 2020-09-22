@@ -1077,7 +1077,7 @@ Item
                     }
                 }
             }  
-            Item
+           /* Item
             { 
                 anchors.left:objectListContainer5.right
                 anchors.top:lblRaftController.top
@@ -1095,6 +1095,6 @@ Item
                         forceUpdateOnChangeFunction: forceUpdateFunction
                     }
 
-            }
+            }*/
     }//end item
 }

@@ -472,7 +472,7 @@ class StartSliceJob(Job):
             tmpStartGcode+="\n;TEMPERATURE SETTINGS"
             tmpStartGcode+="\n"+temperatureGcode
             tmpStartGcode+="\n"+";start gcode"
-            tmpStartGcode+="\n"+";USER CUSTOM GCODE"
+            tmpStartGcode+="\n"+";USER CUSTOM GCODE"+"\n"+"G90\nM82\n"
             tmpStartGcode+="\n"+settings["machine_start_gcode"]
             tmpStartGcode+="\n"+";MACHINE TOOL SELECT"
             tmpStartGcode+="\n"+machineSettings
